@@ -18,16 +18,16 @@ see LICENSE file.
 #ifndef TORRENT_FWD_HPP
 #define TORRENT_FWD_HPP
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
-namespace libTAU {
+namespace ip2 {
 '''
 
 file_footer = '''
 
 }
 
-namespace lt = libTAU;
+namespace lt = ip2;
 
 #endif // TORRENT_FWD_HPP
 '''
@@ -106,11 +106,11 @@ def print_classes(out, classes, keyword):
 
 
 try:
-    os.remove('include/libTAU/fwd.hpp')
+    os.remove('include/ip2/fwd.hpp')
 except FileNotFoundError:
     pass
 
-with open('include/libTAU/fwd.hpp', 'w+') as f:
+with open('include/ip2/fwd.hpp', 'w+') as f:
     f.write(file_header)
 
     print_classes(f, classes, 'TORRENT_EXPORT')

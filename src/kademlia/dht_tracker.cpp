@@ -13,33 +13,33 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/dht_tracker.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
 
-#include <libTAU/config.hpp>
+#include <ip2/config.hpp>
 
-#include <libTAU/kademlia/msg.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/kademlia/dht_settings.hpp>
-#include <libTAU/kademlia/item.hpp>
-#include <libTAU/kademlia/node_id.hpp>
-#include <libTAU/kademlia/types.hpp>
-#include <libTAU/kademlia/version.hpp>
+#include <ip2/kademlia/msg.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/kademlia/dht_settings.hpp>
+#include <ip2/kademlia/item.hpp>
+#include <ip2/kademlia/node_id.hpp>
+#include <ip2/kademlia/types.hpp>
+#include <ip2/kademlia/version.hpp>
 
-#include <libTAU/bencode.hpp>
-#include <libTAU/version.hpp>
-#include <libTAU/time.hpp>
-#include <libTAU/performance_counters.hpp> // for counters
-#include <libTAU/aux_/time.hpp>
-#include <libTAU/session_status.hpp>
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v6
+#include <ip2/bencode.hpp>
+#include <ip2/version.hpp>
+#include <ip2/time.hpp>
+#include <ip2/performance_counters.hpp> // for counters
+#include <ip2/aux_/time.hpp>
+#include <ip2/session_status.hpp>
+#include <ip2/aux_/ip_helpers.hpp> // for is_v6
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include <libTAU/hex.hpp> // to_hex
+#include <ip2/hex.hpp> // to_hex
 #endif
 
 using namespace std::placeholders;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 	namespace {
 
@@ -926,7 +926,7 @@ namespace libTAU::dht {
 		m_log->log_packet(dht_logger::incoming_message, buf, ep);
 #endif
 
-		libTAU::dht::msg const m(m_msg, ep);
+		ip2::dht::msg const m(m_msg, ep);
 		for (auto& n : m_nodes)
 			n.second.dht.incoming(s, m, pk);
 		return true;

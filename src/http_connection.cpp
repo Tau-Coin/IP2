@@ -14,22 +14,22 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/http_connection.hpp"
-#include "libTAU/aux_/escape_string.hpp"
-#include "libTAU/aux_/instantiate_connection.hpp"
-#include "libTAU/gzip.hpp"
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_type.hpp" // for async_shutdown
-#include "libTAU/aux_/resolver_interface.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/debug.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/aux_/http_connection.hpp"
+#include "ip2/aux_/escape_string.hpp"
+#include "ip2/aux_/instantiate_connection.hpp"
+#include "ip2/gzip.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_type.hpp" // for async_shutdown
+#include "ip2/aux_/resolver_interface.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/aux_/time.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/debug.hpp"
+#include "ip2/time.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
+#include "ip2/aux_/ssl.hpp"
 
 #include <functional>
 #include <string>
@@ -38,7 +38,7 @@ see LICENSE file.
 
 using namespace std::placeholders;
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 http_connection::http_connection(io_context& ios
 	, aux::resolver_interface& resolver

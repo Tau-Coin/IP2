@@ -216,7 +216,7 @@ rule linking ( properties * )
 	{
 		if <link>shared in $(properties)
 		{
-			# if libTAU is being built as a shared library
+			# if ip2 is being built as a shared library
 			# but we're linking against boost statically, we still
 			# need to make boost think it's being built as a shared
 			# library, so that it properly exports its symbols
@@ -296,7 +296,7 @@ rule warnings ( properties * )
 		result += <cflags>-Wno-return-std-move-in-c++11 ;
 		result += <cflags>-Wno-unknown-warning-option ;
 
-# libTAU uses alloca() carefully
+# ip2 uses alloca() carefully
 		result += <cflags>-Wno-alloca ;
 	}
 
@@ -352,7 +352,7 @@ rule building ( properties * )
 	local VERSION = [ feature.get-values <cxxstd> : $(properties) ] ;
 	if ! $(VERSION) || $(VERSION) < 17
 	{
-		ECHO "libTAU requires at least C++17. Specify cxxstd=17 or higher" ;
+		ECHO "ip2 requires at least C++17. Specify cxxstd=17 or higher" ;
 		result += <build>no ;
 	}
 
@@ -741,9 +741,9 @@ feature profile-calls : off on : composite propagated link-incompatible ;
 feature.compose <profile-calls>on : <define>TORRENT_PROFILE_CALLS=1 ;
 
 # controls whether or not to export some internal
-# libTAU functions. Used for unit testing
+# ip2 functions. Used for unit testing
 feature export-extra : off on : composite propagated ;
-# export some internal libTAU functions
+# export some internal ip2 functions
 # in order to me able to unit test them.
 # this is off by default to keep the export
 # symbol table reasonably small
@@ -773,7 +773,7 @@ lib breakpad_client : : <name>breakpad_client <conditional>@breakpad-lib-path : 
     <conditional>@breakpad-include-path ;
 
 # openssl libraries on windows
-# technically, crypt32 is not an OpenSSL dependency, but libTAU needs it on
+# technically, crypt32 is not an OpenSSL dependency, but ip2 needs it on
 # windows to access the system certificate store, for authenticating trackers
 alias ssl-deps : advapi32 user32 shell32 gdi32 crypt32 ;
 
@@ -987,7 +987,7 @@ ED25519_SOURCES =
 
 local usage-requirements =
 	<include>./include
-	<include>./include/libTAU
+	<include>./include/ip2
 	<variant>release:<define>NDEBUG
 	<define>_FILE_OFFSET_BITS=64
 # enable cancel support in asio
@@ -1008,9 +1008,9 @@ local usage-requirements =
 	<define>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 	;
 
-project TAU ;
+project IP2 ;
 
-lib TAU
+lib IP2
 
 	: # sources
 	src/$(SOURCES).cpp
@@ -1051,12 +1051,12 @@ lib TAU
 	;
 
 # install rules
-headers = [ path.glob-tree include/libTAU : *.hpp  *h ] ;
+headers = [ path.glob-tree include/ip2 : *.hpp  *h ] ;
 
 package.install install
-#    : <install-default-prefix>libTAU-build/libTAU <install-source-root>libTAU
-    : <install-source-root>libTAU
+#    : <install-default-prefix>ip2-build/ip2 <install-source-root>ip2
+    : <install-source-root>ip2
     :
-    : TAU
+    : IP2
 	: $(headers)
 	;

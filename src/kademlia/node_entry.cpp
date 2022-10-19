@@ -9,10 +9,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/node_entry.hpp"
-#include "libTAU/aux_/time.hpp" // for aux::time_now()
+#include "ip2/kademlia/node_entry.hpp"
+#include "ip2/aux_/time.hpp" // for aux::time_now()
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 	node_entry::node_entry(node_id const& id_, udp::endpoint const& ep
 		, int roundtriptime

@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/fingerprint.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/fingerprint.hpp"
+#include "ip2/assert.hpp"
 #include <cstring> // for strlen
 
-namespace libTAU {
+namespace ip2 {
 
 	namespace {
 

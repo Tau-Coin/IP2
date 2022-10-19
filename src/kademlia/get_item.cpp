@@ -12,16 +12,16 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/config.hpp>
-#include <libTAU/bdecode.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/kademlia/get_item.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/performance_counters.hpp>
-#include <libTAU/hex.hpp>
+#include <ip2/config.hpp>
+#include <ip2/bdecode.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/kademlia/get_item.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/performance_counters.hpp>
+#include <ip2/hex.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 namespace {
 
@@ -285,4 +285,4 @@ void get_item_observer::reply(msg const& m, node_id const& from)
 	find_data_observer::reply(m, from);
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

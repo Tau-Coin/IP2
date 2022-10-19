@@ -12,9 +12,9 @@ see LICENSE file.
 #include <cstdint>
 #include <algorithm>
 
-#include "libTAU/aux_/bandwidth_queue_entry.hpp"
+#include "ip2/aux_/bandwidth_queue_entry.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	bw_request::bw_request(std::shared_ptr<bandwidth_socket> pe

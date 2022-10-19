@@ -13,10 +13,10 @@ see LICENSE file.
 #include <algorithm>
 #include <iostream>
 
-#include "libTAU/hasher.hpp"
-#include "libTAU/aux_/pe_crypto.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/span.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/aux_/pe_crypto.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/span.hpp"
 
 #include "test.hpp"
 

@@ -14,13 +14,13 @@ see LICENSE file.
 #include "test_utils.hpp"
 #include "setup_transfer.hpp"
 
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/aux_/escape_string.hpp" // for convert_path_to_posix
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/units.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/announce_entry.hpp"
+#include "ip2/aux_/escape_string.hpp" // for convert_path_to_posix
+#include "ip2/announce_entry.hpp"
+#include "ip2/units.hpp"
 
 #include <cstring>
 #include <iostream>

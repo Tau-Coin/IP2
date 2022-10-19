@@ -14,8 +14,8 @@ see LICENSE file.
 #include "setup_transfer.hpp"
 #include "test_utils.hpp"
 
-#include "libTAU/file_storage.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/file_storage.hpp"
+#include "ip2/aux_/path.hpp"
 
 using namespace lt;
 

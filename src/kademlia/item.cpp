@@ -9,21 +9,21 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/hasher.hpp>
-#include <libTAU/kademlia/item.hpp>
-#include <libTAU/bencode.hpp>
-#include <libTAU/kademlia/ed25519.hpp>
-#include <libTAU/aux_/numeric_cast.hpp>
+#include <ip2/hasher.hpp>
+#include <ip2/kademlia/item.hpp>
+#include <ip2/bencode.hpp>
+#include <ip2/kademlia/ed25519.hpp>
+#include <ip2/aux_/numeric_cast.hpp>
 
 #include <cstdio> // for snprintf
 #include <cinttypes> // for PRId64 et.al.
 #include <algorithm> // for copy
 
 #if TORRENT_USE_ASSERTS
-#include "libTAU/bdecode.hpp"
+#include "ip2/bdecode.hpp"
 #endif
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 namespace {
 
@@ -74,7 +74,7 @@ sha256_hash item_target_id(span<char const> salt
 	return h.final();
 	 */
 
-	// libtau concatenate salt and public key as mutable item target.
+	// ip2 concatenate salt and public key as mutable item target.
 	// <mutable item target> = concat<first 128 bits of sender(public key),
 	//		first 128 bits of receiver(salt)>
 	sha256_hash target;
@@ -220,4 +220,4 @@ void item::assign(entry v, span<char const> salt
 	m_value = std::move(v);
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

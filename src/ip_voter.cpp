@@ -9,13 +9,13 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/ip_voter.hpp"
-#include "libTAU/aux_/socket_io.hpp" // for hash_address
-#include "libTAU/aux_/random.hpp" // for random()
-#include "libTAU/aux_/time.hpp" // for aux::time_now()
-#include "libTAU/aux_/ip_helpers.hpp" // for is_local() etc.
+#include "ip2/aux_/ip_voter.hpp"
+#include "ip2/aux_/socket_io.hpp" // for hash_address
+#include "ip2/aux_/random.hpp" // for random()
+#include "ip2/aux_/time.hpp" // for aux::time_now()
+#include "ip2/aux_/ip_helpers.hpp" // for is_local() etc.
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	ip_voter::ip_voter()
 		: m_total_votes(0)

@@ -6,14 +6,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/communication/message.hpp"
-#include "libTAU/kademlia/item.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/entry.hpp"
+#include "ip2/communication/message.hpp"
+#include "ip2/kademlia/item.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/entry.hpp"
 
 #include <utility>
 
-namespace libTAU {
+namespace ip2 {
     namespace communication {
 
         message::message(entry e) {

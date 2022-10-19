@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/ed25519.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/aux_/ed25519.hpp>
+#include <ip2/kademlia/ed25519.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/aux_/ed25519.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 	std::array<char, 32> ed25519_create_seed()
 	{

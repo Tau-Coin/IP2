@@ -12,13 +12,13 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/aux_/common_data.h"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/array.hpp"
-#include "libTAU/aux_/session_settings.hpp"
+#include "ip2/config.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/aux_/common_data.h"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/array.hpp"
+#include "ip2/aux_/session_settings.hpp"
 
 #include <algorithm>
 
@@ -45,7 +45,7 @@ namespace {
 	{ return str == nullptr ? "" : str; }
 }
 
-namespace libTAU {
+namespace ip2 {
 
 	struct str_setting_entry_t
 	{
@@ -99,7 +99,7 @@ namespace libTAU {
 	CONSTEXPR_SETTINGS
 	aux::array<str_setting_entry_t, settings_pack::num_string_settings> const str_settings
 	({{
-		SET(user_agent, "libTAU/" LIBTAU_VERSION, &session_impl::update_user_agent),
+		SET(user_agent, "ip2/" IP2_VERSION, &session_impl::update_user_agent),
 		SET(announce_ip, nullptr, nullptr),
 		DEPRECATED_SET_STR(mmap_cache, nullptr, nullptr),
 		SET(handshake_client_version, nullptr, nullptr),
@@ -111,8 +111,8 @@ namespace libTAU {
         SET(i2p_hostname, "", nullptr), // tau-modify
 		SET(peer_fingerprint, "-LT2030-", nullptr),
         SET(device_id, "TAU", &session_impl::update_device_id),
-        SET(db_dir, ".libTAU_DB", &session_impl::update_db_dir),
-        SET(dump_dir, ".libTAU_DUMP", nullptr),
+        SET(db_dir, ".ip2_DB", &session_impl::update_db_dir),
+        SET(dump_dir, ".ip2_DUMP", nullptr),
         SET(account_seed, "", &session_impl::update_account_seed),
 		SET(dht_bootstrap_nodes, "dht.libtorrent.org:25401", &session_impl::update_dht_bootstrap_nodes)
 	}});

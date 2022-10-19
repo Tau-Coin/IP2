@@ -9,24 +9,24 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/crc32c.hpp"
-#include "libTAU/aux_/cpuid.hpp"
-#include "libTAU/aux_/byteswap.hpp"
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/crc32c.hpp"
+#include "ip2/aux_/cpuid.hpp"
+#include "ip2/aux_/byteswap.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
 #include <boost/crc.hpp>
 #if (defined _MSC_VER && _MSC_VER >= 1600 && (defined _M_IX86 || defined _M_X64))
 #include <nmmintrin.h>
 #endif
 
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #if TORRENT_HAS_ARM_CRC32
 #include <arm_acle.h>
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	std::uint32_t crc32c_32(std::uint32_t v)
 	{

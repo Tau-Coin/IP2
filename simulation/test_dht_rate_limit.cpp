@@ -34,15 +34,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "simulator/simulator.hpp"
 
-#include "libTAU/aux_/listen_socket_handle.hpp"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/udp_socket.hpp"
-#include "libTAU/kademlia/dht_tracker.hpp"
-#include "libTAU/kademlia/dht_state.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
+#include "ip2/aux_/listen_socket_handle.hpp"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/udp_socket.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
+#include "ip2/kademlia/dht_state.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/span.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
 
 #include <functional>
 #include <cstdarg>

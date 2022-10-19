@@ -33,9 +33,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "setup_swarm.hpp"
 #include "test.hpp"
 #include "utils.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/write_resume_data.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/session.hpp"
+#include "ip2/write_resume_data.hpp"
 #include "settings.hpp"
 
 using namespace lt;

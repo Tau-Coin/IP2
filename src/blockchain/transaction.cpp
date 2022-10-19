@@ -6,13 +6,13 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/transaction.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/kademlia/item.hpp"
-#include "libTAU/kademlia/ed25519.hpp"
+#include "ip2/blockchain/transaction.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/kademlia/item.hpp"
+#include "ip2/kademlia/ed25519.hpp"
 #include <utility>
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
     transaction::transaction(const entry& e) {
         populate(e);
 

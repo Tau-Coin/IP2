@@ -7,14 +7,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/config.hpp"
+#include "ip2/address.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	bool is_ip_address(std::string const& host)

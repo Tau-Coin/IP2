@@ -8,10 +8,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/bloom_filter.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
+#include "ip2/aux_/bloom_filter.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	bool has_bits(std::uint8_t const* k, std::uint8_t const* bits, int const len)
 	{

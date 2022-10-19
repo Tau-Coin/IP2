@@ -11,15 +11,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/keep.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/aux_/socket_io.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/performance_counters.hpp>
-#include <libTAU/hex.hpp>
+#include <ip2/kademlia/keep.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/aux_/socket_io.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/performance_counters.hpp>
+#include <ip2/hex.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 keep::keep(node& dht_node, node_id const& to)
 	: traversal_algorithm(dht_node, to)
@@ -90,4 +90,4 @@ observer_ptr keep::new_observer(udp::endpoint const& ep
 	return o;
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

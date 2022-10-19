@@ -8,10 +8,10 @@ see LICENSE file.
 */
 
 #include <string>
-#include "libTAU/aux_/directory.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/aux_/directory.hpp"
+#include "ip2/aux_/path.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	directory::directory(std::string const& path, error_code& ec)

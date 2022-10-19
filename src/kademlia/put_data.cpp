@@ -11,14 +11,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/put_data.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/performance_counters.hpp>
+#include <ip2/kademlia/put_data.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/performance_counters.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 void put_data_observer::reply(msg const& m, node_id const& from)
 {
@@ -99,7 +99,7 @@ bool put_data::invoke(observer_ptr o)
 	e["q"] = "put";
 	entry& a = e["a"];
 	a["v"] = m_data.value();
-	a["token"] = libtau_token;
+	a["token"] = ip2_token;
 	if (m_data.is_mutable())
 	{
 		a["k"] = m_data.pk().bytes;
@@ -127,4 +127,4 @@ observer_ptr put_data::new_observer(udp::endpoint const& ep
 	return o;
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

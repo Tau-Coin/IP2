@@ -9,8 +9,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/alert_manager.hpp"
-#include "libTAU/alert_types.hpp"
+#include "ip2/aux_/alert_manager.hpp"
+#include "ip2/alert_types.hpp"
 #include "test.hpp"
 #include "setup_transfer.hpp"
 

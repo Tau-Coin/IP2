@@ -16,29 +16,29 @@ see LICENSE file.
 
 #ifndef TORRENT_DISABLE_DHT
 
-#include "libTAU/config.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/kademlia/msg.hpp" // for verify_message
-#include "libTAU/kademlia/node.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/aux_/socket_io.hpp" // for hash_address
-#include "libTAU/aux_/ip_helpers.hpp"
-#include "libTAU/performance_counters.hpp" // for counters
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/kademlia/ed25519.hpp"
-#include "libTAU/hex.hpp" // to_hex, from_hex
-#include "libTAU/aux_/bloom_filter.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/aux_/listen_socket_handle.hpp"
-#include "libTAU/aux_/session_impl.hpp"
+#include "ip2/config.hpp"
+#include "ip2/session.hpp"
+#include "ip2/kademlia/msg.hpp" // for verify_message
+#include "ip2/kademlia/node.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/aux_/socket_io.hpp" // for hash_address
+#include "ip2/aux_/ip_helpers.hpp"
+#include "ip2/performance_counters.hpp" // for counters
+#include "ip2/aux_/random.hpp"
+#include "ip2/kademlia/ed25519.hpp"
+#include "ip2/hex.hpp" // to_hex, from_hex
+#include "ip2/aux_/bloom_filter.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/aux_/time.hpp"
+#include "ip2/aux_/listen_socket_handle.hpp"
+#include "ip2/aux_/session_impl.hpp"
 
-#include "libTAU/kademlia/node_id.hpp"
-#include "libTAU/kademlia/routing_table.hpp"
-#include "libTAU/kademlia/item.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/kademlia/dht_tracker.hpp"
+#include "ip2/kademlia/node_id.hpp"
+#include "ip2/kademlia/routing_table.hpp"
+#include "ip2/kademlia/item.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
 
 #include <numeric>
 #include <cstdarg>
@@ -1007,7 +1007,7 @@ void test_id_enforcement(address(&rand_addr)())
 	if (aux::is_v4(t.source))
 	{
 		// this is one of the test vectors from:
-		// http://libTAU.org/dht_sec.html
+		// http://ip2.org/dht_sec.html
 		t.source = udp::endpoint(addr("124.31.75.21"), 1);
 		nid = to_hash("5fbfbff10c5d6a4ec8a88e4c6ab4c28b95eee401");
 	}

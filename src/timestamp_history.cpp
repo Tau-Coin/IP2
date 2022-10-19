@@ -9,10 +9,10 @@ see LICENSE file.
 */
 
 
-#include "libTAU/aux_/timestamp_history.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
+#include "ip2/aux_/timestamp_history.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 constexpr std::uint32_t TIME_MASK = 0xffffffff;

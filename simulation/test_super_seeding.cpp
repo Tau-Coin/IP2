@@ -31,8 +31,8 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "setup_swarm.hpp"
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/settings_pack.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/settings_pack.hpp"
 #include "test.hpp"
 
 using namespace lt;

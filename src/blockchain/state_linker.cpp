@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/state_linker.hpp"
+#include "ip2/blockchain/state_linker.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
     state_linker::state_linker(const entry& e) {
         populate(e);
     }

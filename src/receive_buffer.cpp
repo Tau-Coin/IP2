@@ -10,12 +10,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/receive_buffer.hpp"
-#include "libTAU/aux_/invariant_check.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/span.hpp"
+#include "ip2/aux_/receive_buffer.hpp"
+#include "ip2/aux_/invariant_check.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/span.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 int receive_buffer::max_receive() const
@@ -315,4 +315,4 @@ span<char> crypto_receive_buffer::mutable_buffer(
 #endif // TORRENT_DISABLE_ENCRYPTION
 
 } // namespace aux
-} // namespace libTAU
+} // namespace ip2

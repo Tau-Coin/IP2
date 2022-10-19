@@ -33,8 +33,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <iostream>
 
-#include "libTAU/aux_/pe_crypto.hpp"
-#include "libTAU/session.hpp"
+#include "ip2/aux_/pe_crypto.hpp"
+#include "ip2/session.hpp"
 
 #include "setup_transfer.hpp"
 #include "test.hpp"

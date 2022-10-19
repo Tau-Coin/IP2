@@ -8,14 +8,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/dos_blocker.hpp"
+#include "ip2/kademlia/dos_blocker.hpp"
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include "libTAU/aux_/socket_io.hpp" // for print_address
-#include "libTAU/kademlia/dht_observer.hpp" // for dht_logger
+#include "ip2/aux_/socket_io.hpp" // for print_address
+#include "ip2/kademlia/dht_observer.hpp" // for dht_logger
 #endif
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 	dos_blocker::dos_blocker()
 		: m_message_rate_limit(5)

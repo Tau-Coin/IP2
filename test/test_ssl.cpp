@@ -10,14 +10,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/session_status.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/hex.hpp" // for to_hex
-#include "libTAU/time.hpp"
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/session.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/session_status.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/hex.hpp" // for to_hex
+#include "ip2/time.hpp"
+#include "ip2/aux_/ssl.hpp"
 
 #include "test.hpp"
 #include "test_utils.hpp"
@@ -26,9 +26,9 @@ see LICENSE file.
 
 #if TORRENT_USE_SSL
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/asio/connect.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #include <functional>
 #include <tuple>

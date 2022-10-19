@@ -36,12 +36,12 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "setup_swarm.hpp"
 #include "utils.hpp"
 
-#include "libTAU/session.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/magnet_uri.hpp"
-#include "libTAU/extensions/ut_metadata.hpp"
+#include "ip2/session.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/magnet_uri.hpp"
+#include "ip2/extensions/ut_metadata.hpp"
 
 using namespace lt;
 

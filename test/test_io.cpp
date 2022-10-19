@@ -9,9 +9,9 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/io_bytes.hpp"
-#include "libTAU/aux_/io.hpp"
-#include "libTAU/span.hpp"
+#include "ip2/aux_/io_bytes.hpp"
+#include "ip2/aux_/io.hpp"
+#include "ip2/span.hpp"
 
 using namespace lt::aux;
 using lt::span;

@@ -8,14 +8,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/bencode.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/io_context.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/address.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/time.hpp"
+#include "ip2/io_context.hpp"
 #include "peer_server.hpp"
 #include "test_utils.hpp"
 

@@ -30,22 +30,22 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/kademlia/dht_settings.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/aux_/deadline_timer.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/kademlia/node.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/aux_/session_impl.hpp"
+#include "ip2/kademlia/dht_settings.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/aux_/deadline_timer.hpp"
+#include "ip2/address.hpp"
+#include "ip2/time.hpp"
+#include "ip2/kademlia/node.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/aux_/session_impl.hpp"
 #include "setup_transfer.hpp"
 #include <memory> // for unique_ptr
 #include <random>
-#include "libTAU/aux_/socket_io.hpp" // print_endpoint
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/crc32c.hpp"
-#include "libTAU/alert_types.hpp" // for dht_routing_bucket
-#include "libTAU/aux_/listen_socket_handle.hpp"
+#include "ip2/aux_/socket_io.hpp" // print_endpoint
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/crc32c.hpp"
+#include "ip2/alert_types.hpp" // for dht_routing_bucket
+#include "ip2/aux_/listen_socket_handle.hpp"
 
 #include "setup_dht.hpp"
 

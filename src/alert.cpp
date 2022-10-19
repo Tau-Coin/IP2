@@ -24,28 +24,28 @@ see LICENSE file.
 #include <cinttypes> // for PRId64 et.al.
 #include <utility>
 
-#include "libTAU/config.hpp"
-#include "libTAU/alert.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/stack_allocator.hpp"
-#include "libTAU/hex.hpp" // to_hex
-#include "libTAU/session_stats.hpp"
-#include "libTAU/socket_type.hpp"
-#include "libTAU/aux_/ip_helpers.hpp" // for is_v4
-#include "libTAU/aux_/common.h"
-#include "libTAU/aux_/common_data.h"
-#include "libTAU/communication/message.hpp"
+#include "ip2/config.hpp"
+#include "ip2/alert.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/stack_allocator.hpp"
+#include "ip2/hex.hpp" // to_hex
+#include "ip2/session_stats.hpp"
+#include "ip2/socket_type.hpp"
+#include "ip2/aux_/ip_helpers.hpp" // for is_v4
+#include "ip2/aux_/common.h"
+#include "ip2/aux_/common_data.h"
+#include "ip2/communication/message.hpp"
 
 #if TORRENT_ABI_VERSION == 1
-#include "libTAU/write_resume_data.hpp"
+#include "ip2/write_resume_data.hpp"
 #endif
 
-#include "libTAU/aux_/escape_string.hpp" // for convert_from_native
+#include "ip2/aux_/escape_string.hpp" // for convert_from_native
 
-namespace libTAU {
+namespace ip2 {
 
 	alert::alert() : m_timestamp(clock_type::now()) {}
 	alert::~alert() = default;
@@ -85,7 +85,7 @@ namespace {
 		using lfo = listen_failed_alert::op_t;
 
 		// we have to use deprecated enum values here. suppress the warnings
-#include "libTAU/aux_/disable_deprecation_warnings_push.hpp"
+#include "ip2/aux_/disable_deprecation_warnings_push.hpp"
 		switch (op)
 		{
 			case o::bittorrent: return -1;
@@ -138,7 +138,7 @@ namespace {
 		}
 		return -1;
 	}
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #endif // TORRENT_ABI_VERSION
 
@@ -147,11 +147,11 @@ namespace {
 	listen_failed_alert::listen_failed_alert(
 		aux::stack_allocator& alloc
 		, string_view iface
-		, libTAU::address const& listen_addr
+		, ip2::address const& listen_addr
 		, int listen_port
 		, operation_t const op_
 		, error_code const& ec
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: error(ec)
 		, op(op_)
 		, socket_type(t)
@@ -172,7 +172,7 @@ namespace {
 		, tcp::endpoint const& ep
 		, operation_t const op_
 		, error_code const& ec
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: listen_failed_alert(alloc
 			, iface
 			, ep.address()
@@ -188,7 +188,7 @@ namespace {
 		, udp::endpoint const& ep
 		, operation_t const op_
 		, error_code const& ec
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: listen_failed_alert(alloc
 			, iface
 			, ep.address()
@@ -203,10 +203,10 @@ namespace {
 		, string_view iface
 		, operation_t const op_
 		, error_code const& ec
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: listen_failed_alert(alloc
 			, iface
-			, libTAU::address()
+			, ip2::address()
 			, 0
 			, op_
 			, ec
@@ -270,9 +270,9 @@ namespace {
 	}
 
 	listen_succeeded_alert::listen_succeeded_alert(aux::stack_allocator&
-		, libTAU::address const& listen_addr
+		, ip2::address const& listen_addr
 		, int listen_port
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: address(listen_addr)
 		, port(listen_port)
 		, socket_type(t)
@@ -284,7 +284,7 @@ namespace {
 
 	listen_succeeded_alert::listen_succeeded_alert(aux::stack_allocator& alloc
 		, tcp::endpoint const& ep
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: listen_succeeded_alert(alloc
 			, ep.address()
 			, ep.port()
@@ -293,7 +293,7 @@ namespace {
 
 	listen_succeeded_alert::listen_succeeded_alert(aux::stack_allocator& alloc
 		, udp::endpoint const& ep
-		, libTAU::socket_type_t t)
+		, ip2::socket_type_t t)
 		: listen_succeeded_alert(alloc
 			, ep.address()
 			, ep.port()
@@ -306,7 +306,7 @@ namespace {
 		return {};
 #else
 		char ret[200];
-		std::snprintf(ret, sizeof(ret), "libTAU successfully listening on [%s] %s"
+		std::snprintf(ret, sizeof(ret), "ip2 successfully listening on [%s] %s"
 			, socket_type_name(socket_type), print_endpoint(address, port).c_str());
 		return ret;
 #endif
@@ -1696,7 +1696,7 @@ namespace {
 		return {};
 #else
 		char ret[200];
-		std::snprintf(ret, sizeof(ret), "libTAU successfully referred on %s"
+		std::snprintf(ret, sizeof(ret), "ip2 successfully referred on %s"
 			, print_endpoint(external_address, external_port).c_str());
 		return ret;
 #endif
@@ -1785,7 +1785,7 @@ namespace {
     }
 
     blockchain_state_array_alert::blockchain_state_array_alert(aux::stack_allocator&
-            , aux::bytes id, std::vector<libTAU::blockchain::account> acts)
+            , aux::bytes id, std::vector<ip2::blockchain::account> acts)
             : chain_id(std::move(id)), accounts(std::move(acts))
     {}
 
@@ -1844,4 +1844,4 @@ namespace {
     }
 
 
-} // namespace libTAU
+} // namespace ip2

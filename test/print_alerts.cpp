@@ -8,9 +8,9 @@ see LICENSE file.
 */
 
 #include "print_alerts.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/alert_types.hpp"
+#include "ip2/time.hpp"
+#include "ip2/session.hpp"
+#include "ip2/alert_types.hpp"
 #include "print_alerts.hpp"
 
 void print_alerts(lt::session* ses, lt::time_point start_time)

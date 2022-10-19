@@ -9,8 +9,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/entry.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/entry.hpp"
 
 using namespace lt;
 

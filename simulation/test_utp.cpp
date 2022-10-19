@@ -30,12 +30,12 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/time.hpp" // for clock_type
-#include "libTAU/aux_/utp_stream.hpp"
-#include "libTAU/session_stats.hpp"
+#include "ip2/session.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/time.hpp" // for clock_type
+#include "ip2/aux_/utp_stream.hpp"
+#include "ip2/session_stats.hpp"
 
 #include "test.hpp"
 #include "utils.hpp"

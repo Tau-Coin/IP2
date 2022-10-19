@@ -11,15 +11,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/hex.hpp"
-#include "libTAU/aux_/string_util.hpp"
-#include "libTAU/aux_/throw.hpp"
+#include "ip2/config.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/hex.hpp"
+#include "ip2/aux_/string_util.hpp"
+#include "ip2/aux_/throw.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 namespace aux {
 

@@ -8,9 +8,9 @@ see LICENSE file.
 */
 
 #include <cstdint>
-#include "libTAU/read_resume_data.hpp"
-#include "libTAU/write_resume_data.hpp"
-#include "libTAU/add_torrent_params.hpp"
+#include "ip2/read_resume_data.hpp"
+#include "ip2/write_resume_data.hpp"
+#include "ip2/add_torrent_params.hpp"
 
 extern "C" int LLVMFuzzerTestOneInput(uint8_t const* data, size_t size)
 {

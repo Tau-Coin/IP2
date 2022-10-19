@@ -10,14 +10,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/extensions.hpp"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/session_call.hpp"
-#include "libTAU/extensions.hpp" // for add_peer_flags_t
+#include "ip2/config.hpp"
+#include "ip2/session.hpp"
+#include "ip2/extensions.hpp"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/session_call.hpp"
+#include "ip2/extensions.hpp" // for add_peer_flags_t
 
-namespace libTAU {
+namespace ip2 {
 
 namespace {
 

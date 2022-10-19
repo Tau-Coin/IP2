@@ -8,8 +8,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/stat_cache.hpp"
-#include "libTAU/error_code.hpp"
+#include "ip2/aux_/stat_cache.hpp"
+#include "ip2/error_code.hpp"
 #include "test.hpp"
 #include "test_utils.hpp"
 

@@ -15,12 +15,12 @@ see LICENSE file.
 #include "setup_transfer.hpp"
 #include "test_utils.hpp"
 
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_io.hpp" // print_endpoint
-#include "libTAU/aux_/http_connection.hpp"
-#include "libTAU/aux_/resolver.hpp"
-#include "libTAU/aux_/storage_utils.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_io.hpp" // print_endpoint
+#include "ip2/aux_/http_connection.hpp"
+#include "ip2/aux_/resolver.hpp"
+#include "ip2/aux_/storage_utils.hpp"
+#include "ip2/aux_/random.hpp"
 
 #include <iostream>
 #include <optional>

@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/dht_tracker.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/aux_/session_impl.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/aux_/session_impl.hpp"
 
 #include <memory>
 

@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/repository_track.hpp"
+#include "ip2/blockchain/repository_track.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     bool repository_track::init() {
         return false;
@@ -55,7 +55,7 @@ namespace libTAU::blockchain {
     }
 
     state_array repository_track::get_state_array_by_hash(const aux::bytes &chain_id, const sha1_hash &hash) {
-        return state_array(libTAU::entry());
+        return state_array(ip2::entry());
     }
 
     bool repository_track::is_state_array_in_db(const aux::bytes &chain_id, const sha1_hash &hash) {
@@ -383,7 +383,7 @@ namespace libTAU::blockchain {
 //            return index_info.main_chain_block_hash();
 //        }
 //
-//        return libTAU::sha256_hash();
+//        return ip2::sha256_hash();
 //    }
 
 //    bool repository_track::save_block(block b, bool main_chain) {

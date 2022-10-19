@@ -10,12 +10,12 @@ see LICENSE file.
 #ifndef BITTORRENT_PEER_HPP
 #define BITTORRENT_PEER_HPP
 
-#include "libTAU/socket.hpp"
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/torrent_info.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/sha1_hash.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/time.hpp"
+#include "ip2/address.hpp"
+#include "ip2/torrent_info.hpp"
 #include "test.hpp" // for EXPORT
 #include <functional>
 #include <array>

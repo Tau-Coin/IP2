@@ -9,15 +9,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/bitfield.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/aux_/cpuid.hpp"
+#include "ip2/bitfield.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/aux_/cpuid.hpp"
 
 #ifdef _MSC_VER
 #include <intrin.h>
 #endif
 
-namespace libTAU {
+namespace ip2 {
 
 	bool bitfield::all_set() const noexcept
 	{

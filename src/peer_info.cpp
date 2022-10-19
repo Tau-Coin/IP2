@@ -7,9 +7,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/peer_info.hpp"
+#include "ip2/peer_info.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	peer_info::peer_info() = default;
 	peer_info::~peer_info() = default;

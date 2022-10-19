@@ -9,10 +9,10 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/peer_class.hpp"
-#include "libTAU/peer_class_type_filter.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/session.hpp"
+#include "ip2/peer_class.hpp"
+#include "ip2/peer_class_type_filter.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/session.hpp"
 
 using namespace lt;
 
@@ -97,7 +97,7 @@ TORRENT_TEST(peer_class)
 
 TORRENT_TEST(session_peer_class_filter)
 {
-	using namespace libTAU;
+	using namespace ip2;
 	session ses;
 	peer_class_t my_class = ses.create_peer_class("200.1.x.x IP range");
 
@@ -113,7 +113,7 @@ TORRENT_TEST(session_peer_class_filter)
 
 TORRENT_TEST(session_peer_class_type_filter)
 {
-	using namespace libTAU;
+	using namespace ip2;
 	session ses;
 	peer_class_t my_class = ses.create_peer_class("all utp sockets");
 

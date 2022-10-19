@@ -10,21 +10,21 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/utp_stream.hpp"
-#include "libTAU/aux_/udp_socket.hpp"
-#include "libTAU/aux_/utp_socket_manager.hpp"
-#include "libTAU/aux_/instantiate_connection.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/socket.hpp" // for TORRENT_HAS_DONT_FRAGMENT
-#include "libTAU/aux_/ip_helpers.hpp" // for is_teredo
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/time.hpp" // for aux::time_now()
-#include "libTAU/span.hpp"
+#include "ip2/aux_/utp_stream.hpp"
+#include "ip2/aux_/udp_socket.hpp"
+#include "ip2/aux_/utp_socket_manager.hpp"
+#include "ip2/aux_/instantiate_connection.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/socket.hpp" // for TORRENT_HAS_DONT_FRAGMENT
+#include "ip2/aux_/ip_helpers.hpp" // for is_teredo
+#include "ip2/aux_/random.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/time.hpp" // for aux::time_now()
+#include "ip2/span.hpp"
 
 // #define TORRENT_DEBUG_MTU 1135
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	utp_socket_manager::utp_socket_manager(
 		send_fun_t send_fun

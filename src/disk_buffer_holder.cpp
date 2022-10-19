@@ -7,10 +7,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/disk_buffer_holder.hpp"
+#include "ip2/disk_buffer_holder.hpp"
 #include <utility>
 
-namespace libTAU {
+namespace ip2 {
 
 	disk_buffer_holder::disk_buffer_holder(buffer_allocator_interface& alloc
 		, char* const buf, int const sz) noexcept

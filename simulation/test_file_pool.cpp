@@ -33,12 +33,12 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "setup_swarm.hpp"
 #include "test.hpp"
 #include "utils.hpp"
-#include "libTAU/alert.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_stats.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/disk_interface.hpp"
+#include "ip2/alert.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_stats.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/disk_interface.hpp"
 
 using namespace lt;
 

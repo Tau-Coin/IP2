@@ -9,23 +9,23 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/asio/ip/multicast.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/enum_net.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/debug.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/enum_net.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/aux_/debug.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 
 #include "broadcast_socket.hpp"
 
 using namespace std::placeholders;
 
-namespace libTAU {
+namespace ip2 {
 
 	broadcast_socket::broadcast_socket(
 		udp::endpoint multicast_endpoint)

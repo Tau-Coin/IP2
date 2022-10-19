@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/resolver.hpp"
-#include "libTAU/aux_/debug.hpp"
-#include "libTAU/aux_/time.hpp"
+#include "ip2/aux_/resolver.hpp"
+#include "ip2/aux_/debug.hpp"
+#include "ip2/aux_/time.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	resolver::resolver(io_context& ios)
 		: m_ios(ios)

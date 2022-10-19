@@ -35,9 +35,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_SETUP_DHT_HPP_INCLUDED
 
 #include <vector>
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/performance_counters.hpp" // for counters
-#include "libTAU/alert_types.hpp" // for dht_routing_bucket
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/performance_counters.hpp" // for counters
+#include "ip2/alert_types.hpp" // for dht_routing_bucket
 
 namespace sim
 {

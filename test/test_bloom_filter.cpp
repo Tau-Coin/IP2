@@ -9,9 +9,9 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/bloom_filter.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/sha1_hash.hpp"
+#include "ip2/aux_/bloom_filter.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/sha1_hash.hpp"
 #include <cstdint>
 
 using namespace lt;

@@ -9,8 +9,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/hex.hpp" // from_hex
+#include "ip2/sha1_hash.hpp"
+#include "ip2/hex.hpp" // from_hex
 
 using namespace lt;
 

@@ -32,14 +32,14 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "utils.hpp"
 #include "test.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session_stats.hpp"
-#include "libTAU/alert.hpp"
-#include "libTAU/io_context.hpp"
+#include "ip2/session.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/address.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/session_stats.hpp"
+#include "ip2/alert.hpp"
+#include "ip2/io_context.hpp"
 #include "setup_swarm.hpp"
 #include "setup_transfer.hpp" // for addr()
 

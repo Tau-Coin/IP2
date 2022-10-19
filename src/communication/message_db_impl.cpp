@@ -6,12 +6,12 @@
 // see LICENSE file.
 //
 
-#include "libTAU/aux_/common.h"
-#include "libTAU/aux_/vector_ref.h"
-#include "libTAU/kademlia/types.hpp"
-#include "libTAU/communication/message_db_impl.hpp"
+#include "ip2/aux_/common.h"
+#include "ip2/aux_/vector_ref.h"
+#include "ip2/kademlia/types.hpp"
+#include "ip2/communication/message_db_impl.hpp"
 
-namespace libTAU {
+namespace ip2 {
     namespace communication {
 
 //        namespace {
@@ -65,7 +65,7 @@ namespace libTAU {
             return friends;
         }
 
-        bool message_db_impl::save_friend(const libTAU::dht::public_key &pubKey) {
+        bool message_db_impl::save_friend(const ip2::dht::public_key &pubKey) {
             sqlite3_stmt * stmt;
             std::string sql = "INSERT INTO FRIENDS VALUES(?)";
             int ok = sqlite3_prepare_v2(m_sqlite, sql.c_str(), -1, &stmt, nullptr);
@@ -119,7 +119,7 @@ namespace libTAU {
                 return false;
             }
 
-            sqlite3_bind_blob(stmt, 1, msg.sha1().data(), libTAU::sha1_hash::size(), nullptr);
+            sqlite3_bind_blob(stmt, 1, msg.sha1().data(), ip2::sha1_hash::size(), nullptr);
             sqlite3_bind_blob(stmt, 2, msg.sender().bytes.data(), dht::public_key::len, nullptr);
             sqlite3_bind_blob(stmt, 3, msg.receiver().bytes.data(), dht::public_key::len, nullptr);
             sqlite3_bind_int64(stmt, 4, msg.timestamp());
@@ -142,7 +142,7 @@ namespace libTAU {
 
             int ok = sqlite3_prepare_v2(m_sqlite, sql.c_str(), -1, &stmt, nullptr);
             if (ok == SQLITE_OK) {
-                sqlite3_bind_blob(stmt, 1, hash.data(), libTAU::sha1_hash::size(), nullptr);
+                sqlite3_bind_blob(stmt, 1, hash.data(), ip2::sha1_hash::size(), nullptr);
                 if (sqlite3_step(stmt) == SQLITE_ROW) {
                     const char *p = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
                     dht::public_key sender(p);
@@ -235,7 +235,7 @@ namespace libTAU {
             if (ok != SQLITE_OK) {
                 return false;
             }
-            sqlite3_bind_blob(stmt, 1, hash.data(), libTAU::sha1_hash::size(), nullptr);
+            sqlite3_bind_blob(stmt, 1, hash.data(), ip2::sha1_hash::size(), nullptr);
 
             ok = sqlite3_step(stmt);
             if (ok != SQLITE_DONE) {
@@ -254,7 +254,7 @@ namespace libTAU {
 
             int ok = sqlite3_prepare_v2(m_sqlite, sql.c_str(), -1, &stmt, nullptr);
             if (ok == SQLITE_OK) {
-                sqlite3_bind_blob(stmt, 1, hash.data(), libTAU::sha1_hash::size(), nullptr);
+                sqlite3_bind_blob(stmt, 1, hash.data(), ip2::sha1_hash::size(), nullptr);
                 if (sqlite3_step(stmt) == SQLITE_ROW) {
                     int num = sqlite3_column_int(stmt, 0);
                     if (num > 0) {

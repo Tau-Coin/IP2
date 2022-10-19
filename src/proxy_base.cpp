@@ -8,9 +8,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/proxy_base.hpp"
+#include "ip2/aux_/proxy_base.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	proxy_base::proxy_base(io_context& io_context)
 		: m_sock(io_context)

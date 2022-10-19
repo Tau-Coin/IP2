@@ -12,18 +12,18 @@ see LICENSE file.
 
 #include <cctype>
 
-#include "libTAU/aux_/io.hpp"
-#include "libTAU/aux_/session_interface.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/aux_/ssl.hpp"
-#include "libTAU/aux_/tracker_manager.hpp"
-#include "libTAU/aux_/udp_tracker_connection.hpp"
+#include "ip2/aux_/io.hpp"
+#include "ip2/aux_/session_interface.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/aux_/ssl.hpp"
+#include "ip2/aux_/tracker_manager.hpp"
+#include "ip2/aux_/udp_tracker_connection.hpp"
 
 using namespace std::placeholders;
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	timeout_handler::timeout_handler(io_context& ios)
 		: m_start_time(clock_type::now())

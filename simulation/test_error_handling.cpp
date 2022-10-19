@@ -34,14 +34,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "test.hpp"
 #include "create_torrent.hpp"
 #include "settings.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_stats.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/proxy_settings.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/settings_pack.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_stats.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/proxy_settings.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/settings_pack.hpp"
 #include "simulator/simulator.hpp"
 #include "simulator/socks_server.hpp"
 #include "simulator/utils.hpp"
@@ -156,7 +156,7 @@ void* operator new(std::size_t sz)
 	if (--g_alloc_counter == 0)
 	{
 		char stack[10000];
-		libTAU::print_backtrace(stack, sizeof(stack), 40, nullptr);
+		ip2::print_backtrace(stack, sizeof(stack), 40, nullptr);
 #ifdef _MSC_VER
 		// this is a bit unfortunate. Some MSVC standard containers really don't move
 		// with noexcept, by actually allocating memory (i.e. it's not just a matter
@@ -166,9 +166,9 @@ void* operator new(std::size_t sz)
 		// aren't. Things will improve in C++17 and it doesn't seem worth the trouble
 		// to make the heterogeneous queue support throwing moves, nor to replace all
 		// standard types with variants that can move noexcept.
-		if (std::strstr(stack, " libTAU::entry::operator= ") != nullptr
-			|| std::strstr(stack, " libTAU::aux::noexcept_movable<") != nullptr
-			|| std::strstr(stack, " libTAU::aux::noexcept_move_only<") != nullptr)
+		if (std::strstr(stack, " ip2::entry::operator= ") != nullptr
+			|| std::strstr(stack, " ip2::aux::noexcept_movable<") != nullptr
+			|| std::strstr(stack, " ip2::aux::noexcept_move_only<") != nullptr)
 		{
 			++g_alloc_counter;
 			return std::malloc(sz);

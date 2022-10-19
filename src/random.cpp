@@ -9,43 +9,43 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/aux_/throw.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/aux_/throw.hpp"
 
 #if defined BOOST_NO_CXX11_THREAD_LOCAL
 #include <mutex>
 #endif
 
 #if TORRENT_BROKEN_RANDOM_DEVICE
-#include "libTAU/time.hpp"
+#include "ip2/time.hpp"
 #include <atomic>
 #endif
 
 #if TORRENT_USE_CNG
-#include "libTAU/aux_/win_cng.hpp"
+#include "ip2/aux_/win_cng.hpp"
 
 #elif TORRENT_USE_CRYPTOAPI
-#include "libTAU/aux_/win_crypto_provider.hpp"
+#include "ip2/aux_/win_crypto_provider.hpp"
 
 #elif defined TORRENT_USE_LIBCRYPTO
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 extern "C" {
 #include <openssl/rand.h>
 #include <openssl/err.h>
 }
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #elif TORRENT_USE_GETRANDOM
 
 #include <sys/random.h>
 // this is the fall-back in case getrandom() fails
-#include "libTAU/aux_/dev_random.hpp"
+#include "ip2/aux_/dev_random.hpp"
 
 #elif TORRENT_USE_DEV_RANDOM
-#include "libTAU/aux_/dev_random.hpp"
+#include "ip2/aux_/dev_random.hpp"
 #endif
 
 #ifdef BOOST_NO_CXX11_THREAD_LOCAL
@@ -57,7 +57,7 @@ namespace {
 }
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 		std::mt19937& random_engine()
 		{

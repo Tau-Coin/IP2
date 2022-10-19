@@ -10,12 +10,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/piece_picker.hpp"
-#include "libTAU/aux_/torrent_peer.hpp"
-#include "libTAU/bitfield.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/units.hpp"
+#include "ip2/aux_/piece_picker.hpp"
+#include "ip2/aux_/torrent_peer.hpp"
+#include "ip2/bitfield.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/units.hpp"
 
 #include <memory>
 #include <functional>

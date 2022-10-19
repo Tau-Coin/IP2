@@ -10,8 +10,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/stack_allocator.hpp"
-#include "libTAU/string_view.hpp"
+#include "ip2/aux_/stack_allocator.hpp"
+#include "ip2/string_view.hpp"
 #include <cstdarg> // for va_list, va_start, va_end
 
 using lt::aux::stack_allocator;

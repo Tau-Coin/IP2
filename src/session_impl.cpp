@@ -21,7 +21,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
 #include <ctime>
 #include <algorithm>
@@ -33,68 +33,68 @@ see LICENSE file.
 #include <numeric> // for accumulate
 #include <tuple>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <filesystem>
 #include <boost/asio/ts/internet.hpp>
 #include <boost/asio/ts/executor.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
-#include "libTAU/aux_/ssl.hpp"
-#include "libTAU/peer_id.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/hex.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/fingerprint.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/invariant_check.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/account_manager.hpp"
-#include "libTAU/crypto.hpp"
-#include "libTAU/aux_/generate_port.hpp"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/ip_helpers.hpp" // for is_local() etc.
+#include "ip2/aux_/ssl.hpp"
+#include "ip2/peer_id.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/hex.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/session.hpp"
+#include "ip2/fingerprint.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/invariant_check.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/account_manager.hpp"
+#include "ip2/crypto.hpp"
+#include "ip2/aux_/generate_port.hpp"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/ip_helpers.hpp" // for is_local() etc.
 
-#include "libTAU/aux_/common.h"
+#include "ip2/aux_/common.h"
 
-#include "libTAU/kademlia/ed25519.hpp"
-#include "libTAU/kademlia/dht_tracker.hpp"
-#include "libTAU/kademlia/types.hpp"
-#include "libTAU/kademlia/node_entry.hpp"
-#include "libTAU/kademlia/node_id.hpp"
-#include "libTAU/kademlia/bs_nodes_db_sqlite.hpp"
+#include "ip2/kademlia/ed25519.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
+#include "ip2/kademlia/types.hpp"
+#include "ip2/kademlia/node_entry.hpp"
+#include "ip2/kademlia/node_id.hpp"
+#include "ip2/kademlia/bs_nodes_db_sqlite.hpp"
 
-#include "libTAU/communication/message.hpp"
-#include "libTAU/communication/communication.hpp"
+#include "ip2/communication/message.hpp"
+#include "ip2/communication/communication.hpp"
 
-#include "libTAU/blockchain/account.hpp"
-#include "libTAU/blockchain/block.hpp"
-#include "libTAU/blockchain/transaction.hpp"
+#include "ip2/blockchain/account.hpp"
+#include "ip2/blockchain/block.hpp"
+#include "ip2/blockchain/transaction.hpp"
 
-#include "libTAU/aux_/enum_net.hpp"
-#include "libTAU/upnp.hpp"
-#include "libTAU/natpmp.hpp"
-#include "libTAU/aux_/instantiate_connection.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/error.hpp"
-#include "libTAU/aux_/platform_util.hpp"
-#include "libTAU/aux_/bind_to_device.hpp"
-#include "libTAU/hex.hpp" // to_hex, from_hex
-#include "libTAU/aux_/scope_end.hpp"
-#include "libTAU/aux_/set_socket_buffer.hpp"
-#include "libTAU/aux_/generate_peer_id.hpp"
-#include "libTAU/aux_/ffs.hpp"
-#include "libTAU/aux_/array.hpp"
+#include "ip2/aux_/enum_net.hpp"
+#include "ip2/upnp.hpp"
+#include "ip2/natpmp.hpp"
+#include "ip2/aux_/instantiate_connection.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/error.hpp"
+#include "ip2/aux_/platform_util.hpp"
+#include "ip2/aux_/bind_to_device.hpp"
+#include "ip2/hex.hpp" // to_hex, from_hex
+#include "ip2/aux_/scope_end.hpp"
+#include "ip2/aux_/set_socket_buffer.hpp"
+#include "ip2/aux_/generate_peer_id.hpp"
+#include "ip2/aux_/ffs.hpp"
+#include "ip2/aux_/array.hpp"
 
 #ifndef TORRENT_DISABLE_LOGGING
 
-#include "libTAU/aux_/socket_io.hpp"
+#include "ip2/aux_/socket_io.hpp"
 
 // for logging stat layout
-#include "libTAU/aux_/stat.hpp"
+#include "ip2/aux_/stat.hpp"
 
 #include <cstdarg> // for va_list
 
@@ -106,13 +106,13 @@ see LICENSE file.
 #endif
 
 // for logging the size of DHT structures
-#include <libTAU/kademlia/find_data.hpp>
-#include <libTAU/kademlia/refresh.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/observer.hpp>
-#include <libTAU/kademlia/item.hpp>
+#include <ip2/kademlia/find_data.hpp>
+#include <ip2/kademlia/refresh.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/observer.hpp>
+#include <ip2/kademlia/item.hpp>
 
-#include "libTAU/aux_/udp_tracker_connection.hpp"
+#include "ip2/aux_/udp_tracker_connection.hpp"
 
 #endif // TORRENT_DISABLE_LOGGING
 
@@ -164,7 +164,7 @@ namespace boost {
 }
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 #if defined TORRENT_ASIO_DEBUGGING
 	std::map<std::string, async_t> _async_ops;
@@ -1331,7 +1331,7 @@ namespace {
 		address const adr = make_address(iface.device.c_str(), err);
 		if (!err)
 		{
-			//default, libTAU this way
+			//default, ip2 this way
 			eps.emplace_back(adr, iface.port, std::string{}, ssl, flags);
 		}
 		else
@@ -1357,7 +1357,7 @@ namespace {
 		}
 	}
 
-    // libTAU 
+    // ip2 
 	void interface_to_endpoints(listen_socket_flags_t flags
 		, span<ip_interface const> const ifs
 		, std::vector<listen_endpoint_t>& eps
@@ -1564,7 +1564,7 @@ namespace {
             }
 
 #ifndef TORRENT_DISABLE_LOGGING
-			session_log("libTAU netlink found after delete size: %d", ifs_tau.size());
+			session_log("ip2 netlink found after delete size: %d", ifs_tau.size());
 #endif
 #ifdef TORRENT_ANDROID			
             int port = get_port_from_local();
@@ -1622,7 +1622,7 @@ namespace {
 				, [](std::shared_ptr<listen_socket_t> const& l)
 				{ return l->incoming_connection; }));
 
-		// Only 1 ep in libTAU
+		// Only 1 ep in ip2
         int eps_size = eps.size();
 		while(eps_size > 1)
 		{
@@ -2764,7 +2764,7 @@ namespace {
 		std::vector<char> device_id_char;
 		device_id_char.resize(16);
         span<char const> hex_device_id(device_id, 32);
-        libTAU::aux::from_hex(hex_device_id, device_id_char.data());
+        ip2::aux::from_hex(hex_device_id, device_id_char.data());
 
 		std::copy(device_id_char.begin(), device_id_char.end(), std::inserter(m_device_id, m_device_id.begin()));
 
@@ -2798,7 +2798,7 @@ namespace {
 #endif
 				TORRENT_ASSERT(!std::filesystem::create_directories(kvdb_dir));
 				alerts().emplace_alert<session_error_alert>(error_code(),
-					 "libTAU ERROR: create kvdb directory falied");
+					 "ip2 ERROR: create kvdb directory falied");
 				m_abort = true;	
 			}
 		}
@@ -2811,7 +2811,7 @@ namespace {
 #endif
 				TORRENT_ASSERT(!std::filesystem::create_directories(sqldb_dir));
 				alerts().emplace_alert<session_error_alert>(error_code(),
-					 "libTAU ERROR: create sqldb directory falied");
+					 "ip2 ERROR: create sqldb directory falied");
 				m_abort = true;	
 			}
 		}
@@ -2823,7 +2823,7 @@ namespace {
 		if (!status.ok()){
 			TORRENT_ASSERT(!status.ok());
 			alerts().emplace_alert<session_error_alert>(error_code(),
-					 "libTAU ERROR: open kvdb failed");
+					 "ip2 ERROR: open kvdb failed");
 			m_abort = true;	
 		}
 
@@ -2832,7 +2832,7 @@ namespace {
 		if (sqlrc != SQLITE_OK) {
 			TORRENT_ASSERT(sqlrc != SQLITE_OK);
 			alerts().emplace_alert<session_error_alert>(error_code(),
-					 "libTAU ERROR: open sqldb failed");
+					 "ip2 ERROR: open sqldb failed");
 			m_abort = true;
 			return;
 		}
@@ -2901,7 +2901,7 @@ namespace {
 		session_log("start to update account seed :%s", account_seed);
 #endif
         span<char const> hexseed(account_seed, 64);
-        libTAU::aux::from_hex(hexseed, seed.data());
+        ip2::aux::from_hex(hexseed, seed.data());
 		//1. update key pair
 		m_keypair = dht::ed25519_create_keypair(seed);
 
@@ -2939,7 +2939,7 @@ namespace {
 		session_log("start to update account seed :%s", account_seed.c_str());
 #endif
         span<char const> hexseed(account_seed.c_str(), 64);
-        libTAU::aux::from_hex(hexseed, seed.data());
+        ip2::aux::from_hex(hexseed, seed.data());
 		//1. update key pair
 		m_keypair = dht::ed25519_create_keypair(seed);
 
@@ -4373,7 +4373,7 @@ namespace {
         }
 
         void tracker_logger::tracker_response(tracker_request const&
-            , libTAU::address const& tracker_ip
+            , ip2::address const& tracker_ip
             , std::list<address> const& tracker_ips
             , struct tracker_response const& resp)
         {

@@ -9,10 +9,10 @@ see LICENSE file.
 */
 
 
-#include "libTAU/session.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/session.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/aux_/random.hpp"
 
 #include <fstream>
 #include <chrono>

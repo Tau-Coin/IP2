@@ -11,17 +11,17 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/relay.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/aux_/socket_io.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/performance_counters.hpp>
-#include <libTAU/hasher.hpp>
-#include <libTAU/hex.hpp>
+#include <ip2/kademlia/relay.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/aux_/socket_io.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/performance_counters.hpp>
+#include <ip2/hasher.hpp>
+#include <ip2/hex.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 relay_hmac gen_relay_hmac(span<char const> payload
 		, span<char const> aux_nodes)
@@ -180,4 +180,4 @@ observer_ptr relay::new_observer(udp::endpoint const& ep
 	return o;
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

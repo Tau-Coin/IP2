@@ -9,15 +9,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/aux_/string_util.hpp" // for is_space
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/aux_/listen_socket_handle.hpp"
-#include "libTAU/aux_/announce_entry.hpp"
+#include "ip2/config.hpp"
+#include "ip2/announce_entry.hpp"
+#include "ip2/aux_/string_util.hpp" // for is_space
+#include "ip2/aux_/time.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/aux_/listen_socket_handle.hpp"
+#include "ip2/aux_/announce_entry.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	namespace {
 		// wait at least 5 seconds before retrying a failed tracker
@@ -261,4 +261,4 @@ namespace aux {
 		else return nullptr;
 	}
 } // aux
-} // libTAU
+} // ip2

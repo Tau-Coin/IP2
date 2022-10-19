@@ -8,15 +8,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/close_reason.hpp"
-#include "libTAU/error.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/close_reason.hpp"
+#include "ip2/error.hpp"
+#include "ip2/assert.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	close_reason_t error_to_close_reason(error_code const& ec)
 	{
-		if (ec.category() == libTAU_category())
+		if (ec.category() == ip2_category())
 		{
 #define TORRENT_MAP(error, close_reason) \
 	case errors:: error : \

@@ -7,22 +7,22 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/config.hpp>
-#include "libTAU/hex.hpp" // to_hex
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/aux_/session_settings.hpp>
-#include <libTAU/aux_/socket_io.hpp> // for print_endpoint
-#include <libTAU/aux_/time.hpp> // for aux::time_now
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v6
+#include <ip2/config.hpp>
+#include "ip2/hex.hpp" // to_hex
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/aux_/session_settings.hpp>
+#include <ip2/aux_/socket_io.hpp> // for print_endpoint
+#include <ip2/aux_/time.hpp> // for aux::time_now
+#include <ip2/aux_/ip_helpers.hpp> // for is_v6
 
-#include <libTAU/kademlia/bs_nodes_learner.hpp>
-#include <libTAU/kademlia/node.hpp>
+#include <ip2/kademlia/bs_nodes_learner.hpp>
+#include <ip2/kademlia/node.hpp>
 
 #include <type_traits>
 #include <functional>
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 bs_nodes_learner::bs_nodes_learner(node_id const& our_id
 	, aux::session_settings const& settings
@@ -127,4 +127,4 @@ void bs_nodes_learner::tick()
 	m_storage_size = m_bs_nodes_storage.tick();
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

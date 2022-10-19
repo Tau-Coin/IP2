@@ -8,7 +8,7 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/alloca.hpp"
+#include "ip2/aux_/alloca.hpp"
 
 using namespace lt;
 

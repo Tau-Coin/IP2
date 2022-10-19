@@ -9,12 +9,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_settings.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_settings.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/aux_/path.hpp"
 #include <tuple>
 #include <iostream>
 

@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/account_block_pointer.hpp"
+#include "ip2/blockchain/account_block_pointer.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
     account_block_pointer::account_block_pointer(const entry &e) {
         populate(e);
     }

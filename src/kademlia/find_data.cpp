@@ -11,18 +11,18 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/find_data.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/socket.hpp>
-#include <libTAU/aux_/socket_io.hpp>
+#include <ip2/kademlia/find_data.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/socket.hpp>
+#include <ip2/aux_/socket_io.hpp>
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include <libTAU/hex.hpp> // to_hex
+#include <ip2/hex.hpp> // to_hex
 #endif
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 void find_data_observer::reply(msg const& m, node_id const& from)
 {
@@ -168,4 +168,4 @@ void find_data::done()
 	traversal_algorithm::done();
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

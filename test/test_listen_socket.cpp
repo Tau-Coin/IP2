@@ -10,8 +10,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/string_util.hpp"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/string_util.hpp"
 
 using namespace lt;
 using namespace lt::aux;

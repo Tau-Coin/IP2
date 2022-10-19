@@ -12,12 +12,12 @@ see LICENSE file.
 
 #include <iostream>
 
-#include "libTAU/aux_/hash_picker.hpp"
-#include "libTAU/peer_connection_interface.hpp"
-#include "libTAU/aux_/stat.hpp"
-#include "libTAU/aux_/merkle.hpp"
-#include "libTAU/hex.hpp"
-#include "libTAU/disk_interface.hpp" // for default_block_size
+#include "ip2/aux_/hash_picker.hpp"
+#include "ip2/peer_connection_interface.hpp"
+#include "ip2/aux_/stat.hpp"
+#include "ip2/aux_/merkle.hpp"
+#include "ip2/hex.hpp"
+#include "ip2/disk_interface.hpp" // for default_block_size
 
 #include "test.hpp"
 #include "test_utils.hpp"

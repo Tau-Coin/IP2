@@ -13,10 +13,10 @@ see LICENSE file.
 
 #include "test.hpp"
 #include "test_utils.hpp"
-#include "libTAU/aux_/part_file.hpp"
-#include "libTAU/aux_/posix_part_file.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/error_code.hpp"
+#include "ip2/aux_/part_file.hpp"
+#include "ip2/aux_/posix_part_file.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/error_code.hpp"
 
 using namespace lt;
 

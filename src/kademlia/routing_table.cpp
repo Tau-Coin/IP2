@@ -22,24 +22,24 @@ see LICENSE file.
 #include <cinttypes> // for PRId64 et.al.
 #include <cstdint>
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
-#include <libTAU/hex.hpp> // to_hex
-#include "libTAU/kademlia/routing_table.hpp"
-#include "libTAU/session_status.hpp"
-#include "libTAU/kademlia/node_id.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/kademlia/dht_settings.hpp"
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/alert_types.hpp" // for dht_routing_bucket
-#include "libTAU/aux_/socket_io.hpp" // for print_endpoint
-#include "libTAU/aux_/invariant_check.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/aux_/array.hpp"
+#include <ip2/hex.hpp> // to_hex
+#include "ip2/kademlia/routing_table.hpp"
+#include "ip2/session_status.hpp"
+#include "ip2/kademlia/node_id.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/kademlia/dht_settings.hpp"
+#include "ip2/aux_/time.hpp"
+#include "ip2/alert_types.hpp" // for dht_routing_bucket
+#include "ip2/aux_/socket_io.hpp" // for print_endpoint
+#include "ip2/aux_/invariant_check.hpp"
+#include "ip2/address.hpp"
+#include "ip2/aux_/array.hpp"
 
 using namespace std::placeholders;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 namespace {
 
@@ -792,7 +792,7 @@ routing_table::add_node_status_t routing_table::add_node_impl(node_entry e)
 
 			prune_empty_bucket();
 			// return failed_to_add;
-			// libTAU NOTE: remove the older entry and add the newer.
+			// ip2 NOTE: remove the older entry and add the newer.
 		}
 	}
 
@@ -1468,4 +1468,4 @@ void print_ipset(const char* msg, address const& addr, ip_set& ips
 #endif
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

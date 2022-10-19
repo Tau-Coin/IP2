@@ -34,8 +34,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_SIM_CREATE_TORRENT_HPP_INCLUDED
 
 #include <string>
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/create_torrent.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/create_torrent.hpp"
 
 std::string save_path(int idx);
 lt::add_torrent_params create_torrent(int idx, bool seed = true

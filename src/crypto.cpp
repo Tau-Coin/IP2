@@ -7,8 +7,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/crypto.hpp"
-#include "libTAU/hex.hpp"
+#include "ip2/crypto.hpp"
+#include "ip2/hex.hpp"
 
 #ifdef TORRENT_USE_OPENSSL
 #include <openssl/aes.h>
@@ -17,7 +17,7 @@ see LICENSE file.
 #include <cstring>
 #include <string>
 
-namespace libTAU {
+namespace ip2 {
 
 	namespace aux {
 

@@ -17,24 +17,24 @@ see LICENSE file.
 #include "test_utils.hpp"
 #include "settings.hpp"
 
-#include "libTAU/aux_/mmap_storage.hpp"
-#include "libTAU/aux_/posix_storage.hpp"
-#include "libTAU/aux_/file_view_pool.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/read_resume_data.hpp"
-#include "libTAU/write_resume_data.hpp"
-#include "libTAU/aux_/disk_io_job.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/aux_/storage_utils.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/mmap_disk_io.hpp"
-#include "libTAU/posix_disk_io.hpp"
+#include "ip2/aux_/mmap_storage.hpp"
+#include "ip2/aux_/posix_storage.hpp"
+#include "ip2/aux_/file_view_pool.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/read_resume_data.hpp"
+#include "ip2/write_resume_data.hpp"
+#include "ip2/aux_/disk_io_job.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/aux_/storage_utils.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/mmap_disk_io.hpp"
+#include "ip2/posix_disk_io.hpp"
 
 #include <memory>
 #include <functional> // for bind
@@ -45,7 +45,7 @@ using namespace std::placeholders;
 using namespace lt;
 
 #if ! TORRENT_HAVE_MMAP && ! TORRENT_HAVE_MAP_VIEW_OF_FILE
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 	struct file_view_pool {};
 }

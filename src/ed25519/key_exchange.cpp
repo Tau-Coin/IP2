@@ -1,10 +1,10 @@
 // ignore warnings in this file
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
-#include "libTAU/aux_/ed25519.hpp"
+#include "ip2/aux_/ed25519.hpp"
 #include "fe.h"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 void ed25519_key_exchange(unsigned char *shared_secret

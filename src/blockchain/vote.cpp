@@ -6,10 +6,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/common_data.h"
-#include "libTAU/blockchain/vote.hpp"
+#include "ip2/aux_/common_data.h"
+#include "ip2/blockchain/vote.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 //    vote::vote(const entry &e) {
 //        populate(e);
 //    }

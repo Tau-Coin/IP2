@@ -37,14 +37,14 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "settings.hpp"
 #include "setup_transfer.hpp" // for ep()
-#include "libTAU/config.hpp"
-#include "libTAU/kademlia/dht_storage.hpp"
-#include "libTAU/kademlia/dht_settings.hpp"
+#include "ip2/config.hpp"
+#include "ip2/kademlia/dht_storage.hpp"
+#include "ip2/kademlia/dht_settings.hpp"
 
-#include "libTAU/io_context.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/aux_/time.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/address.hpp"
+#include "ip2/aux_/time.hpp"
 
 #include "simulator/simulator.hpp"
 

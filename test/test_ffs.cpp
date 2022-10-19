@@ -9,10 +9,10 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/hex.hpp" // from_hex
-#include "libTAU/aux_/ffs.hpp"
-#include "libTAU/aux_/byteswap.hpp"
+#include "ip2/span.hpp"
+#include "ip2/hex.hpp" // from_hex
+#include "ip2/aux_/ffs.hpp"
+#include "ip2/aux_/byteswap.hpp"
 
 using namespace lt;
 

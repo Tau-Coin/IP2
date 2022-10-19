@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/utp_socket_manager.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/utp_stream.hpp"
-#include "libTAU/aux_/udp_socket.hpp"
+#include "ip2/aux_/utp_socket_manager.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/utp_stream.hpp"
+#include "ip2/aux_/udp_socket.hpp"
 
 using namespace lt;
 

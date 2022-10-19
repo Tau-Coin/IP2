@@ -11,14 +11,14 @@ see LICENSE file.
 
 #include "test.hpp"
 
-#include "libTAU/aux_/bandwidth_manager.hpp"
-#include "libTAU/aux_/bandwidth_queue_entry.hpp"
-#include "libTAU/aux_/bandwidth_limit.hpp"
-#include "libTAU/aux_/bandwidth_socket.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/stat.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/aux_/session_settings.hpp"
+#include "ip2/aux_/bandwidth_manager.hpp"
+#include "ip2/aux_/bandwidth_queue_entry.hpp"
+#include "ip2/aux_/bandwidth_limit.hpp"
+#include "ip2/aux_/bandwidth_socket.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/stat.hpp"
+#include "ip2/time.hpp"
+#include "ip2/aux_/session_settings.hpp"
 
 #include <cmath>
 #include <functional>

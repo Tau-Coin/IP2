@@ -9,11 +9,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/msg.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/entry.hpp"
+#include "ip2/kademlia/msg.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/entry.hpp"
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 bool verify_message_impl(bdecode_node const& message, span<key_desc_t const> desc
 	, span<bdecode_node> ret, span<char> error)

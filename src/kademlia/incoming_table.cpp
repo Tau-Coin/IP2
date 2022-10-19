@@ -11,14 +11,14 @@ see LICENSE file.
 #include <cinttypes> // for PRId64 et.al.
 #include <map>
 
-#include <libTAU/kademlia/incoming_table.hpp>
+#include <ip2/kademlia/incoming_table.hpp>
 
-#include "libTAU/address.hpp"
-#include <libTAU/hex.hpp>
-#include "libTAU/aux_/socket_io.hpp" // for print_endpoint
-#include "libTAU/aux_/time.hpp"
+#include "ip2/address.hpp"
+#include <ip2/hex.hpp>
+#include "ip2/aux_/socket_io.hpp" // for print_endpoint
+#include "ip2/aux_/time.hpp"
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 namespace {
 
@@ -285,4 +285,4 @@ int incoming_table::endpoint_lifetime() const
 	return m_settings.get_int(settings_pack::dht_incoming_table_lifetime);
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

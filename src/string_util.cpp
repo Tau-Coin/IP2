@@ -10,17 +10,17 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/string_util.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/string_util.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/address.hpp"
+#include "ip2/assert.hpp"
 
 #include <algorithm> // for search
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	// We need well defined results that don't depend on locale
 	std::array<char, 4 + std::numeric_limits<std::int64_t>::digits10>

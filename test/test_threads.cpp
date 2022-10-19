@@ -16,7 +16,7 @@ see LICENSE file.
 #include <condition_variable>
 
 #include "test.hpp"
-#include "libTAU/time.hpp"
+#include "ip2/time.hpp"
 
 using namespace lt;
 

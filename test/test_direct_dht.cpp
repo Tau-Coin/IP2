@@ -13,12 +13,12 @@ see LICENSE file.
 
 #if !defined TORRENT_DISABLE_EXTENSIONS && !defined TORRENT_DISABLE_DHT
 
-#include "libTAU/config.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/extensions.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/bdecode.hpp"
+#include "ip2/config.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/extensions.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/bdecode.hpp"
 #include "setup_transfer.hpp"
 
 using namespace lt;

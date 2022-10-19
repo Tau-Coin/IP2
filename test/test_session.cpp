@@ -9,19 +9,19 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
 #include <functional>
 #include <thread>
 
 #include "test.hpp"
 #include "setup_transfer.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session_stats.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/torrent_info.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/session_stats.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/torrent_info.hpp"
 #include "settings.hpp"
 
 #include <functional>
@@ -407,7 +407,7 @@ TORRENT_TEST(init_dht_default_bootstrap)
 	p.set_bool(settings_pack::enable_dht, true);
 	p.set_int(settings_pack::alert_mask, alert_category::all);
 	// default value
-	p.set_str(settings_pack::dht_bootstrap_nodes, "dht.libTAU.org:25401");
+	p.set_str(settings_pack::dht_bootstrap_nodes, "dht.ip2.org:25401");
 
 	lt::session s(p);
 
@@ -421,7 +421,7 @@ TORRENT_TEST(init_dht_invalid_bootstrap)
 	p.set_bool(settings_pack::enable_dht, true);
 	p.set_int(settings_pack::alert_mask, alert_category::all);
 	// no default value
-	p.set_str(settings_pack::dht_bootstrap_nodes, "test.libTAU.org:25401:8888");
+	p.set_str(settings_pack::dht_bootstrap_nodes, "test.ip2.org:25401:8888");
 
 	lt::session s(p);
 

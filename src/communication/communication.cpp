@@ -11,14 +11,14 @@ see LICENSE file.
 #include <utility>
 #include <algorithm>
 
-#include "libTAU/communication/message_hash_list.hpp"
-#include "libTAU/communication/communication.hpp"
-#include "libTAU/kademlia/dht_tracker.hpp"
-#include "libTAU/aux_/common_data.h"
+#include "ip2/communication/message_hash_list.hpp"
+#include "ip2/communication/communication.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
+#include "ip2/aux_/common_data.h"
 
 using namespace std::placeholders;
 
-namespace libTAU {
+namespace ip2 {
     namespace communication {
         using namespace aux;
 
@@ -1018,7 +1018,7 @@ namespace libTAU {
 //                bencode(std::back_inserter(buf), e);
 //                dht::signature sign;
 //                // get unix timestamp
-//                ts = libTAU::aux::utcTime();
+//                ts = ip2::aux::utcTime();
 //                // 对编码完成之后的数据(data + salt + ts)进行签名
 //                sign = sign_mutable_item(buf, salt, dht::timestamp(ts)
 //                        , dht::public_key(pk.data())

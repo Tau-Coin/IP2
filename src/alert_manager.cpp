@@ -10,11 +10,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/alert_manager.hpp"
-#include "libTAU/alert_types.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/alert_manager.hpp"
+#include "ip2/alert_types.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	alert_manager::alert_manager(int const queue_limit, alert_category_t const alert_mask)

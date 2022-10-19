@@ -10,12 +10,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/refresh.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/performance_counters.hpp>
+#include <ip2/kademlia/refresh.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/performance_counters.hpp>
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 observer_ptr bootstrap::new_observer(udp::endpoint const& ep
 	, node_id const& id)
@@ -86,4 +86,4 @@ void bootstrap::done()
 	get_peers::done();
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

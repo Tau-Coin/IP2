@@ -8,9 +8,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 #include "test.hpp"
-#include "libTAU/aux_/receive_buffer.hpp"
+#include "ip2/aux_/receive_buffer.hpp"
 
 using namespace lt;
 using lt::aux::receive_buffer;

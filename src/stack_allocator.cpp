@@ -8,10 +8,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/stack_allocator.hpp"
+#include "ip2/aux_/stack_allocator.hpp"
 #include <cstdarg> // for va_list, va_copy, va_end
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	allocation_slot stack_allocator::copy_string(string_view str)
 	{

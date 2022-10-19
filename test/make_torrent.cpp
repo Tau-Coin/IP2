@@ -12,11 +12,11 @@ see LICENSE file.
 #include <deque>
 
 #include "make_torrent.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/aux_/posix_storage.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/aux_/posix_storage.hpp"
 
 using namespace lt;
 

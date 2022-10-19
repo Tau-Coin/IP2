@@ -7,17 +7,17 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/config.hpp>
-#include "libTAU/hex.hpp"
-#include <libTAU/aux_/string_util.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/aux_/session_settings.hpp>
-#include <libTAU/aux_/socket_io.hpp> // for print_endpoint
-#include <libTAU/aux_/time.hpp> // for aux::time_now
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v6
+#include <ip2/config.hpp>
+#include "ip2/hex.hpp"
+#include <ip2/aux_/string_util.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/aux_/session_settings.hpp>
+#include <ip2/aux_/socket_io.hpp> // for print_endpoint
+#include <ip2/aux_/time.hpp> // for aux::time_now
+#include <ip2/aux_/ip_helpers.hpp> // for is_v6
 
-#include <libTAU/kademlia/bs_nodes_manager.hpp>
-#include <libTAU/kademlia/node.hpp>
+#include <ip2/kademlia/bs_nodes_manager.hpp>
+#include <ip2/kademlia/node.hpp>
 
 #include <type_traits>
 #include <functional>
@@ -27,7 +27,7 @@ see LICENSE file.
 #include <cstdio>
 #include <unistd.h>
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 namespace {
 
@@ -79,7 +79,7 @@ void bs_nodes_manager::load_bootstrap_nodes()
 	std::vector<bs_node_entry> nodes;
 	error_code err;
 
-	libTAU::aux::parse_comma_separated_string_port_key(referred_bs_nodes, bs_nodes);
+	ip2::aux::parse_comma_separated_string_port_key(referred_bs_nodes, bs_nodes);
 	for (auto& bsn : bs_nodes)
 	{
 		std::string ip = std::get<0>(bsn);
@@ -224,4 +224,4 @@ void bs_nodes_manager::read_version_file()
 	}
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

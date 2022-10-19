@@ -8,11 +8,11 @@ see LICENSE file.
 
 #include <cmath>
 
-#include "libTAU/blockchain/consensus.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/kademlia/item.hpp"
+#include "ip2/blockchain/consensus.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/kademlia/item.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     std::uint64_t consensus::calculate_required_base_target(const block &previousBlock, block &ancestor3) {
         if (previousBlock.block_number() % CHAIN_EPOCH_BLOCK_SIZE <= 3) {

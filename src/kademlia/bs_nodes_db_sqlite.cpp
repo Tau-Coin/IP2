@@ -7,17 +7,17 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/bs_nodes_db_sqlite.hpp>
+#include <ip2/kademlia/bs_nodes_db_sqlite.hpp>
 
-#include <libTAU/aux_/socket_io.hpp>
-#include <libTAU/aux_/time.hpp>
-#include <libTAU/config.hpp>
-#include <libTAU/aux_/numeric_cast.hpp>
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v4
-#include <libTAU/bdecode.hpp>
-#include "libTAU/hex.hpp" // to_hex
+#include <ip2/aux_/socket_io.hpp>
+#include <ip2/aux_/time.hpp>
+#include <ip2/config.hpp>
+#include <ip2/aux_/numeric_cast.hpp>
+#include <ip2/aux_/ip_helpers.hpp> // for is_v4
+#include <ip2/bdecode.hpp>
+#include "ip2/hex.hpp" // to_hex
 
-namespace libTAU { namespace dht {
+namespace ip2 { namespace dht {
 
 bs_nodes_db_sqlite::bs_nodes_db_sqlite(settings_interface const& settings
 	, dht_observer* observer)
@@ -509,4 +509,4 @@ void bs_nodes_db_sqlite::sql_time_cost(int const microseconds, const char* msg) 
 #endif
 }
 
-} } // namespace libTAU::dht
+} } // namespace ip2::dht

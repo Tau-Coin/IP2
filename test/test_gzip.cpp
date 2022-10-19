@@ -9,9 +9,9 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/gzip.hpp"
+#include "ip2/gzip.hpp"
 #include "setup_transfer.hpp" // for load_file
-#include "libTAU/aux_/path.hpp" // for combine_path
+#include "ip2/aux_/path.hpp" // for combine_path
 
 using namespace lt;
 

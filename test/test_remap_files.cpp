@@ -11,12 +11,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/path.hpp"
 #include "setup_transfer.hpp"
 #include "settings.hpp"
 #include "test.hpp"
@@ -155,7 +155,7 @@ void test_remap_files(storage_mode_t storage_mode = storage_mode_sparse)
 	TEST_CHECK(all_of(files));
 	TEST_CHECK(all_of(passed));
 
-	// just because we can read them back throught libTAU, doesn't mean the
+	// just because we can read them back throught ip2, doesn't mean the
 	// files have hit disk yet (because of the cache). Retry a few times to try
 	// to pick up the files
 	for (auto i = 0_file; i < file_index_t(int(remap_file_sizes.size())); ++i)

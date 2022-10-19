@@ -6,11 +6,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/account.hpp"
-#include "libTAU/aux_/common.h"
-#include "libTAU/aux_/common_data.h"
+#include "ip2/blockchain/account.hpp"
+#include "ip2/aux_/common.h"
+#include "ip2/aux_/common_data.h"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     account::account(const entry& e) {
         populate(e);

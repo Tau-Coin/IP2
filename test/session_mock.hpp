@@ -9,27 +9,27 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/session_interface.hpp"
-#include "libTAU/aux_/alert_manager.hpp"
-#include "libTAU/aux_/resolver.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/disabled_disk_io.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/aux_/torrent_peer_allocator.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/peer_class.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/session_interface.hpp"
+#include "ip2/aux_/alert_manager.hpp"
+#include "ip2/aux_/resolver.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/disabled_disk_io.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/aux_/torrent_peer_allocator.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/peer_class.hpp"
 
 #if TORRENT_USE_SSL
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/aux_/ssl.hpp"
 #endif
 
-#include "libTAU/io_context.hpp"
+#include "ip2/io_context.hpp"
 
 #include <cstdio>
 
-namespace libTAU {
+namespace ip2 {
 
 struct session_mock : aux::session_interface
 {

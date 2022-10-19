@@ -11,8 +11,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/bitfield.hpp"
-#include "libTAU/aux_/cpuid.hpp"
+#include "ip2/bitfield.hpp"
+#include "ip2/aux_/cpuid.hpp"
 #include <cstdlib>
 
 using namespace lt;

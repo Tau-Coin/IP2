@@ -6,11 +6,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/communication/message_hash_list.hpp"
+#include "ip2/communication/message_hash_list.hpp"
 
 #include <utility>
 
-namespace libTAU {
+namespace ip2 {
     namespace communication {
 
         message_hash_list::message_hash_list(const entry &e) {

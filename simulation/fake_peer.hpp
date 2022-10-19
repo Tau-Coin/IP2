@@ -39,14 +39,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <functional>
 #include "test.hpp"
 #include "simulator/simulator.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/torrent_handle.hpp"
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/io_bytes.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/session.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/torrent_handle.hpp"
+#include "ip2/sha1_hash.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/io_bytes.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/aux_/random.hpp"
 
 using namespace sim;
 

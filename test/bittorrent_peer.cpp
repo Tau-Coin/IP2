@@ -10,15 +10,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/socket.hpp"
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/sha1_hash.hpp"
+#include "ip2/address.hpp"
+#include "ip2/assert.hpp"
 #include "bittorrent_peer.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/aux_/io_bytes.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/aux_/io_bytes.hpp"
+#include "ip2/aux_/random.hpp"
 
 #include <cstdlib>
 #include <functional>

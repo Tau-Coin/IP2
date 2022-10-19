@@ -10,7 +10,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/aux_/ssl.hpp"
 
 #if TORRENT_USE_SSL
 
@@ -22,7 +22,7 @@ see LICENSE file.
 #include <gnutls/x509.h>
 #endif
 
-namespace libTAU::aux::ssl {
+namespace ip2::aux::ssl {
 
 void set_trust_certificate(native_context_type nc, string_view pem, error_code &ec)
 {
@@ -183,6 +183,6 @@ namespace {
 }
 #endif
 
-} // libTAU::aux::ssl
+} // ip2::aux::ssl
 
 #endif

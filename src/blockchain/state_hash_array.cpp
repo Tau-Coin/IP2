@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/state_hash_array.hpp"
+#include "ip2/blockchain/state_hash_array.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     state_hash_array::state_hash_array(const entry& e) {
         populate(e);

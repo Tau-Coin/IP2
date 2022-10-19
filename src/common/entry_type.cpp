@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/common/entry_type.hpp"
+#include "ip2/common/entry_type.hpp"
 
-namespace libTAU::common {
+namespace ip2::common {
 
     signal_entry::signal_entry(const entry &e) {
         auto const& encode = e.string();

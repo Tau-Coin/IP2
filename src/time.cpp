@@ -7,9 +7,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/time.hpp"
+#include "ip2/aux_/time.hpp"
 
-namespace libTAU { namespace aux {
+namespace ip2 { namespace aux {
 
 	time_point time_now() { return clock_type::now(); }
 	time_point32 time_now32() { return time_point_cast<seconds32>(clock_type::now()); }

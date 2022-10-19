@@ -8,10 +8,10 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/generate_peer_id.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/aux_/escape_string.hpp"
-#include "libTAU/settings_pack.hpp"
+#include "ip2/aux_/generate_peer_id.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/aux_/escape_string.hpp"
+#include "ip2/settings_pack.hpp"
 
 TORRENT_TEST(generate_peer_id)
 {

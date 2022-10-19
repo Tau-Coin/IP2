@@ -16,24 +16,24 @@ see LICENSE file.
 #include <functional>
 #include <tuple>
 
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/aux_/udp_tracker_connection.hpp"
-#include "libTAU/hex.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/aux_/resolver_interface.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/aux_/time.hpp"
-#include "libTAU/aux_/io.hpp"
-#include "libTAU/aux_/ip_helpers.hpp" // for is_v6
-#include "libTAU/aux_/peer.hpp"
-#include "libTAU/error_code.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/aux_/udp_tracker_connection.hpp"
+#include "ip2/hex.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/aux_/resolver_interface.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/aux_/time.hpp"
+#include "ip2/aux_/io.hpp"
+#include "ip2/aux_/ip_helpers.hpp" // for is_v6
+#include "ip2/aux_/peer.hpp"
+#include "ip2/error_code.hpp"
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include "libTAU/aux_/socket_io.hpp"
+#include "ip2/aux_/socket_io.hpp"
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	std::map<address, udp_tracker_connection::connection_cache_entry>
 		udp_tracker_connection::m_connection_cache;

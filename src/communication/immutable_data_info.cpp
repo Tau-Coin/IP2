@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/communication/immutable_data_info.hpp"
+#include "ip2/communication/immutable_data_info.hpp"
 
-namespace libTAU::communication {
+namespace ip2::communication {
     immutable_data_info::immutable_data_info(const entry& e) {
         populate(e);
     }

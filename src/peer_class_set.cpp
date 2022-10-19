@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/peer_class_set.hpp"
+#include "ip2/aux_/peer_class_set.hpp"
 
 #include <algorithm> // for find
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	void peer_class_set::add_class(peer_class_pool& pool, peer_class_t c)
 	{

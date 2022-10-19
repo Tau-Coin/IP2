@@ -39,13 +39,13 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "simulator/simulator.hpp"
 #include "simulator/http_server.hpp"
 #include "simulator/utils.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/file_storage.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/ip_helpers.hpp" // for is_v4
+#include "ip2/alert_types.hpp"
+#include "ip2/announce_entry.hpp"
+#include "ip2/session.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/file_storage.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/ip_helpers.hpp" // for is_v4
 
 #include <iostream>
 
@@ -1481,7 +1481,7 @@ void test_tracker_tiers(lt::settings_pack pack
 	, std::vector<tracker_ent> trackers
 	, TestFun test)
 {
-	using namespace libTAU;
+	using namespace ip2;
 
 	pack.set_int(settings_pack::alert_mask, alert_category::error
 		| alert_category::status

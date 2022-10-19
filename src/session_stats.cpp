@@ -10,14 +10,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session_stats.hpp" // for stats_metric
-#include "libTAU/aux_/vector.hpp"
-#include "libTAU/performance_counters.hpp" // for counters
+#include "ip2/session_stats.hpp" // for stats_metric
+#include "ip2/aux_/vector.hpp"
+#include "ip2/performance_counters.hpp" // for counters
 
 #include <cstring>
 #include <algorithm>
 
-namespace libTAU {
+namespace ip2 {
 
 namespace {
 

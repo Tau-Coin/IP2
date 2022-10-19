@@ -14,23 +14,23 @@ see LICENSE file.
 #include <functional>
 #include <cstdio> // for vsnprintf
 
-#include "libTAU/aux_/lsd.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/http_parser.hpp"
-#include "libTAU/aux_/socket_io.hpp" // for print_address
-#include "libTAU/aux_/debug.hpp"
-#include "libTAU/hex.hpp" // to_hex, from_hex
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/aux_/enum_net.hpp"
+#include "ip2/aux_/lsd.hpp"
+#include "ip2/time.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/http_parser.hpp"
+#include "ip2/aux_/socket_io.hpp" // for print_address
+#include "ip2/aux_/debug.hpp"
+#include "ip2/hex.hpp" // to_hex, from_hex
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/aux_/enum_net.hpp"
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/asio/ip/multicast.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 using namespace std::placeholders;
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 namespace {
 
@@ -312,4 +312,4 @@ void lsd::close()
 	m_disabled = true;
 }
 
-} // libTAU::aux namespace
+} // ip2::aux namespace

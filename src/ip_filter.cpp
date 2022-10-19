@@ -10,10 +10,10 @@ see LICENSE file.
 
 #include <iterator> // for next
 
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/assert.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	ip_filter::ip_filter() = default;
 	ip_filter::ip_filter(ip_filter const&) = default;

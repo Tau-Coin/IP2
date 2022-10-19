@@ -13,10 +13,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/dht_storage.hpp"
-#include "libTAU/kademlia/node_entry.hpp"
-#include "libTAU/kademlia/relay.hpp"
-#include "libTAU/settings_pack.hpp"
+#include "ip2/kademlia/dht_storage.hpp"
+#include "ip2/kademlia/node_entry.hpp"
+#include "ip2/kademlia/relay.hpp"
+#include "ip2/settings_pack.hpp"
 
 #include <tuple>
 #include <algorithm>
@@ -25,16 +25,16 @@ see LICENSE file.
 #include <set>
 #include <string>
 
-#include <libTAU/aux_/socket_io.hpp>
-#include <libTAU/aux_/time.hpp>
-#include <libTAU/config.hpp>
-#include <libTAU/aux_/bloom_filter.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/aux_/vector.hpp>
-#include <libTAU/aux_/numeric_cast.hpp>
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v4
-#include <libTAU/bdecode.hpp>
-#include <libTAU/hasher.hpp>
+#include <ip2/aux_/socket_io.hpp>
+#include <ip2/aux_/time.hpp>
+#include <ip2/config.hpp>
+#include <ip2/aux_/bloom_filter.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/aux_/vector.hpp>
+#include <ip2/aux_/numeric_cast.hpp>
+#include <ip2/aux_/ip_helpers.hpp> // for is_v4
+#include <ip2/bdecode.hpp>
+#include <ip2/hasher.hpp>
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/ordered_index.hpp>
@@ -44,7 +44,7 @@ see LICENSE file.
 using boost::multi_index_container;
 using namespace boost::multi_index;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 namespace {
 
 	bool compare(const char *a, const char *b, int offset)
@@ -692,7 +692,7 @@ namespace {
 				// item lifetime must >= 120 minutes.
 				if (lifetime < minutes(120)) lifetime = minutes(120);
 
-				// libTAU modify: if immutable table is not full, don't expire
+				// ip2 modify: if immutable table is not full, don't expire
 				if (int(m_immutable_table.size()) >= m_settings.get_int(
 					settings_pack::dht_max_dht_items))
 				{
@@ -708,7 +708,7 @@ namespace {
 					}
 				}
 
-				// libTAU modify: if mutable table is not full, don't expire
+				// ip2 modify: if mutable table is not full, don't expire
 				if (int(m_mutable_table.size()) >= m_settings.get_int(
 					settings_pack::dht_max_dht_items))
 				{
@@ -792,4 +792,4 @@ std::unique_ptr<dht_storage_interface> dht_default_storage_constructor(
 	return std::make_unique<dht_default_storage>(settings);
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

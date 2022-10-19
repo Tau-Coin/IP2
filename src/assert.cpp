@@ -11,10 +11,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/config.hpp"
+#include "ip2/assert.hpp"
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
 #ifdef TORRENT_PRODUCTION_ASSERTS
 #include <atomic>
@@ -37,7 +37,7 @@ see LICENSE file.
 #include <cinttypes> // for PRId64 et.al.
 #include <array>
 
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 // uClibc++ doesn't have cxxabi.h
 #if defined __GNUC__ && __GNUC__ >= 3 \
@@ -45,7 +45,7 @@ see LICENSE file.
 
 #include <cxxabi.h>
 
-namespace libTAU {
+namespace ip2 {
 std::string demangle(char const* name)
 {
 // in case this string comes
@@ -86,10 +86,10 @@ std::string demangle(char const* name)
 }
 #elif defined _WIN32 && !defined TORRENT_WINRT
 
-#include "libTAU/aux_/windows.hpp"
+#include "ip2/aux_/windows.hpp"
 #include <DbgHelp.h>
 
-namespace libTAU {
+namespace ip2 {
 std::string demangle(char const* name)
 {
 	char demangled_name[256];
@@ -100,7 +100,7 @@ std::string demangle(char const* name)
 }
 
 #else
-namespace libTAU {
+namespace ip2 {
 std::string demangle(char const* name) { return name; }
 }
 #endif
@@ -108,12 +108,12 @@ std::string demangle(char const* name) { return name; }
 #include <cstdlib>
 #include <cstdio>
 #include <csignal>
-#include "libTAU/version.hpp"
+#include "ip2/version.hpp"
 
 #if TORRENT_USE_EXECINFO
 #include <execinfo.h>
 
-namespace libTAU {
+namespace ip2 {
 
 TORRENT_EXPORT void print_backtrace(char* out, int len, int max_depth, void*)
 {
@@ -135,13 +135,13 @@ TORRENT_EXPORT void print_backtrace(char* out, int len, int max_depth, void*)
 
 #elif defined _WIN32 && !defined TORRENT_WINRT
 
-#include "libTAU/aux_/windows.hpp"
+#include "ip2/aux_/windows.hpp"
 #include <mutex>
 
 #include <WinBase.h>
 #include <DbgHelp.h>
 
-namespace libTAU {
+namespace ip2 {
 
 TORRENT_EXPORT void print_backtrace(char* out, int len, int max_depth
 	, void* ctx)
@@ -251,7 +251,7 @@ TORRENT_EXPORT void print_backtrace(char* out, int len, int max_depth
 
 #else
 
-namespace libTAU {
+namespace ip2 {
 
 TORRENT_EXPORT void print_backtrace(char* out, int len, int /*max_depth*/, void* /* ctx */)
 {
@@ -267,14 +267,14 @@ TORRENT_EXPORT void print_backtrace(char* out, int len, int /*max_depth*/, void*
 
 #if (TORRENT_USE_ASSERTS || defined TORRENT_ASIO_DEBUGGING) && \
 	defined TORRENT_PRODUCTION_ASSERTS
-char const* libTAU_assert_log = "asserts.log";
+char const* ip2_assert_log = "asserts.log";
 namespace {
 // the number of asserts we've printed to the log
 std::atomic<int> assert_counter(0);
 }
 #endif
 
-namespace libTAU {
+namespace ip2 {
 
 #if TORRENT_USE_ASSERTS || defined TORRENT_ASIO_DEBUGGING
 
@@ -284,7 +284,7 @@ TORRENT_EXPORT void assert_print(char const* fmt, ...)
 #ifdef TORRENT_PRODUCTION_ASSERTS
 	if (assert_counter > 500) return;
 
-	FILE* out = fopen(libTAU_assert_log, "a+");
+	FILE* out = fopen(ip2_assert_log, "a+");
 	if (out == nullptr) out = stderr;
 #else
 	FILE* out = stderr;
@@ -319,15 +319,15 @@ TORRENT_EXPORT void assert_fail(char const* expr, int line
 	print_backtrace(stack, sizeof(stack), 0);
 
 	char const* message = "assertion failed. Please file a bugreport at "
-		"https://github.com/arvidn/libTAU/issues\n"
+		"https://github.com/arvidn/ip2/issues\n"
 		"Please include the following information:\n\n"
-		"version: " LIBTAU_VERSION "\n";
+		"version: " IP2_VERSION "\n";
 
 	switch (kind)
 	{
 		case 1:
-			message = "A precondition of a libTAU function has been violated.\n"
-				"This indicates a bug in the client application using libTAU\n";
+			message = "A precondition of a ip2 function has been violated.\n"
+				"This indicates a bug in the client application using ip2\n";
 	}
 
 	assert_print("%s\n"
@@ -379,4 +379,4 @@ TORRENT_EXPORT void assert_fail(char const*, int, char const*
 
 #endif
 
-} // libTAU namespace
+} // ip2 namespace

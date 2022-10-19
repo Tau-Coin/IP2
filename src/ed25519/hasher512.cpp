@@ -30,11 +30,11 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/aux_/hasher512.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/aux_/hasher512.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/aux_/ssl.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	hasher512::hasher512()
 	{

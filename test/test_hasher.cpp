@@ -10,8 +10,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/hasher.hpp"
-#include "libTAU/hex.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/hex.hpp"
 
 #include "test.hpp"
 

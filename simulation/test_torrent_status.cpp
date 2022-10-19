@@ -34,9 +34,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "setup_swarm.hpp"
 #include "utils.hpp"
 #include "simulator/simulator.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/session.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/session.hpp"
 
 #include <iostream>
 

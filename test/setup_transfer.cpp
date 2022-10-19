@@ -17,23 +17,23 @@ see LICENSE file.
 #include <tuple>
 #include <functional>
 
-#include "libTAU/session.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/aux_/http_parser.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/aux_/socket_io.hpp" // print_endpoint
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/session_stats.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/hex.hpp" // to_hex
-#include "libTAU/aux_/vector.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/aux_/merkle.hpp"
-#include "libTAU/disk_interface.hpp" // for default_block_size
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/session.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/aux_/http_parser.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/aux_/socket_io.hpp" // print_endpoint
+#include "ip2/ip_filter.hpp"
+#include "ip2/session_stats.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/hex.hpp" // to_hex
+#include "ip2/aux_/vector.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/aux_/merkle.hpp"
+#include "ip2/disk_interface.hpp" // for default_block_size
+#include "ip2/aux_/ip_helpers.hpp"
 
 #include "test.hpp"
 #include "test_utils.hpp"
@@ -75,7 +75,7 @@ std::shared_ptr<torrent_info> generate_torrent(bool const with_files, bool const
 	lt::create_torrent t(fs, 128 * 1024);
 
 	t.set_comment("test comment");
-	t.set_creator("libTAU test");
+	t.set_creator("ip2 test");
 	t.add_tracker("http://torrent_file_tracker.com/announce");
 	t.add_url_seed("http://torrent_file_url_seed.com/");
 

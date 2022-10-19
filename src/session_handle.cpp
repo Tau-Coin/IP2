@@ -32,18 +32,18 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/session_handle.hpp"
-#include "libTAU/aux_/session_impl.hpp"
-#include "libTAU/aux_/session_call.hpp"
-#include "libTAU/aux_/throw.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/peer_class.hpp"
-#include "libTAU/aux_/scope_end.hpp"
+#include "ip2/session_handle.hpp"
+#include "ip2/aux_/session_impl.hpp"
+#include "ip2/aux_/session_call.hpp"
+#include "ip2/aux_/throw.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/peer_class.hpp"
+#include "ip2/aux_/scope_end.hpp"
 
-using libTAU::aux::session_impl;
+using ip2::aux::session_impl;
 
-namespace libTAU {
+namespace ip2 {
 
 	constexpr peer_class_t session_handle::global_peer_class_id;
 	constexpr peer_class_t session_handle::tcp_peer_class_id;
@@ -698,4 +698,4 @@ namespace libTAU {
 		async_call(&session_impl::reopen_network_sockets, options);
 	}
 
-} // namespace libTAU
+} // namespace ip2

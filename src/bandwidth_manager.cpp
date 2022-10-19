@@ -9,13 +9,13 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/bandwidth_manager.hpp"
+#include "ip2/aux_/bandwidth_manager.hpp"
 
 #if TORRENT_USE_ASSERTS
 #include <climits>
 #endif
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	bandwidth_manager::bandwidth_manager(int channel)

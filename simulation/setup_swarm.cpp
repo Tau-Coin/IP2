@@ -30,17 +30,17 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/aux_/deadline_timer.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/session.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/aux_/deadline_timer.hpp"
+#include "ip2/address.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/time.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/aux_/random.hpp"
 #include "disk_io.hpp"
 #include <fstream>
 
@@ -312,7 +312,7 @@ void setup_swarm(int num_nodes
 		ses->async_add_torrent(p);
 
 		ses->set_alert_notify([&, i]() {
-			// this function is called inside libTAU and we cannot perform work
+			// this function is called inside ip2 and we cannot perform work
 			// immediately in it. We have to notify the outside to pull all the alerts
 			post(*io_context[i], [&,i]()
 			{

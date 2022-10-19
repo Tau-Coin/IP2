@@ -31,9 +31,9 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "simulator/simulator.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/fwd.hpp"
-#include "libTAU/flags.hpp"
+#include "ip2/address.hpp"
+#include "ip2/fwd.hpp"
+#include "ip2/flags.hpp"
 #include <functional>
 
 #ifndef TORRENT_SETUP_SWARM_HPP_INCLUDED

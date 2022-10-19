@@ -9,7 +9,7 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/heterogeneous_queue.hpp"
+#include "ip2/aux_/heterogeneous_queue.hpp"
 
 namespace {
 

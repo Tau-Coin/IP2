@@ -8,7 +8,7 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/timestamp_history.hpp"
+#include "ip2/aux_/timestamp_history.hpp"
 
 TORRENT_TEST(timestamp_history)
 {

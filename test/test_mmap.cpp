@@ -10,12 +10,12 @@ see LICENSE file.
 
 #include "test.hpp"
 
-#include "libTAU/aux_/mmap.hpp"
+#include "ip2/aux_/mmap.hpp"
 #include <fstream>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/range/combine.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #if TORRENT_HAVE_MMAP || TORRENT_HAVE_MAP_VIEW_OF_FILE
 

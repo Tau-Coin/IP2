@@ -11,10 +11,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_settings.hpp"
-#include "libTAU/torrent_status.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_settings.hpp"
+#include "ip2/torrent_status.hpp"
+#include "ip2/aux_/path.hpp"
 #include <tuple>
 
 #include "test.hpp"

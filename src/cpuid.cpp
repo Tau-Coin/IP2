@@ -10,8 +10,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/cpuid.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/cpuid.hpp"
 
 #include <cstdint>
 
@@ -53,7 +53,7 @@ unsigned long int helper_getauxval(unsigned long int type)
 #endif
 #endif // TORRENT_HAS_ARM && TORRENT_HAS_AUXV
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 namespace {
 

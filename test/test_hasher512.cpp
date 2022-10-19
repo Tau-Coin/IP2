@@ -10,8 +10,8 @@ see LICENSE file.
 
 #ifndef TORRENT_DISABLE_DHT
 
-#include "libTAU/aux_/hasher512.hpp"
-#include "libTAU/hex.hpp"
+#include "ip2/aux_/hasher512.hpp"
+#include "ip2/hex.hpp"
 
 #include "test.hpp"
 

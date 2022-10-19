@@ -8,9 +8,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/peer_class.hpp"
+#include "ip2/peer_class.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	void peer_class::set_upload_limit(int limit)
 	{

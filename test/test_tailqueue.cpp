@@ -9,7 +9,7 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/tailqueue.hpp"
+#include "ip2/aux_/tailqueue.hpp"
 
 using namespace lt;
 

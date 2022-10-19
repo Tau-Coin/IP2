@@ -32,9 +32,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "test.hpp"
 #include "setup_transfer.hpp" // for ::create_torrent
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/create_torrent.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/create_torrent.hpp"
 #include <fstream>
 
 

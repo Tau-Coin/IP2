@@ -10,12 +10,12 @@ see LICENSE file.
 
 #include "test.hpp"
 #include "setup_transfer.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/kademlia/dos_blocker.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/aux_/socket_io.hpp" // for print_endpoint
+#include "ip2/address.hpp"
+#include "ip2/time.hpp"
+#include "ip2/kademlia/dos_blocker.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/aux_/socket_io.hpp" // for print_endpoint
 #include <cstdarg>
 
 using namespace lt;

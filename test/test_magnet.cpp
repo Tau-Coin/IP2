@@ -13,14 +13,14 @@ see LICENSE file.
 
 #include "test.hpp"
 #include "setup_transfer.hpp"
-#include "libTAU/magnet_uri.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/torrent_handle.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/torrent_info.hpp" // for announce_entry
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/hex.hpp" // to_hex
+#include "ip2/magnet_uri.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/torrent_handle.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/torrent_info.hpp" // for announce_entry
+#include "ip2/announce_entry.hpp"
+#include "ip2/hex.hpp" // to_hex
 #include "settings.hpp"
 
 using namespace lt;

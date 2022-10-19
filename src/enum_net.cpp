@@ -13,22 +13,22 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
-#include "libTAU/aux_/enum_net.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/socket_type.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/aux_/enum_net.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/aux_/socket_type.hpp"
+#include "ip2/span.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 #ifdef TORRENT_WINDOWS
-#include "libTAU/aux_/win_util.hpp"
+#include "ip2/aux_/win_util.hpp"
 #endif
 
 #include <functional>
 #include <cstdlib> // for wcstombscstombs
 #include <optional>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
 #include <boost/asio/ip/host_name.hpp>
 
@@ -52,14 +52,14 @@ see LICENSE file.
 
 #if defined TARGET_IPHONE_SIMULATOR || defined TARGET_OS_IPHONE
 // net/route.h is not included in the iphone sdk.
-#include "libTAU/aux_/route.h"
+#include "ip2/aux_/route.h"
 #else
 #include <net/route.h>
 #endif
 #endif // TORRENT_USE_SYSCTL
 
 #if TORRENT_USE_GETIPFORWARDTABLE || TORRENT_USE_GETADAPTERSADDRESSES
-#include "libTAU/aux_/windows.hpp"
+#include "ip2/aux_/windows.hpp"
 #include <iphlpapi.h>
 #include <ifdef.h> // for IF_OPER_STATUS
 #ifdef TORRENT_WINRT
@@ -127,13 +127,13 @@ enum : int {
 const unsigned long siocgifmtu = SIOCGIFMTU;
 #endif
 
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #if defined(TORRENT_OS2) && !defined(IF_NAMESIZE)
 #define IF_NAMESIZE IFNAMSIZ
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 namespace {
 
@@ -515,7 +515,7 @@ namespace {
 			: interface->oper_state == if_oper::unknown ? if_state::unknown
 			: if_state::unknown;
 
-		//added libTAU
+		//added ip2
 		ip_info->rx_bytes = interface->rls.rx_bytes;
 		ip_info->tx_bytes = interface->rls.tx_bytes;
 		ip_info->rx_errors = interface->rls.rx_errors;

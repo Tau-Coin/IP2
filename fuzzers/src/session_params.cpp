@@ -8,7 +8,7 @@ see LICENSE file.
 */
 
 #include <cstdint>
-#include "libTAU/session_params.hpp"
+#include "ip2/session_params.hpp"
 
 extern "C" int LLVMFuzzerTestOneInput(uint8_t const* data, size_t size)
 {

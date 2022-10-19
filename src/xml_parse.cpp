@@ -10,10 +10,10 @@ see LICENSE file.
 
 #include <cstring>
 
-#include "libTAU/aux_/xml_parse.hpp"
-#include "libTAU/aux_/string_util.hpp"
+#include "ip2/aux_/xml_parse.hpp"
+#include "ip2/aux_/string_util.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	void xml_parse(string_view input
 		, std::function<void(int, string_view, string_view)> callback)

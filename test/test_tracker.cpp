@@ -18,19 +18,19 @@ see LICENSE file.
 #include "test_utils.hpp"
 #include "udp_tracker.hpp"
 #include "settings.hpp"
-#include "libTAU/alert.hpp"
-#include "libTAU/peer_info.hpp" // for peer_list_entry
-#include "libTAU/alert_types.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/aux_/tracker_manager.hpp"
-#include "libTAU/aux_/http_tracker_connection.hpp" // for parse_tracker_response
-#include "libTAU/aux_/websocket_tracker_connection.hpp" // for parse_websocket_tracker_response
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/aux_/socket_io.hpp"
+#include "ip2/alert.hpp"
+#include "ip2/peer_info.hpp" // for peer_list_entry
+#include "ip2/alert_types.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/aux_/tracker_manager.hpp"
+#include "ip2/aux_/http_tracker_connection.hpp" // for parse_tracker_response
+#include "ip2/aux_/websocket_tracker_connection.hpp" // for parse_websocket_tracker_response
+#include "ip2/torrent_info.hpp"
+#include "ip2/announce_entry.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/aux_/socket_io.hpp"
 
 #include <array>
 

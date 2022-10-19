@@ -7,11 +7,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/proxy_settings.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/aux_/session_settings.hpp"
+#include "ip2/aux_/proxy_settings.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/aux_/session_settings.hpp"
 
-namespace libTAU { namespace aux {
+namespace ip2 { namespace aux {
 
 namespace {
 
@@ -41,4 +41,4 @@ proxy_settings::proxy_settings(aux::session_settings const& sett)
 { init(*this, sett); }
 
 } // namespace aux
-} // namespace libTAU
+} // namespace ip2

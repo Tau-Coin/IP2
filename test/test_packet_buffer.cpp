@@ -9,8 +9,8 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/packet_buffer.hpp"
-#include "libTAU/aux_/packet_pool.hpp"
+#include "ip2/aux_/packet_buffer.hpp"
+#include "ip2/aux_/packet_pool.hpp"
 
 using lt::aux::packet_buffer;
 using lt::aux::packet_ptr;

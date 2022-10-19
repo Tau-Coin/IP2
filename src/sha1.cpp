@@ -10,7 +10,7 @@ By Steve Reid <sreid@sea-to-sky.net>
 changelog at the end of the file.
 */
 
-#include "libTAU/aux_/sha1.hpp"
+#include "ip2/aux_/sha1.hpp"
 
 #if !defined TORRENT_USE_LIBGCRYPT \
 	&& !TORRENT_USE_COMMONCRYPTO \
@@ -21,11 +21,11 @@ changelog at the end of the file.
 #include <cstdio>
 #include <cstring>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/predef/other/endian.h>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 namespace {
 
@@ -241,7 +241,7 @@ void SHA1_final(u8* digest, sha1_ctx* context)
 	}
 }
 
-} // namespace libTAU
+} // namespace ip2
 
 #endif
 

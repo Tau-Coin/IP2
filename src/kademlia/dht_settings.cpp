@@ -7,11 +7,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/kademlia/dht_settings.hpp"
-#include "libTAU/bdecode.hpp"
+#include "ip2/config.hpp"
+#include "ip2/kademlia/dht_settings.hpp"
+#include "ip2/bdecode.hpp"
 
-namespace libTAU {
+namespace ip2 {
 namespace dht {
 
 #if TORRENT_ABI_VERSION <= 2

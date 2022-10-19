@@ -7,16 +7,16 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp" // for default_disk_io_constructor
-#include "libTAU/disk_interface.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/file_storage.hpp"
-#include "libTAU/flags.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/add_torrent_params.hpp"
+#include "ip2/session.hpp" // for default_disk_io_constructor
+#include "ip2/disk_interface.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/file_storage.hpp"
+#include "ip2/flags.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/add_torrent_params.hpp"
 
 // TODO: remove this dependency
-#include "libTAU/aux_/path.hpp"
+#include "ip2/aux_/path.hpp"
 
 #include <random>
 #include <algorithm>

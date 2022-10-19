@@ -9,12 +9,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/socks5_stream.hpp"
-#include "libTAU/aux_/socket_io.hpp"
+#include "ip2/socks5_stream.hpp"
+#include "ip2/aux_/socket_io.hpp"
 
 using namespace std::placeholders;
 
-namespace libTAU {
+namespace ip2 {
 
 	namespace socks_error
 	{

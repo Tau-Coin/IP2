@@ -12,20 +12,20 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_settings.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/torrent.hpp"
-#include "libTAU/peer_info.hpp"
-#include "libTAU/extensions.hpp"
-#include "libTAU/aux_/path.hpp" // for combine_path, current_working_directory
-#include "libTAU/magnet_uri.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/aux_/random.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_settings.hpp"
+#include "ip2/time.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/torrent.hpp"
+#include "ip2/peer_info.hpp"
+#include "ip2/extensions.hpp"
+#include "ip2/aux_/path.hpp" // for combine_path, current_working_directory
+#include "ip2/magnet_uri.hpp"
+#include "ip2/span.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/aux_/random.hpp"
 #include "settings.hpp"
 #include <tuple>
 #include <iostream>
@@ -726,7 +726,7 @@ TORRENT_TEST(test_read_piece_no_metadata)
 	TEST_CHECK(a);
 	if (auto* rp = alert_cast<read_piece_alert>(a))
 	{
-		TEST_CHECK(rp->error == error_code(lt::errors::no_metadata, lt::libTAU_category()));
+		TEST_CHECK(rp->error == error_code(lt::errors::no_metadata, lt::ip2_category()));
 	}
 }
 
@@ -749,7 +749,7 @@ TORRENT_TEST(test_read_piece_out_of_range)
 	if (auto* rp = alert_cast<read_piece_alert>(a))
 	{
 		TEST_CHECK(rp->error == error_code(lt::errors::invalid_piece_index
-			, lt::libTAU_category()));
+			, lt::ip2_category()));
 	}
 }
 

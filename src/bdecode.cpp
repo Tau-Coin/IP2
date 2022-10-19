@@ -11,10 +11,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/bdecode.hpp"
-#include "libTAU/aux_/alloca.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/error_code.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/aux_/alloca.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/error_code.hpp"
 #include <limits>
 #include <cstring> // for memset
 #include <cstdio> // for snprintf
@@ -25,7 +25,7 @@ see LICENSE file.
 #define BOOST_SYSTEM_NOEXCEPT throw()
 #endif
 
-namespace libTAU {
+namespace ip2 {
 
 	using aux::bdecode_token;
 

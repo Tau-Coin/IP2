@@ -11,8 +11,8 @@ see LICENSE file.
 #include "setup_transfer.hpp"
 #include "settings.hpp"
 #include "test_utils.hpp"
-#include "libTAU/download_priority.hpp"
-#include "libTAU/torrent_info.hpp"
+#include "ip2/download_priority.hpp"
+#include "ip2/torrent_info.hpp"
 
 TORRENT_TEST(time_crititcal)
 {

@@ -10,10 +10,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/bandwidth_limit.hpp"
+#include "ip2/aux_/bandwidth_limit.hpp"
 #include <algorithm>
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 	bandwidth_channel::bandwidth_channel()

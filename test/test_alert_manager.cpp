@@ -12,10 +12,10 @@ see LICENSE file.
 
 #include "test.hpp"
 #include "test_utils.hpp"
-#include "libTAU/aux_/alert_manager.hpp"
-#include "libTAU/torrent_handle.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/extensions.hpp"
+#include "ip2/aux_/alert_manager.hpp"
+#include "ip2/torrent_handle.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/extensions.hpp"
 #include "setup_transfer.hpp"
 
 #include <functional>

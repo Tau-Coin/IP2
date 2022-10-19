@@ -30,11 +30,11 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/torrent_handle.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/aux_/deadline_timer.hpp"
+#include "ip2/session.hpp"
+#include "ip2/torrent_handle.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/aux_/deadline_timer.hpp"
 #include "settings.hpp"
 #include "utils.hpp"
 #include "create_torrent.hpp"
@@ -574,7 +574,7 @@ TORRENT_TEST(paused_checking)
 
 			for (torrent_handle const& h : ses.get_torrents())
 			{
-				// even though all torrents are seeding, libTAU shouldn't know
+				// even though all torrents are seeding, ip2 shouldn't know
 				// that, because they should never have been checked (because they
 				// were force stopped)
 				TEST_CHECK(!h.status().is_seeding);

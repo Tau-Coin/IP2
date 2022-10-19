@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/pool_hash_set.hpp"
+#include "ip2/blockchain/pool_hash_set.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     pool_hash_set::pool_hash_set(const entry& e) {
         populate(e);

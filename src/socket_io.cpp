@@ -10,15 +10,15 @@ see LICENSE file.
 
 #include <string>
 
-#include "libTAU/error_code.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/aux_/io_bytes.hpp" // for write_uint16
-#include "libTAU/hasher.hpp" // for hasher
-#include "libTAU/aux_/escape_string.hpp" // for trim
+#include "ip2/error_code.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/address.hpp"
+#include "ip2/aux_/io_bytes.hpp" // for write_uint16
+#include "ip2/hasher.hpp" // for hasher
+#include "ip2/aux_/escape_string.hpp" // for trim
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	std::string print_address(address const& addr)
 	{

@@ -10,14 +10,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/socket_type.hpp"
-#include "libTAU/aux_/array.hpp"
-#include "libTAU/aux_/deadline_timer.hpp"
-#include "libTAU/aux_/ssl.hpp"
-#include "libTAU/aux_/debug.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/socket_type.hpp"
+#include "ip2/aux_/array.hpp"
+#include "ip2/aux_/deadline_timer.hpp"
+#include "ip2/aux_/ssl.hpp"
+#include "ip2/aux_/debug.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	char const* socket_type_name(socket_type_t const s)
 	{

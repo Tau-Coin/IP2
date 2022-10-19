@@ -6,10 +6,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/blockchain_signal.hpp"
+#include "ip2/blockchain/blockchain_signal.hpp"
 
 
-//namespace libTAU::blockchain {
+//namespace ip2::blockchain {
 //
 //    const std::int64_t blockchain_signal::protocol_id = 1;
 //

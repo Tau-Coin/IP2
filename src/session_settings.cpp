@@ -7,12 +7,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/settings_pack.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/settings_pack.hpp"
 
 #include <functional>
 
-namespace libTAU { namespace aux {
+namespace ip2 { namespace aux {
 
 	session_settings::session_settings() = default;
 

@@ -12,21 +12,21 @@ see LICENSE file.
 #ifndef TORRENT_BROADCAST_SOCKET_HPP_INCLUDED
 #define TORRENT_BROADCAST_SOCKET_HPP_INCLUDED
 
-#include "libTAU/config.hpp"
-#include "libTAU/io_context.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/string_view.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/config.hpp"
+#include "ip2/io_context.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/address.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/string_view.hpp"
+#include "ip2/span.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 #include "test.hpp"
 
 #include <memory>
 #include <list>
 #include <array>
 
-namespace libTAU {
+namespace ip2 {
 
 	using receive_handler_t = std::function<void(udp::endpoint const& from
 		, span<char const> buffer)>;

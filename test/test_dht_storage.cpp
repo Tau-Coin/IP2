@@ -10,21 +10,21 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/aux_/socket_io.hpp" // for hash_address
-#include "libTAU/performance_counters.hpp" // for counters
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/kademlia/ed25519.hpp"
-#include "libTAU/hex.hpp" // from_hex
+#include "ip2/config.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/aux_/socket_io.hpp" // for hash_address
+#include "ip2/performance_counters.hpp" // for counters
+#include "ip2/aux_/random.hpp"
+#include "ip2/kademlia/ed25519.hpp"
+#include "ip2/hex.hpp" // from_hex
 
-#include "libTAU/kademlia/dht_storage.hpp"
-#include "libTAU/kademlia/node_id.hpp"
-#include "libTAU/kademlia/routing_table.hpp"
-#include "libTAU/kademlia/item.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
+#include "ip2/kademlia/dht_storage.hpp"
+#include "ip2/kademlia/node_id.hpp"
+#include "ip2/kademlia/routing_table.hpp"
+#include "ip2/kademlia/item.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
 
 #include <numeric>
 

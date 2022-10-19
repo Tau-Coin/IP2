@@ -11,24 +11,24 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/kademlia/traversal_algorithm.hpp>
-#include <libTAU/kademlia/rpc_manager.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/dht_observer.hpp> // for dht_logger
-#include <libTAU/kademlia/dht_settings.hpp>
-#include <libTAU/kademlia/io.hpp>
-#include <libTAU/aux_/socket_io.hpp> // for read_*_endpoint
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/alert_types.hpp> // for dht_lookup
-#include <libTAU/aux_/time.hpp>
+#include <ip2/kademlia/traversal_algorithm.hpp>
+#include <ip2/kademlia/rpc_manager.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/dht_observer.hpp> // for dht_logger
+#include <ip2/kademlia/dht_settings.hpp>
+#include <ip2/kademlia/io.hpp>
+#include <ip2/aux_/socket_io.hpp> // for read_*_endpoint
+#include <ip2/aux_/random.hpp>
+#include <ip2/alert_types.hpp> // for dht_lookup
+#include <ip2/aux_/time.hpp>
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include <libTAU/hex.hpp> // to_hex
+#include <ip2/hex.hpp> // to_hex
 #endif
 
 using namespace std::placeholders;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 #if TORRENT_USE_ASSERTS
 template <class It, class Cmp>
@@ -94,7 +94,7 @@ void traversal_algorithm::resort_result(observer* o)
 	TORRENT_ASSERT(std::size_t(m_sorted_results) <= m_results.size());
 	auto end = m_results.begin() + m_sorted_results;
 
-	TORRENT_ASSERT(libTAU::dht::is_sorted(m_results.begin(), end
+	TORRENT_ASSERT(ip2::dht::is_sorted(m_results.begin(), end
 		, [this](observer_ptr const& lhs, observer_ptr const& rhs)
 		{ return compare_ref(lhs->id(), rhs->id(), m_target); }));
 
@@ -151,7 +151,7 @@ void traversal_algorithm::add_entry(node_id const& id
 		TORRENT_ASSERT(std::size_t(m_sorted_results) <= m_results.size());
 		auto end = m_results.begin() + m_sorted_results;
 
-		TORRENT_ASSERT(libTAU::dht::is_sorted(m_results.begin(), end
+		TORRENT_ASSERT(ip2::dht::is_sorted(m_results.begin(), end
 				, [this](observer_ptr const& lhs, observer_ptr const& rhs)
 				{ return compare_ref(lhs->id(), rhs->id(), m_target); }));
 
@@ -222,7 +222,7 @@ void traversal_algorithm::add_entry(node_id const& id
 	}
 
 	TORRENT_ASSERT(std::size_t(m_sorted_results) <= m_results.size());
-	TORRENT_ASSERT(libTAU::dht::is_sorted(m_results.begin()
+	TORRENT_ASSERT(ip2::dht::is_sorted(m_results.begin()
 		, m_results.begin() + m_sorted_results
 		, [this](observer_ptr const& lhs, observer_ptr const& rhs)
 		{ return compare_ref(lhs->id(), rhs->id(), m_target); }));
@@ -1007,4 +1007,4 @@ void traversal_observer::reply(msg const& m, node_id const& from)
 	set_id(from);
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

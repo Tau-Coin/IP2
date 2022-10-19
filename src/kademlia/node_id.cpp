@@ -11,17 +11,17 @@ see LICENSE file.
 
 #include <algorithm>
 
-#include "libTAU/kademlia/node_id.hpp"
-#include "libTAU/kademlia/node_entry.hpp"
-#include "libTAU/kademlia/ed25519.hpp"
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/ip_helpers.hpp" // for is_local et.al
-#include "libTAU/aux_/random.hpp" // for random
-#include "libTAU/hasher.hpp" // for hasher
-#include "libTAU/hex.hpp" // for hex
-#include "libTAU/aux_/crc32c.hpp" // for crc32c
+#include "ip2/kademlia/node_id.hpp"
+#include "ip2/kademlia/node_entry.hpp"
+#include "ip2/kademlia/ed25519.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/aux_/ip_helpers.hpp" // for is_local et.al
+#include "ip2/aux_/random.hpp" // for random
+#include "ip2/hasher.hpp" // for hasher
+#include "ip2/hex.hpp" // for hex
+#include "ip2/aux_/crc32c.hpp" // for crc32c
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 // returns the distance between the two nodes
 // using the kademlia XOR-metric
@@ -86,14 +86,14 @@ node_id generate_random_id()
 	return node_id(span<char const>(pk.bytes));
 }
 
-node_id get_node_id(libTAU::aux::session_settings const& settings)
+node_id get_node_id(ip2::aux::session_settings const& settings)
 {
 	std::array<char, 32> seed;
 	public_key pk;
 
-	const char* account_seed = settings.get_str(libTAU::settings_pack::account_seed).c_str();
+	const char* account_seed = settings.get_str(ip2::settings_pack::account_seed).c_str();
 	span<char const> hexseed(account_seed, 64);
-	libTAU::aux::from_hex(hexseed, seed.data());
+	ip2::aux::from_hex(hexseed, seed.data());
 	std::tie(pk, std::ignore) = ed25519_create_keypair(seed);
 
 	return node_id(span<char const>(pk.bytes));
@@ -127,4 +127,4 @@ node_id generate_prefix_mask(int const bits)
 	return mask;
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

@@ -14,9 +14,9 @@ see LICENSE file.
 #include <utility>
 #include <set>
 
-#include "libTAU/aux_/buffer.hpp"
-#include "libTAU/aux_/chained_buffer.hpp"
-#include "libTAU/socket.hpp"
+#include "ip2/aux_/buffer.hpp"
+#include "ip2/aux_/chained_buffer.hpp"
+#include "ip2/socket.hpp"
 
 #include "test.hpp"
 

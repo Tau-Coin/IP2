@@ -7,9 +7,9 @@ see LICENSE file.
 */
 
 
-#include <libTAU/blockchain/repository.hpp>
+#include <ip2/blockchain/repository.hpp>
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     std::string repository::chains_db_name() {
         return "t" + table_chains;
@@ -140,7 +140,7 @@ namespace libTAU::blockchain {
 //            return index_info.main_chain_block_hash();
 //        }
 //
-//        return libTAU::sha256_hash();
+//        return ip2::sha256_hash();
 //    }
 
 //    account repository::find_state_from_block(const dht::public_key &pubKey, const block &b) {

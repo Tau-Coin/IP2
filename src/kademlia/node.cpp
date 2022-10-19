@@ -13,7 +13,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
 #include <utility>
 #include <cinttypes> // for PRId64 et.al.
@@ -24,42 +24,42 @@ see LICENSE file.
 #include <random>
 
 #ifndef TORRENT_DISABLE_LOGGING
-#include "libTAU/hex.hpp" // to_hex
+#include "ip2/hex.hpp" // to_hex
 #endif
 
-#include <libTAU/aux_/common.h> // for utcTime()
-#include <libTAU/aux_/socket_io.hpp>
-#include <libTAU/session_status.hpp>
-#include "libTAU/bencode.hpp"
-#include "libTAU/crypto.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/aux_/random.hpp"
-#include <libTAU/assert.hpp>
-#include <libTAU/aux_/time.hpp>
-#include "libTAU/aux_/throw.hpp"
-#include "libTAU/aux_/session_settings.hpp"
-#include "libTAU/alert_types.hpp" // for dht_lookup
-#include "libTAU/performance_counters.hpp" // for counters
-#include "libTAU/aux_/ip_helpers.hpp" // for is_v4
+#include <ip2/aux_/common.h> // for utcTime()
+#include <ip2/aux_/socket_io.hpp>
+#include <ip2/session_status.hpp>
+#include "ip2/bencode.hpp"
+#include "ip2/crypto.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/aux_/random.hpp"
+#include <ip2/assert.hpp>
+#include <ip2/aux_/time.hpp>
+#include "ip2/aux_/throw.hpp"
+#include "ip2/aux_/session_settings.hpp"
+#include "ip2/alert_types.hpp" // for dht_lookup
+#include "ip2/performance_counters.hpp" // for counters
+#include "ip2/aux_/ip_helpers.hpp" // for is_v4
 
-#include "libTAU/kademlia/node.hpp"
-#include "libTAU/kademlia/dht_observer.hpp"
-#include "libTAU/kademlia/io.hpp"
-#include "libTAU/kademlia/dht_settings.hpp"
+#include "ip2/kademlia/node.hpp"
+#include "ip2/kademlia/dht_observer.hpp"
+#include "ip2/kademlia/io.hpp"
+#include "ip2/kademlia/dht_settings.hpp"
 
-#include "libTAU/kademlia/refresh.hpp"
-#include "libTAU/kademlia/get_peers.hpp"
-#include "libTAU/kademlia/get_item.hpp"
-#include "libTAU/kademlia/keep.hpp"
-#include "libTAU/kademlia/msg.hpp"
-#include <libTAU/kademlia/put_data.hpp>
-#include <libTAU/kademlia/relay.hpp>
-#include <libTAU/kademlia/version.hpp>
+#include "ip2/kademlia/refresh.hpp"
+#include "ip2/kademlia/get_peers.hpp"
+#include "ip2/kademlia/get_item.hpp"
+#include "ip2/kademlia/keep.hpp"
+#include "ip2/kademlia/msg.hpp"
+#include <ip2/kademlia/put_data.hpp>
+#include <ip2/kademlia/relay.hpp>
+#include <ip2/kademlia/version.hpp>
 
 using namespace std::placeholders;
 using namespace std::chrono;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 namespace {
 
@@ -129,7 +129,7 @@ int node::keep_interval() const { return m_settings.get_int(settings_pack::dht_k
 bool node::verify_token(string_view token, sha256_hash const& info_hash
 	, udp::endpoint const& addr) const
 {
-	// For libtau, there is no need for getting token before putting.
+	// For ip2, there is no need for getting token before putting.
 	// Any token is OK.
 	return true;
 
@@ -183,7 +183,7 @@ std::string node::generate_token(udp::endpoint const& addr
 	return token;
 	 */
 
-	return libtau_token;
+	return ip2_token;
 }
 
 void node::prepare_bootstrap_nodes(std::vector<node_entry>& nodes
@@ -781,7 +781,7 @@ void construct_mutable_item(item& i
 	entry v = value;
 	std::vector<char> buf;
 	bencode(std::back_inserter(buf), v);
-	std::int64_t ts = libTAU::aux::utcTime();
+	std::int64_t ts = ip2::aux::utcTime();
 	dht::signature sign = sign_mutable_item(buf, salt
 		, dht::timestamp(ts), pk, sk);
 	i.assign(std::move(v), salt, dht::timestamp(ts), pk, sign);
@@ -1202,7 +1202,7 @@ void node::tick()
 	// if m_table.depth() < 4, means routing_table doesn't
 	// have enough nodes.
 	//
-	// libTAU:
+	// ip2:
 	// every now and then we refresh our own ID, just to keep
 	// expanding the routing table buckets closer to us.
 	// So by these nodes closer to us other nodes can send data by 'push' protocol. 
@@ -2428,4 +2428,4 @@ bool node::decrypt(dht::public_key const& dht_pk, const std::string& in
 	return aux::aes_decrypt(in, out, keystr, err_str);
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

@@ -12,26 +12,26 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include <libTAU/config.hpp>
-#include <libTAU/aux_/io_bytes.hpp>
-#include <libTAU/aux_/random.hpp>
-#include <libTAU/aux_/invariant_check.hpp>
-#include <libTAU/kademlia/rpc_manager.hpp>
-#include <libTAU/kademlia/incoming_table.hpp>
-#include <libTAU/kademlia/routing_table.hpp>
-#include <libTAU/kademlia/find_data.hpp>
-#include <libTAU/kademlia/put_data.hpp>
-#include <libTAU/kademlia/refresh.hpp>
-#include <libTAU/kademlia/relay.hpp>
-#include <libTAU/kademlia/keep.hpp>
-#include <libTAU/kademlia/node.hpp>
-#include <libTAU/kademlia/dht_observer.hpp>
-#include <libTAU/kademlia/get_item.hpp>
-#include <libTAU/aux_/session_settings.hpp>
+#include <ip2/config.hpp>
+#include <ip2/aux_/io_bytes.hpp>
+#include <ip2/aux_/random.hpp>
+#include <ip2/aux_/invariant_check.hpp>
+#include <ip2/kademlia/rpc_manager.hpp>
+#include <ip2/kademlia/incoming_table.hpp>
+#include <ip2/kademlia/routing_table.hpp>
+#include <ip2/kademlia/find_data.hpp>
+#include <ip2/kademlia/put_data.hpp>
+#include <ip2/kademlia/refresh.hpp>
+#include <ip2/kademlia/relay.hpp>
+#include <ip2/kademlia/keep.hpp>
+#include <ip2/kademlia/node.hpp>
+#include <ip2/kademlia/dht_observer.hpp>
+#include <ip2/kademlia/get_item.hpp>
+#include <ip2/aux_/session_settings.hpp>
 
-#include <libTAU/aux_/socket_io.hpp> // for print_endpoint
-#include <libTAU/aux_/time.hpp> // for aux::time_now
-#include <libTAU/aux_/ip_helpers.hpp> // for is_v6
+#include <ip2/aux_/socket_io.hpp> // for print_endpoint
+#include <ip2/aux_/time.hpp> // for aux::time_now
+#include <ip2/aux_/ip_helpers.hpp> // for is_v6
 
 #include <type_traits>
 #include <functional>
@@ -42,7 +42,7 @@ see LICENSE file.
 
 using namespace std::placeholders;
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 dht_observer* observer::get_observer() const
 {
@@ -355,7 +355,7 @@ time_duration rpc_manager::tick()
 	INVARIANT_CHECK;
 
 	constexpr auto short_timeout = seconds(1);
-	// libtau: set timeout into 5s from 15s
+	// ip2: set timeout into 5s from 15s
 	constexpr auto timeout = seconds(5);
 
 	// look for observers that have timed out
@@ -496,4 +496,4 @@ observer::~observer()
 #endif
 }
 
-} // namespace libTAU::dht
+} // namespace ip2::dht

@@ -8,7 +8,7 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/identify_client.hpp"
+#include "ip2/identify_client.hpp"
 
 using namespace lt;
 

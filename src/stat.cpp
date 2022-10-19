@@ -8,9 +8,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/stat.hpp"
+#include "ip2/aux_/stat.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 void stat_channel::second_tick(int tick_interval_ms)
 {

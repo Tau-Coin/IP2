@@ -43,10 +43,10 @@ see LICENSE file.
 
 
 for i in glob.glob('src/*.cpp') + \
-        glob.glob('include/libTAU/*.hpp') + \
-        glob.glob('include/libTAU/aux_/*.hpp') + \
-        glob.glob('include/libTAU/extensions/*.hpp') + \
-        glob.glob('include/libTAU/kademlia/*.hpp') + \
+        glob.glob('include/ip2/*.hpp') + \
+        glob.glob('include/ip2/aux_/*.hpp') + \
+        glob.glob('include/ip2/extensions/*.hpp') + \
+        glob.glob('include/ip2/kademlia/*.hpp') + \
         glob.glob('src/kademlia/*.cpp') + \
         glob.glob('examples/*.cpp') + \
         glob.glob('examples/*.hpp') + \

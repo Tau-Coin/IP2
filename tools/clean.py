@@ -9,7 +9,7 @@ import glob
 def clean():
     to_delete = [
         'session_stats',
-        'libTAU_logs*',
+        'ip2_logs*',
         'round_trip_ms.log',
         'dht.log',
         'upnp.log',
@@ -57,9 +57,9 @@ def clean():
         'simulation',
         'fuzzers',
         os.path.join('src', 'kademlia'),
-        os.path.join('include', 'libTAU'),
-        os.path.join('include', os.path.join('libTAU', '_aux')),
-        os.path.join('include', os.path.join('libTAU', 'kademlia')),
+        os.path.join('include', 'ip2'),
+        os.path.join('include', os.path.join('ip2', '_aux')),
+        os.path.join('include', os.path.join('ip2', 'kademlia')),
         os.path.join('bindings', 'python'),
         os.path.join('bindings', os.path.join('python', 'src')),
         os.path.join('bindings', 'c'),

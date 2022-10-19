@@ -6,10 +6,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/index_key_info.hpp"
+#include "ip2/blockchain/index_key_info.hpp"
 
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     index_key_info::index_key_info(const entry &e) {
         populate(e);

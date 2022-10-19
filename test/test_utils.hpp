@@ -13,17 +13,17 @@ see LICENSE file.
 #include <string>
 
 #include "test.hpp"
-#include "libTAU/time.hpp"
-#include "libTAU/download_priority.hpp"
-#include "libTAU/fwd.hpp"
+#include "ip2/time.hpp"
+#include "ip2/download_priority.hpp"
+#include "ip2/fwd.hpp"
 
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/aux_/vector.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/sha1_hash.hpp"
+#include "ip2/aux_/vector.hpp"
+#include "ip2/aux_/path.hpp"
 #include <vector>
 #include <fstream>
 
-namespace libTAU
+namespace ip2
 {
 	EXPORT std::string time_now_string();
 	EXPORT std::string time_to_string(lt::time_point const tp);

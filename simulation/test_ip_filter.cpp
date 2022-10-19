@@ -34,11 +34,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "test.hpp"
 #include "create_torrent.hpp"
 #include "settings.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/aux_/deadline_timer.hpp"
-#include "libTAU/settings_pack.hpp"
-#include "libTAU/ip_filter.hpp"
-#include "libTAU/alert_types.hpp"
+#include "ip2/session.hpp"
+#include "ip2/aux_/deadline_timer.hpp"
+#include "ip2/settings_pack.hpp"
+#include "ip2/ip_filter.hpp"
+#include "ip2/alert_types.hpp"
 #include "simulator/simulator.hpp"
 #include "simulator/utils.hpp"
 #include "fake_peer.hpp"
@@ -76,8 +76,8 @@ void run_test(Setup const& setup
 	// set up test, like adding torrents (customization point)
 	setup(*ses);
 
-	// the alert notification function is called from within libTAU's
-	// context. It's not OK to talk to libTAU in there, post it back out and
+	// the alert notification function is called from within ip2's
+	// context. It's not OK to talk to ip2 in there, post it back out and
 	// then ask for alerts.
 	print_alerts(*ses, [=](lt::session& ses, lt::alert const* a) {
 		on_alert(ses, a);

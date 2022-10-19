@@ -17,16 +17,16 @@ see LICENSE file.
 #include <algorithm>
 #include <random>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/multiprecision/integer.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/alloca.hpp"
-#include "libTAU/aux_/pe_crypto.hpp"
-#include "libTAU/hasher.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/alloca.hpp"
+#include "ip2/aux_/pe_crypto.hpp"
+#include "ip2/hasher.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	namespace {
 		// TODO: it would be nice to get the literal working
@@ -317,7 +317,7 @@ namespace libTAU::aux {
 
 // All this code is based on libTomCrypt (http://www.libtomcrypt.com/)
 // this library is public domain and has been specially
-// tailored for libTAU by Arvid Norberg
+// tailored for ip2 by Arvid Norberg
 
 void rc4_init(const unsigned char* in, std::size_t len, rc4 *state)
 {
@@ -380,6 +380,6 @@ std::size_t rc4_encrypt(unsigned char *out, std::size_t outlen, rc4 *state)
 	return n;
 }
 
-} // namespace libTAU::aux
+} // namespace ip2::aux
 
 #endif // TORRENT_DISABLE_ENCRYPTION

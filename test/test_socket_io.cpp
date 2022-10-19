@@ -10,8 +10,8 @@ see LICENSE file.
 
 #include "test.hpp"
 #include "setup_transfer.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/socket.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/socket.hpp"
 
 #include <string>
 

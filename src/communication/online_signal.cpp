@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/communication/online_signal.hpp"
+#include "ip2/communication/online_signal.hpp"
 
-namespace libTAU { namespace communication {
+namespace ip2 { namespace communication {
 
         const std::int64_t online_signal::protocol_id = 0;
 

@@ -77,7 +77,7 @@ export  BOOST_ROOT=${PWD}/boost
 export  OPENSSL_ROOT=${PWD}/openssl
 export  LEVELDB_ROOT=${PWD}/leveldb
 export  SQLITE_ROOT=${PWD}/sqlite
-export  LIBTAU_ROOT=${PWD}/libTAU
+export  IP2_ROOT=${PWD}/ip2
 ```
 ### Compile
 ```

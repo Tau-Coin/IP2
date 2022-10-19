@@ -30,12 +30,12 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "libTAU/disk_interface.hpp"
-#include "libTAU/hasher.hpp"
-#include "libTAU/file_storage.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/aux_/merkle.hpp"
-#include "libTAU/io_context.hpp"
+#include "ip2/disk_interface.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/file_storage.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/aux_/merkle.hpp"
+#include "ip2/io_context.hpp"
 #include "test_utils.hpp"
 
 #include <array>

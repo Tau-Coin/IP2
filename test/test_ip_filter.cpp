@@ -8,15 +8,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/ip_filter.hpp"
+#include "ip2/ip_filter.hpp"
 #include "setup_transfer.hpp" // for addr()
 #include <utility>
 
 #include "test.hpp"
 #include "settings.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
 
 /*
 

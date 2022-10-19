@@ -10,7 +10,7 @@ see LICENSE file.
 
 #include "test.hpp"
 
-#include "libTAU/time.hpp"
+#include "ip2/time.hpp"
 
 #include <functional>
 #include <thread>

@@ -10,7 +10,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
+#include "ip2/config.hpp"
 
 #include <string>
 #include <cctype>
@@ -19,20 +19,20 @@ see LICENSE file.
 #include <cstring>
 
 #ifdef TORRENT_WINDOWS
-#include "libTAU/aux_/windows.hpp"
+#include "ip2/aux_/windows.hpp"
 #else
 #include <clocale>
 #endif
 
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/parse_url.hpp"
+#include "ip2/assert.hpp"
+#include "ip2/aux_/parse_url.hpp"
 
-#include "libTAU/aux_/utf8.hpp"
-#include "libTAU/aux_/escape_string.hpp"
-#include "libTAU/aux_/string_util.hpp" // for to_string
-#include "libTAU/aux_/array.hpp"
+#include "ip2/aux_/utf8.hpp"
+#include "ip2/aux_/escape_string.hpp"
+#include "ip2/aux_/string_util.hpp" // for to_string
+#include "ip2/aux_/array.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	// defined in hex.cpp
 	namespace aux {

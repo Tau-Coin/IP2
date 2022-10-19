@@ -13,13 +13,13 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/escape_string.hpp"
-#include "libTAU/hex.hpp"
-#include "libTAU/aux_/string_util.hpp"
-#include "libTAU/aux_/string_ptr.hpp"
+#include "ip2/aux_/escape_string.hpp"
+#include "ip2/hex.hpp"
+#include "ip2/aux_/string_util.hpp"
+#include "ip2/aux_/string_ptr.hpp"
 #include <iostream>
 #include <cstring> // for strcmp
-#include "libTAU/aux_/escape_string.hpp" // for trim
+#include "ip2/aux_/escape_string.hpp" // for trim
 
 using namespace lt;
 using namespace lt::aux;

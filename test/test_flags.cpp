@@ -10,18 +10,18 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/add_torrent_params.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/torrent_handle.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/add_torrent_params.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/torrent_handle.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/path.hpp"
 #include "settings.hpp"
 #include "setup_transfer.hpp"
 #include "test_utils.hpp"
 
-using namespace libTAU;
-namespace lt = libTAU;
+using namespace ip2;
+namespace lt = ip2;
 
 namespace {
 

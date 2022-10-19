@@ -9,10 +9,10 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/tracker_manager.hpp"
-#include "libTAU/aux_/session_interface.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/aux_/resolver.hpp"
+#include "ip2/aux_/tracker_manager.hpp"
+#include "ip2/aux_/session_interface.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/aux_/resolver.hpp"
 
 using namespace lt;
 using namespace lt::aux;

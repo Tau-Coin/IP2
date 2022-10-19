@@ -9,16 +9,16 @@ see LICENSE file.
 #include <cinttypes> // for PRId64 et.al.
 #include <utility>
 
-#include "libTAU/blockchain/blockchain.hpp"
-#include "libTAU/blockchain/consensus.hpp"
-#include "libTAU/common/entry_type.hpp"
-#include "libTAU/kademlia/dht_tracker.hpp"
-#include "libTAU/kademlia/ed25519.hpp"
+#include "ip2/blockchain/blockchain.hpp"
+#include "ip2/blockchain/consensus.hpp"
+#include "ip2/common/entry_type.hpp"
+#include "ip2/kademlia/dht_tracker.hpp"
+#include "ip2/kademlia/ed25519.hpp"
 
 
 using namespace std::placeholders;
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
     using namespace aux;
 
     bool blockchain::init() {
@@ -2005,7 +2005,7 @@ namespace libTAU::blockchain {
 //            bencode(std::back_inserter(buf), e);
 //            dht::signature sign;
 //            // get unix timestamp
-//            ts = libTAU::aux::utcTime();
+//            ts = ip2::aux::utcTime();
 //            // 对编码完成之后的数据(data + salt + ts)进行签名
 //            sign = sign_mutable_item(buf, salt, dht::timestamp(ts)
 //                    , dht::public_key(pk.data())
@@ -2028,7 +2028,7 @@ namespace libTAU::blockchain {
             bencode(std::back_inserter(buf), e);
             dht::signature sign;
             // get unix timestamp
-            ts = libTAU::aux::utcTime();
+            ts = ip2::aux::utcTime();
             // 对编码完成之后的数据(data + salt + ts)进行签名
             sign = sign_mutable_item(buf, salt, dht::timestamp(ts)
                     , dht::public_key(pk.data())
@@ -3322,7 +3322,7 @@ namespace libTAU::blockchain {
 
 
     aux::bytes blockchain::create_chain_id(aux::bytes type, std::string community_name) {
-        libTAU::aux::bytes chain_id;
+        ip2::aux::bytes chain_id;
         dht::public_key * pk = m_ses.pubkey();
         std::int64_t now = get_total_milliseconds();
 

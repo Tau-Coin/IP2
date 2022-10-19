@@ -15,17 +15,17 @@ see LICENSE file.
 #include <cstdlib>
 #include <cinttypes>
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/http_parser.hpp"
-#include "libTAU/hex.hpp" // for hex_to_int
-#include "libTAU/assert.hpp"
-#include "libTAU/aux_/parse_url.hpp" // for parse_url_components
-#include "libTAU/aux_/string_util.hpp" // for ensure_trailing_slash, to_lower
-#include "libTAU/aux_/escape_string.hpp" // for read_until
-#include "libTAU/time.hpp" // for seconds32
-#include "libTAU/aux_/numeric_cast.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/http_parser.hpp"
+#include "ip2/hex.hpp" // for hex_to_int
+#include "ip2/assert.hpp"
+#include "ip2/aux_/parse_url.hpp" // for parse_url_components
+#include "ip2/aux_/string_util.hpp" // for ensure_trailing_slash, to_lower
+#include "ip2/aux_/escape_string.hpp" // for read_until
+#include "ip2/time.hpp" // for seconds32
+#include "ip2/aux_/numeric_cast.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	bool is_ok_status(int http_status)
 	{

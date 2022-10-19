@@ -2,8 +2,8 @@
 // Copyright 2014-2019 Aleth Authors.
 // Licensed under the GNU General Public License, Version 3.
 
-#include "libTAU/aux_/common.h"
-#include "libTAU/aux_/exceptions.h"
+#include "ip2/aux_/common.h"
+#include "ip2/aux_/exceptions.h"
 // #include "Log.h"
 
 #if defined(_WIN32)
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-namespace libTAU { namespace aux {
+namespace ip2 { namespace aux {
 bytes const NullBytes;
 std::string const EmptyString;
 

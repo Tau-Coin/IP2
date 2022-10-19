@@ -10,8 +10,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/xml_parse.hpp"
-#include "libTAU/upnp.hpp"
+#include "ip2/aux_/xml_parse.hpp"
+#include "ip2/upnp.hpp"
 #include "test.hpp"
 #include <iostream>
 #include <functional>

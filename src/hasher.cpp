@@ -11,11 +11,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/hasher.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/assert.hpp"
+#include "ip2/hasher.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/assert.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 	hasher::hasher()
 	{

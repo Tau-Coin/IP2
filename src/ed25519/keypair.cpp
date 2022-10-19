@@ -1,11 +1,11 @@
 // ignore warnings in this file
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
-#include "libTAU/aux_/ed25519.hpp"
-#include "libTAU/aux_/hasher512.hpp"
+#include "ip2/aux_/ed25519.hpp"
+#include "ip2/aux_/hasher512.hpp"
 #include "ge.h"
 
-namespace libTAU {
+namespace ip2 {
 namespace aux {
 
 void ed25519_create_keypair(unsigned char *public_key, unsigned char *private_key, const unsigned char *seed) {

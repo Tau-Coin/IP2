@@ -10,15 +10,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/sha1_hash.hpp"
-#include "libTAU/hex.hpp" // to_hex, from_hex
+#include "ip2/sha1_hash.hpp"
+#include "ip2/hex.hpp" // to_hex, from_hex
 
 #if TORRENT_USE_IOSTREAM
 #include <iostream>
 #include <iomanip>
 #endif // TORRENT_USE_IOSTREAM
 
-namespace libTAU {
+namespace ip2 {
 
 #if TORRENT_USE_IOSTREAM
 

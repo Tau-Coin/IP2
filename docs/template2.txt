@@ -4,13 +4,13 @@
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
 <meta property="og:image" content="img/logo-color.png" />
-<meta property="og:site_name" content="libTAU" />
+<meta property="og:site_name" content="ip2" />
 <link rel="stylesheet" href="style.css?v=0002" type="text/css" />
 %(stylesheet)s
 %(body_prefix)s
     <div id="container">
     <a href="../index.html"><div id="logo">
-    <img src="img/logo-tau.png" alt="libTAU logo"/>
+    <img src="img/logo-tau.png" alt="ip2 logo"/>
     </div></a>
     <div id="main">
 %(body_pre_docinfo)s

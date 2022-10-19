@@ -6,9 +6,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/transaction_wrapper.hpp"
+#include "ip2/blockchain/transaction_wrapper.hpp"
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     transaction_wrapper::transaction_wrapper(const entry &e) {
         populate(e);

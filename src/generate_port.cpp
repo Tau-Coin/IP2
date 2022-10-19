@@ -7,9 +7,9 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/generate_port.hpp"
+#include "ip2/aux_/generate_port.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 std::uint16_t generate_port(const std::array<char, 32>& key)
 {

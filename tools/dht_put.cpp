@@ -13,13 +13,13 @@ see LICENSE file.
 */
 
 
-#include "libTAU/session.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/bencode.hpp" // for bencode()
-#include "libTAU/kademlia/item.hpp" // for sign_mutable_item
-#include "libTAU/kademlia/ed25519.hpp"
-#include "libTAU/span.hpp"
-#include "libTAU/session_params.hpp"
+#include "ip2/session.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/bencode.hpp" // for bencode()
+#include "ip2/kademlia/item.hpp" // for sign_mutable_item
+#include "ip2/kademlia/ed25519.hpp"
+#include "ip2/span.hpp"
+#include "ip2/session_params.hpp"
 
 #include <functional>
 #include <cstdio> // for snprintf

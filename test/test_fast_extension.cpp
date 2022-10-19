@@ -15,18 +15,18 @@ see LICENSE file.
 #include "settings.hpp"
 #include "test_utils.hpp"
 
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/io_bytes.hpp"
-#include "libTAU/aux_/alloca.hpp" // for use of private TORRENT_ALLOCA
-#include "libTAU/time.hpp"
-#include "libTAU/peer_info.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/entry.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/io_bytes.hpp"
+#include "ip2/aux_/alloca.hpp" // for use of private TORRENT_ALLOCA
+#include "ip2/time.hpp"
+#include "ip2/peer_info.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/entry.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
 
 #include <cstring>
 #include <functional>

@@ -6,10 +6,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/blockchain/tx_pool.hpp"
+#include "ip2/blockchain/tx_pool.hpp"
 
 
-namespace libTAU::blockchain {
+namespace ip2::blockchain {
 
     transaction tx_pool::get_best_fee_transaction() const {
         auto it = m_ordered_txs_by_fee.rbegin();
@@ -39,7 +39,7 @@ namespace libTAU::blockchain {
     }
 
     aux::bytes tx_pool::get_hash_prefix_array_by_fee() const {
-        libTAU::aux::bytes hash_prefix_array;
+        ip2::aux::bytes hash_prefix_array;
         int count = 0;
         for (auto it = m_ordered_txs_by_fee.rbegin(); it != m_ordered_txs_by_fee.rend(); ++it) {
             count++;
@@ -70,7 +70,7 @@ namespace libTAU::blockchain {
     }
 
     aux::bytes tx_pool::get_hash_prefix_array_by_timestamp() const {
-        libTAU::aux::bytes hash_prefix_array;
+        ip2::aux::bytes hash_prefix_array;
         int count = 0;
         for (auto it = m_ordered_txs_by_timestamp.rbegin(); it != m_ordered_txs_by_timestamp.rend(); ++it) {
             count++;

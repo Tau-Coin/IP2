@@ -10,14 +10,14 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/upnp.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_io.hpp" // print_endpoint
-#include "libTAU/aux_/http_parser.hpp"
+#include "ip2/upnp.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_io.hpp" // print_endpoint
+#include "ip2/aux_/http_parser.hpp"
 #include "broadcast_socket.hpp"
 #include "test.hpp"
 #include "setup_transfer.hpp"
-#include "libTAU/aux_/path.hpp"
+#include "ip2/aux_/path.hpp"
 #include <fstream>
 #include <functional>
 #include <iostream>

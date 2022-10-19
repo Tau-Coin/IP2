@@ -1323,7 +1323,7 @@ def print_toc(out, categories, s):
 
 def dump_report_issue(h, out):
     print(('.. raw:: html\n\n\t<span class="report-issue">[<a ' +
-           'href="http://github.com/tau-coin/libTAU/issues/new?title=docs:{0}&labels=' +
+           'href="http://github.com/tau-coin/ip2/issues/new?title=docs:{0}&labels=' +
            'documentation&body={1}">report issue</a>]</span>\n\n').format(
                 urllib.parse.quote_plus(h),
                 urllib.parse.quote_plus('Documentation under heading "' + h + '" could be improved')), file=out)

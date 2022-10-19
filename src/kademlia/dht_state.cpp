@@ -9,12 +9,12 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/kademlia/dht_state.hpp"
+#include "ip2/kademlia/dht_state.hpp"
 
-#include <libTAU/bdecode.hpp>
-#include <libTAU/aux_/socket_io.hpp>
+#include <ip2/bdecode.hpp>
+#include <ip2/aux_/socket_io.hpp>
 
-namespace libTAU::dht {
+namespace ip2::dht {
 
 	node_ids_t extract_node_ids(bdecode_node const& e, string_view key)
 	{

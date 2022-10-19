@@ -8,7 +8,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/utf8.hpp"
+#include "ip2/aux_/utf8.hpp"
 
 #include <cstdint>
 

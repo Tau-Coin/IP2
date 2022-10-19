@@ -20,14 +20,14 @@ see LICENSE file.
 #include <cstring>
 #include <optional>
 
-#include "libTAU/identify_client.hpp"
-#include "libTAU/fingerprint.hpp"
-#include "libTAU/aux_/string_util.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
+#include "ip2/identify_client.hpp"
+#include "ip2/fingerprint.hpp"
+#include "ip2/aux_/string_util.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
 
 namespace {
 
-	using namespace libTAU;
+	using namespace ip2;
 
 	int decode_digit(std::uint8_t c)
 	{
@@ -168,7 +168,7 @@ namespace {
 		, {"LK", "Linkage"}
 		, {"LP", "lphant"}
 		, {"LR", "LibreTorrent"}
-		, {"LT", "libTAU"}
+		, {"LT", "ip2"}
 		, {"LW", "Limewire"}
 		, {"M",  "Mainline"}
 		, {"ML", "MLDonkey"}
@@ -331,7 +331,7 @@ namespace {
 
 } // anonymous namespace
 
-namespace libTAU {
+namespace ip2 {
 
 #if TORRENT_ABI_VERSION == 1
 
@@ -414,4 +414,4 @@ namespace aux {
 	}
 
 } // aux
-} // libTAU
+} // ip2

@@ -9,16 +9,16 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/session.hpp"
-#include "libTAU/extensions.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/bdecode.hpp"
-#include "libTAU/hex.hpp"
+#include "ip2/config.hpp"
+#include "ip2/session.hpp"
+#include "ip2/extensions.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/bdecode.hpp"
+#include "ip2/hex.hpp"
 #include "setup_transfer.hpp" // for addr6
 #include "settings.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/extensions.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/extensions.hpp"
 
 #include "test.hpp"
 #include "setup_transfer.hpp"

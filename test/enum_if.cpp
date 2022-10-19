@@ -11,9 +11,9 @@ see LICENSE file.
 
 #include <cstdio>
 #include <string>
-#include "libTAU/aux_/enum_net.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/aux_/enum_net.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 
 using namespace lt;
 

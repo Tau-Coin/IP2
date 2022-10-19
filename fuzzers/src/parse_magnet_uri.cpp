@@ -7,8 +7,8 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/magnet_uri.hpp"
-#include "libTAU/add_torrent_params.hpp"
+#include "ip2/magnet_uri.hpp"
+#include "ip2/add_torrent_params.hpp"
 
 extern "C" int LLVMFuzzerTestOneInput(uint8_t const* data, size_t size)
 {

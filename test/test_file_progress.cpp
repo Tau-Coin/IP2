@@ -9,9 +9,9 @@ see LICENSE file.
 */
 
 #include "test_utils.hpp"
-#include "libTAU/aux_/file_progress.hpp"
-#include "libTAU/file_storage.hpp"
-#include "libTAU/aux_/piece_picker.hpp"
+#include "ip2/aux_/file_progress.hpp"
+#include "ip2/file_storage.hpp"
+#include "ip2/aux_/piece_picker.hpp"
 
 using namespace lt;
 

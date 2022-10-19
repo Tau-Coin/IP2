@@ -8,11 +8,11 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/natpmp.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/aux_/ip_helpers.hpp"
+#include "ip2/natpmp.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/aux_/ip_helpers.hpp"
 #include <functional>
 #include <iostream>
 #include <memory>

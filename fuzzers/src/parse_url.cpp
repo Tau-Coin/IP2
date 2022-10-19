@@ -8,7 +8,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/aux_/parse_url.hpp"
+#include "ip2/aux_/parse_url.hpp"
 
 #include <cstdint>
 #include <string>

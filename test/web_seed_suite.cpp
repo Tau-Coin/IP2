@@ -10,15 +10,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session.hpp"
-#include "libTAU/session_params.hpp"
-#include "libTAU/aux_/path.hpp"
-#include "libTAU/bencode.hpp"
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/alert_types.hpp"
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/announce_entry.hpp"
-#include "libTAU/string_view.hpp"
+#include "ip2/session.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/aux_/path.hpp"
+#include "ip2/bencode.hpp"
+#include "ip2/create_torrent.hpp"
+#include "ip2/alert_types.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/announce_entry.hpp"
+#include "ip2/string_view.hpp"
 
 #include "test.hpp"
 #include "test_utils.hpp"

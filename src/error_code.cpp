@@ -10,15 +10,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/error_code.hpp"
-#include "libTAU/aux_/string_util.hpp" // for to_string()
+#include "ip2/config.hpp"
+#include "ip2/error_code.hpp"
+#include "ip2/aux_/string_util.hpp" // for to_string()
 
 #include <sstream>
 
-namespace libTAU {
+namespace ip2 {
 
-	struct libTAU_error_category final : boost::system::error_category
+	struct ip2_error_category final : boost::system::error_category
 	{
 		const char* name() const BOOST_SYSTEM_NOEXCEPT override;
 		std::string message(int ev) const override;
@@ -26,12 +26,12 @@ namespace libTAU {
 		{ return {ev, *this}; }
 	};
 
-	const char* libTAU_error_category::name() const BOOST_SYSTEM_NOEXCEPT
+	const char* ip2_error_category::name() const BOOST_SYSTEM_NOEXCEPT
 	{
-		return "libTAU";
+		return "ip2";
 	}
 
-	std::string libTAU_error_category::message(int ev) const
+	std::string ip2_error_category::message(int ev) const
 	{
 		static char const* msgs[] =
 		{
@@ -278,10 +278,10 @@ namespace libTAU {
 		return msgs[ev];
 	}
 
-	boost::system::error_category& libTAU_category()
+	boost::system::error_category& ip2_category()
 	{
-		static libTAU_error_category libTAU_category;
-		return libTAU_category;
+		static ip2_error_category ip2_category;
+		return ip2_category;
 	}
 
 	struct http_error_category final : boost::system::error_category
@@ -332,7 +332,7 @@ namespace libTAU {
 		// hidden
 		boost::system::error_code make_error_code(error_code_enum e)
 		{
-			return {e, libTAU_category()};
+			return {e, ip2_category()};
 		}
 	}
 

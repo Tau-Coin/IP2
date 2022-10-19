@@ -15,12 +15,12 @@ see LICENSE file.
 
 #ifndef TORRENT_DISABLE_MUTABLE_TORRENTS
 
-#include "libTAU/torrent_info.hpp"
-#include "libTAU/aux_/resolve_links.hpp"
-#include "libTAU/aux_/path.hpp" // for combine_path
-#include "libTAU/hex.hpp" // to_hex
-#include "libTAU/create_torrent.hpp"
-#include "libTAU/session.hpp"
+#include "ip2/torrent_info.hpp"
+#include "ip2/aux_/resolve_links.hpp"
+#include "ip2/aux_/path.hpp" // for combine_path
+#include "ip2/hex.hpp" // to_hex
+#include "ip2/create_torrent.hpp"
+#include "ip2/session.hpp"
 
 #include "make_torrent.hpp"
 #include "setup_transfer.hpp" // for wait_for_seeding

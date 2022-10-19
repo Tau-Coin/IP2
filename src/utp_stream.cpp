@@ -14,15 +14,15 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/utp_stream.hpp"
-#include "libTAU/aux_/utp_socket_manager.hpp"
-#include "libTAU/aux_/alloca.hpp"
-#include "libTAU/error.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/invariant_check.hpp"
-#include "libTAU/performance_counters.hpp"
-#include "libTAU/io_context.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/utp_stream.hpp"
+#include "ip2/aux_/utp_socket_manager.hpp"
+#include "ip2/aux_/alloca.hpp"
+#include "ip2/error.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/invariant_check.hpp"
+#include "ip2/performance_counters.hpp"
+#include "ip2/io_context.hpp"
 #include <cstdint>
 #include <limits>
 
@@ -33,10 +33,10 @@ see LICENSE file.
 #if TORRENT_UTP_LOG
 #include <cstdarg>
 #include <cinttypes> // for PRId64 et.al.
-#include "libTAU/aux_/socket_io.hpp"
+#include "ip2/aux_/socket_io.hpp"
 #endif
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 #if TORRENT_UTP_LOG
 

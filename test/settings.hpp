@@ -7,7 +7,7 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/settings_pack.hpp"
+#include "ip2/settings_pack.hpp"
 #include "test.hpp"
 
 lt::settings_pack EXPORT settings();

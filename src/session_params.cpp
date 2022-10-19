@@ -9,10 +9,10 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/session_params.hpp"
-#include "libTAU/aux_/session_impl.hpp"
+#include "ip2/session_params.hpp"
+#include "ip2/aux_/session_impl.hpp"
 
-namespace libTAU {
+namespace ip2 {
 
 namespace {
 

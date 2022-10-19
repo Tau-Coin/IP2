@@ -10,12 +10,12 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/ip_voter.hpp"
-#include "libTAU/address.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/aux_/session_interface.hpp"
+#include "ip2/aux_/ip_voter.hpp"
+#include "ip2/address.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/aux_/session_interface.hpp"
 #include "setup_transfer.hpp" // for rand_v4, supports_ipv6
 
 using namespace lt;

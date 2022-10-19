@@ -9,9 +9,9 @@ see LICENSE file.
 */
 
 #include "test.hpp"
-#include "libTAU/aux_/http_parser.hpp"
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/string_view.hpp"
+#include "ip2/aux_/http_parser.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/string_view.hpp"
 
 #include <tuple>
 

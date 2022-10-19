@@ -15,28 +15,28 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/socket.hpp"
-#include "libTAU/aux_/socket_io.hpp"
-#include "libTAU/upnp.hpp"
-#include "libTAU/aux_/io_bytes.hpp"
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/aux_/xml_parse.hpp"
-#include "libTAU/aux_/random.hpp"
-#include "libTAU/aux_/time.hpp" // for aux::time_now()
-#include "libTAU/aux_/escape_string.hpp" // for convert_from_native
-#include "libTAU/aux_/http_connection.hpp"
-#include "libTAU/aux_/numeric_cast.hpp"
-#include "libTAU/aux_/ssl.hpp"
+#include "ip2/config.hpp"
+#include "ip2/socket.hpp"
+#include "ip2/aux_/socket_io.hpp"
+#include "ip2/upnp.hpp"
+#include "ip2/aux_/io_bytes.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/aux_/xml_parse.hpp"
+#include "ip2/aux_/random.hpp"
+#include "ip2/aux_/time.hpp" // for aux::time_now()
+#include "ip2/aux_/escape_string.hpp" // for convert_from_native
+#include "ip2/aux_/http_connection.hpp"
+#include "ip2/aux_/numeric_cast.hpp"
+#include "ip2/aux_/ssl.hpp"
 
 #if defined TORRENT_ASIO_DEBUGGING
-#include "libTAU/aux_/debug.hpp"
+#include "ip2/aux_/debug.hpp"
 #endif
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/asio/ip/host_name.hpp>
 #include <boost/asio/ip/multicast.hpp>
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
 #include <cstdlib>
 #include <cstdio> // for snprintf
@@ -45,7 +45,7 @@ see LICENSE file.
 
 using namespace std::placeholders;
 
-namespace libTAU {
+namespace ip2 {
 
 using namespace aux;
 

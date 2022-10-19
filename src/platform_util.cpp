@@ -9,13 +9,13 @@ You may use, distribute and modify this code under the terms of the BSD license,
 see LICENSE file.
 */
 
-#include "libTAU/config.hpp"
-#include "libTAU/aux_/platform_util.hpp"
+#include "ip2/config.hpp"
+#include "ip2/aux_/platform_util.hpp"
 
 #include <cstdint>
 #include <limits>
 
-#include "libTAU/aux_/disable_warnings_push.hpp"
+#include "ip2/aux_/disable_warnings_push.hpp"
 
 #if TORRENT_USE_RLIMIT
 
@@ -34,12 +34,12 @@ const rlim_t rlim_infinity = RLIM_INFINITY;
 #endif
 
 #if defined TORRENT_WINDOWS
-#include "libTAU/aux_/windows.hpp"
+#include "ip2/aux_/windows.hpp"
 #endif
 
-#include "libTAU/aux_/disable_warnings_pop.hpp"
+#include "ip2/aux_/disable_warnings_pop.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	int max_open_files()
 	{

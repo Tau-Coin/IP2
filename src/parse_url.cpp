@@ -10,11 +10,11 @@ see LICENSE file.
 
 #include <algorithm>
 
-#include "libTAU/aux_/parse_url.hpp"
-#include "libTAU/aux_/string_util.hpp"
-#include "libTAU/string_view.hpp"
+#include "ip2/aux_/parse_url.hpp"
+#include "ip2/aux_/string_util.hpp"
+#include "ip2/string_view.hpp"
 
-namespace libTAU::aux {
+namespace ip2::aux {
 
 	// returns protocol, auth, hostname, port, path
 	std::tuple<std::string, std::string, std::string, int, std::string>
