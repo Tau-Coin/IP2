@@ -1953,6 +1953,9 @@ namespace aux {
             //log level
             log_level,
 
+			// transport layer default invoking time interval, unit:ms
+			transport_invoking_interval,
+
 			max_int_setting_internal
 		};
 

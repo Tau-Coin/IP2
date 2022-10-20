@@ -972,6 +972,10 @@ BLOCKCHAIN_SOURCES =
     vote
 	;
 
+TRANSPORT_SOURCES =
+	congestion_controller
+	;
+
 ED25519_SOURCES =
 	add_scalar
 	fe
@@ -1017,6 +1021,7 @@ lib IP2
 	src/common/$(COMMON_SOURCES).cpp
 	src/communication/$(COMMUNICATION_SOURCES).cpp
 	src/blockchain/$(BLOCKCHAIN_SOURCES).cpp
+	src/transport/$(TRANSPORT_SOURCES).cpp
 
 	: # requirements
 	<threading>multi
