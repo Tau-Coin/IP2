@@ -66,7 +66,7 @@ namespace ip2 {
 	constexpr int user_alert_id = 10000;
 
 	// this constant represents "max_alert_index" + 1
-	constexpr int num_alert_types = 60;
+	constexpr int num_alert_types = 61;
 
 	// internal
 	constexpr int abi_alert_count = 128;
@@ -1562,6 +1562,30 @@ namespace ip2 {
         // time
         std::int64_t time;
     };
+
+ 	// This alert is posted by transport event. Its main purpose is
+	// troubleshooting and debugging. It's not enabled by the default alert
+	// mask and is enabled by the ``alert_category::transport_log`` bit.
+	// Furthermore, it's by default disabled as a build configuration.
+	struct TORRENT_EXPORT transport_log_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT transport_log_alert(aux::stack_allocator& alloc, char const* log);
+		TORRENT_UNEXPORT transport_log_alert(aux::stack_allocator& alloc, char const* fmt, va_list v);
+
+		TORRENT_DEFINE_ALERT(transport_log_alert, 60)
+
+		static inline constexpr alert_category_t static_category = alert_category::transport_log;
+		std::string message() const override;
+
+		// returns the log message
+		char const* log_message() const;
+
+	private:
+		std::reference_wrapper<aux::stack_allocator const> m_alloc;
+		aux::allocation_slot m_str_idx;
+	};
+
 
 #undef TORRENT_DEFINE_ALERT_IMPL
 #undef TORRENT_DEFINE_ALERT

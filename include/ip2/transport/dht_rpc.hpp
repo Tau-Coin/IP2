@@ -45,7 +45,7 @@ struct get_ctx : rpc_ctx
 		, m_timestamp(timestamp)
 	{}
 
-	public_key m_pubkey;
+	dht::public_key m_pubkey;
 	std::string m_salt;
 	std::int64_t m_timestamp;
 };
@@ -66,7 +66,7 @@ struct put_ctx : rpc_ctx
 
 struct relay_ctx : rpc_ctx
 {
-	explicit relay_ctx(public_key const& to, entry payload
+	explicit relay_ctx(dht::public_key const& to, entry payload
 		, std::int8_t invoke_branch, std::int8_t invoke_window
 		, std::int8_t invoke_limit)
 		: rpc_ctx(invoke_branch, invoke_window, invoke_limit)
@@ -74,7 +74,7 @@ struct relay_ctx : rpc_ctx
 		, m_payload(std::move(payload))
 	{}
 
-	public_key m_to;
+	dht::public_key m_to;
 	entry m_payload;
 };
 

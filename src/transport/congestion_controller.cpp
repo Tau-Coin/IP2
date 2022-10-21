@@ -14,9 +14,11 @@ namespace ip2 {
 namespace transport {
 
 congestion_controller::congestion_controller(aux::session_interface& session
-	, aux::session_settings const& settings)
+	, aux::session_settings const& settings
+	, transport_logger& logger)
 	: m_session(session)
 	, m_settings(settings)
+	, m_logger(logger)
 {
 	m_invoking_interval = m_settings.get_int(settings_pack::transport_invoking_interval);
 }

@@ -974,6 +974,7 @@ BLOCKCHAIN_SOURCES =
 
 TRANSPORT_SOURCES =
 	congestion_controller
+	transporter
 	;
 
 ED25519_SOURCES =
