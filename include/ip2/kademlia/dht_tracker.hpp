@@ -249,6 +249,8 @@ namespace ip2::dht {
 
 		std::vector<std::pair<node_id, udp::endpoint>> live_nodes(node_id const& nid);
 
+		std::shared_ptr<dht_tracker> self() { return shared_from_this(); }
+
 	private:
 		struct tracker_node
 		{
@@ -268,9 +270,6 @@ namespace ip2::dht {
 			aux::deadline_timer connection_timer;
 		};
 		using tracker_nodes_t = std::map<aux::listen_socket_handle, tracker_node>;
-
-		std::shared_ptr<dht_tracker> self()
-		{ return shared_from_this(); }
 
 		void connection_timeout(aux::listen_socket_handle const& s, error_code const& e);
 		void refresh_timeout(error_code const& e);

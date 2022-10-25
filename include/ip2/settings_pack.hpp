@@ -1956,6 +1956,9 @@ namespace aux {
 			// transport layer default invoking time interval, unit:ms
 			transport_invoking_interval,
 
+			// transport layer default invoking queue max size
+			transport_invoking_queue_max_size,
+
 			max_int_setting_internal
 		};
 

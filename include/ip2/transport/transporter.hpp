@@ -43,6 +43,7 @@ enum rpc_result
 {
 	ok,
 	buffer_full,
+	stopped,
 	network_error,
 };
 
@@ -109,17 +110,15 @@ public:
 		, std::function<void(entry const&
 			, std::vector<std::pair<dht::node_entry, bool>> const&)> cb);
 
-	/*
-	void register_relay_listener(relay_listener const& listener)
+	void register_relay_listener(std::shared_ptr<relay_listener> listener)
 	{
-		m_relay_listeners.insert(listener);
+		m_relay_listeners.insert(std::move(listener));
 	}
 
-	void unregister_relay_listener(relay_listener const& listener)
+	void unregister_relay_listener(std::shared_ptr<relay_listener> listener)
 	{
-		m_relay_listeners.erase(listener);
+		m_relay_listeners.erase(std::move(listener));
 	}
-	*/
 
 	void invoking_timeout(error_code const& e);
 
@@ -134,7 +133,7 @@ private:
 
 	congestion_controller m_congestion_controller;
 
-	//std::set<relay_listener> m_relay_listeners;
+	std::set<std::shared_ptr<relay_listener>> m_relay_listeners;
 
 	std::queue<rpc> m_rpc_queue;
 
