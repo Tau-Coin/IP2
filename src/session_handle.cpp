@@ -527,6 +527,25 @@ namespace ip2 {
 		return sync_call(&session_impl::sql_test);
     }
 
+	sha256_hash session_handle::put_swarm(std::vector<char> const& data
+			, aux::uri const& data_uri)
+	{
+		return sync_call_ret<sha256_hash>(&session_impl::put_swarm, data, data_uri);
+	}
+
+	void session_handle::relay_data(dht::public_key const& receiver
+			, aux::uri const& data_uri, dht::public_key const& uri_sender)
+	{
+		return sync_call(&session_impl::relay_data, receiver, data_uri, uri_sender);
+	}
+
+	void session_handle::relay_message(dht::public_key const& receiver
+			, std::vector<char> const& message)
+	{
+		return sync_call(&session_impl::relay_message, receiver, message);
+	}
+
+
 	void session_handle::set_ip_filter(ip_filter f)
 	{
 		std::shared_ptr<ip_filter> copy = std::make_shared<ip_filter>(std::move(f));

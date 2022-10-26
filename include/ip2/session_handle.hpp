@@ -48,6 +48,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "ip2/session_types.hpp"
 #include "ip2/session_status.hpp"
 #include "ip2/portmap.hpp" // for portmap_protocol
+#include "ip2/uri.hpp"
 
 #include "ip2/aux_/common.h" // for aux::bytes
 
@@ -440,6 +441,27 @@ namespace ip2 {
         void crash_test();
 
         void sql_test();
+
+		// put data into capture swarm.
+		// The data max size is 100KB, and ip2 slices data and put segment into swarm.
+		// return data root which reprents the target of data in swarm.
+		// The "put_swarm_alert" alert will be posted to user to indicate
+		// putting successfully or failed.
+		sha256_hash put_swarm(std::vector<char> const& data, aux::uri const& data_uri);
+
+		// send data root to other peer by 'relay' protocol.
+		// the receiver can get the corresponding data by this uri & uri_sender.
+		// The "relay_data_alert" alert will be posted to user to indicate
+		// relay successfully or failed.
+		void relay_data(dht::public_key const& receiver
+				, aux::uri const& data_uri, dht::public_key const& uri_sender);
+
+		// send message(binary data) to other peer by 'relay' protocol.
+		// The data max size is 1000 bytes(TODO: 1000?).
+		// The "relay_message_alert" alert will be posted to user to indicate
+		// relay successfully or failed.
+		void relay_message(dht::public_key const& receiver
+				, std::vector<char> const& message);
 
 		// This call dereferences the reference count of the specified peer
 		// class. When creating a peer class it's automatically referenced by 1.

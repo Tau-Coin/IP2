@@ -3567,6 +3567,26 @@ namespace {
 		}
 	}
 
+	sha256_hash session_impl::put_swarm(std::vector<char> const& data
+			, aux::uri const& data_uri)
+	{
+		sha256_hash ret;
+		// TODO: transfer this API to assemble module
+		return ret;
+	}
+
+	void session_impl::relay_data(dht::public_key const& receiver
+			, aux::uri const& data_uri, dht::public_key const& uri_sender)
+	{
+		// TODO: transfer this API to assemble module
+	}
+
+	void session_impl::relay_message(dht::public_key const& receiver
+			, std::vector<char> const& message)
+	{
+		// TODO: transfer this API to assemble module
+	}
+
 	void session_impl::set_dht_state(dht::dht_state&& state)
 	{
 		m_dht_state = std::move(state);
