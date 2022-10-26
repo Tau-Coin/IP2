@@ -199,6 +199,7 @@ namespace ip2::aux {
 		virtual int external_udp_port(address const& local_address) const = 0;
 		virtual udp::endpoint external_udp_endpoint() const = 0;
 		virtual dht::dht_tracker* dht() = 0;
+		virtual int dht_nodes() = 0;
 
 		virtual leveldb::DB* kvdb() = 0;
 		virtual sqlite3* sqldb() = 0;

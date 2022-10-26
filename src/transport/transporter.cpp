@@ -9,6 +9,9 @@ see LICENSE file.
 
 #include "ip2/transport/transporter.hpp"
 
+#ifndef TORRENT_DISABLE_LOGGING
+#include "ip2/hex.hpp" // to_hex
+#endif
 #include <ip2/time.hpp>
 #include "ip2/aux_/alert_manager.hpp" // for alert_manager
 #include <ip2/aux_/time.hpp> // for aux::time_now
@@ -70,6 +73,8 @@ void transporter::start()
 
 void transporter::stop()
 {
+	log(aux::LOG_NOTICE, "stopping transporter...");
+
 	m_running = false;
 	m_invoking_timer.cancel();
 	// clear invoking queue
@@ -92,6 +97,16 @@ rpc_result transporter::get(dht::public_key const& key
 		return buffer_full;
 	}
 
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_key[65];
+	char hex_salt[129]; // 64*2 + 1
+	aux::to_hex(key.bytes, hex_key);
+	aux::to_hex(salt, hex_salt);
+	log(aux::LOG_INFO, "enqueue get req for [k:%s, s:%s, window:%d, limit:%d, qs:%d]"
+		, hex_key, hex_salt, invoke_window, invoke_limit
+		, (int)m_rpc_queue.size());
+#endif
+
 	std::shared_ptr<get_ctx> ctx = std::make_shared<get_ctx>(key, salt, timestamp
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(dht::item const&, bool)> callback
@@ -103,7 +118,7 @@ rpc_result transporter::get(dht::public_key const& key
 		, std::string salt, std::int64_t timestamp) = &dht_tracker::get_item;
 
 	rpc_method method = std::bind(get, m_session.dht()->self()
-		, ctx->m_pubkey, callback
+		, ctx->m_pubkey, std::move(callback)
 		, invoke_branch, invoke_window, invoke_limit
 		, ctx->m_salt, ctx->m_timestamp);
 	m_rpc_queue.push(rpc(std::move(method)));
@@ -125,6 +140,14 @@ rpc_result transporter::put(entry const& data
 		return buffer_full;
 	}
 
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_salt[129]; // 64*2 + 1
+	aux::to_hex(salt, hex_salt);
+	log(aux::LOG_INFO
+		, "enqueue put req [s:%s, window:%d, limit:%d, qs:%d]"
+		, hex_salt, invoke_window, invoke_limit, (int)m_rpc_queue.size());
+#endif
+
 	std::shared_ptr<put_ctx> ctx = std::make_shared<put_ctx>(data, salt
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(dht::item const&, int responses)> callback
@@ -136,7 +159,7 @@ rpc_result transporter::put(entry const& data
 		, std::string salt) = &dht_tracker::put_item;
 
 	rpc_method method = std::bind(put, m_session.dht()->self()
-		, ctx->m_data, callback
+		, ctx->m_data, std::move(callback)
 		, invoke_branch, invoke_window, invoke_limit, ctx->m_salt);
 	m_rpc_queue.push(rpc(std::move(method)));
 
@@ -159,6 +182,13 @@ rpc_result transporter::send(dht::public_key const& to
 		return buffer_full;
 	}
 
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_to[65];
+	aux::to_hex(to.bytes, hex_to);
+	log(aux::LOG_INFO, "enqueue send req [t:%s, qs:%d]", hex_to
+		, (int)m_rpc_queue.size());
+#endif
+
 	std::shared_ptr<relay_ctx> ctx = std::make_shared<relay_ctx>(to, payload
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(entry const&
@@ -174,7 +204,7 @@ rpc_result transporter::send(dht::public_key const& to
 
 	rpc_method method = std::bind(send, m_session.dht()->self()
 		, ctx->m_to, ctx->m_payload
-		, invoke_branch, invoke_window, invoke_limit, hit_limit, callback);
+		, invoke_branch, invoke_window, invoke_limit, hit_limit, std::move(callback));
 	m_rpc_queue.push(rpc(std::move(method)));
 
 	return ok;
@@ -184,7 +214,15 @@ void transporter::get_callback(dht::item const& it, bool authoritative
 	, std::shared_ptr<get_ctx> ctx
 	, std::function<void(dht::item const&, bool)> f)
 {
-	// TODO: add some debug log
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_key[65];
+	char hex_salt[129]; // 64*2 + 1
+	aux::to_hex(ctx->m_pubkey.bytes, hex_key);
+	aux::to_hex(ctx->m_salt, hex_salt);
+	log(aux::LOG_INFO, "get cb for [ k:%s, s:%s, v:%s]"
+		, hex_key, hex_salt, it.value().to_string(true).c_str());
+#endif
+
 	f(it, authoritative);
 }
 
@@ -192,7 +230,12 @@ void transporter::put_callback(dht::item const& it, int responses
 	, std::shared_ptr<put_ctx> ctx
 	, std::function<void(dht::item const&, int)> f)
 {
-	// TODO: add some debug log
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_salt[129]; // 64*2 + 1
+	aux::to_hex(ctx->m_salt, hex_salt);
+	log(aux::LOG_INFO, "put cb for [s:%s, r:%d]", hex_salt, responses);
+#endif
+
 	f(it, responses);
 }
 
@@ -202,12 +245,31 @@ void transporter::send_callback(entry const& it
 	, std::function<void(entry const&
 		, std::vector<std::pair<dht::node_entry, bool>> const&)> f)
 {
-	// TODO: add some debug log
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_to[65];
+	aux::to_hex(ctx->m_to.bytes, hex_to);
+	log(aux::LOG_INFO, "send cb for [t:%s, sn:%d]", hex_to, (int)success_nodes.size());
+#endif
+
 	f(it, success_nodes);
 }
 
 void transporter::invoking_timeout(error_code const& e)
 {
+	if (e || !m_running) return;
+
+	if (m_rpc_queue.size() > 0 && m_session.dht_nodes() > 0)
+	{
+		auto const& r = m_rpc_queue.front();
+		r.m_method();
+		m_rpc_queue.pop();
+
+		m_congestion_controller.tick();
+	}
+
+	m_invoking_timer.expires_after(
+		milliseconds(m_congestion_controller.get_invoking_interval()));
+	m_invoking_timer.async_wait(std::bind(&transporter::invoking_timeout, self(), _1));
 }
 
 } // namespace transport

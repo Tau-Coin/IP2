@@ -28,5 +28,9 @@ int congestion_controller::get_invoking_interval()
 	return m_invoking_interval;
 }
 
+void congestion_controller::tick()
+{
+}
+
 } // namespace transport
 } // namespace ip2

@@ -35,6 +35,7 @@ public:
 	congestion_controller& operator=(congestion_controller&&) = delete;
 
 	int get_invoking_interval();
+	void tick();
 
 private:
 

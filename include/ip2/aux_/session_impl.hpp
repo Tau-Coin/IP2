@@ -423,6 +423,7 @@ namespace aux {
 			}
 
 			dht::dht_tracker* dht() override { return m_dht.get(); }
+			int dht_nodes() override { return m_dht_live_nodes; }
 			bool announce_dht() const override { return !m_listening_sockets.empty(); }
 
 			void add_dht_router(std::tuple<std::string, int, std::string> const& node);
@@ -1049,6 +1050,8 @@ namespace aux {
 			void trigger_refer_switch(std::shared_ptr<listen_socket_t> const& sock
 				, address const& ip);
 			refer_switch m_refer_switch;
+
+			int m_dht_live_nodes = 0;
 		};
 
 #ifndef TORRENT_DISABLE_LOGGING

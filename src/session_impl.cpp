@@ -594,6 +594,7 @@ void apply_deprecated_dht_settings(settings_pack& sett, bdecode_node const& s)
 			    m_dht->update_stats_counters(m_stats_counters);
 
             int num_dht_nodes = m_stats_counters[counters::dht_nodes];
+			m_dht_live_nodes = num_dht_nodes;
 
             if(0 == num_dht_nodes) {
                 int max_time = m_settings.get_int(settings_pack::max_time_peers_zero);
