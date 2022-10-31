@@ -83,6 +83,8 @@ see LICENSE file.
 #include "ip2/flags.hpp"
 #include "ip2/span.hpp"
 
+#include "ip2/transport/transporter.hpp"
+
 #include <leveldb/db.h>
 #include <sqlite3.h>
 #include <algorithm>
@@ -445,6 +447,10 @@ namespace aux {
 			//blockchain
 			void start_blockchain();
 			void stop_blockchain();
+
+			// transporter
+			void start_transporter();
+			void stop_transporter();
 
 			// you must give up ownership of the dht state
 			void set_dht_state(dht::dht_state&& state);
@@ -940,6 +946,9 @@ namespace aux {
 
 			// blockchain
 			std::shared_ptr<blockchain::blockchain> m_blockchain;
+
+			// transporter instance
+			std::shared_ptr<ip2::transport::transporter> m_transporter;
 
 			// these are used when starting the DHT
 			// (and bootstrapping it), and then erased

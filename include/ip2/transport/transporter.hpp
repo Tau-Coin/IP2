@@ -17,6 +17,7 @@ see LICENSE file.
 
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
+#include "ip2/api/error_code.hpp"
 #include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
@@ -31,6 +32,8 @@ see LICENSE file.
 #include <string>
 #include <vector>
 
+using namespace ip2::api;
+
 namespace ip2 {
 
 namespace aux {
@@ -38,14 +41,6 @@ namespace aux {
 }
 
 namespace transport {
-
-enum rpc_result
-{
-	ok,
-	buffer_full,
-	stopped,
-	network_error,
-};
 
 class TORRENT_EXTRA_EXPORT transporter final
 	: std::enable_shared_from_this<transporter>, transport_logger
@@ -70,7 +65,7 @@ public:
 	void start();
 	void stop();
 
-	rpc_result get(dht::public_key const& key
+	api::error_code get(dht::public_key const& key
 		, std::string salt
 		, std::int64_t timestamp
 		, std::function<void(dht::item const&, bool)> cb
@@ -78,14 +73,14 @@ public:
 		, std::int8_t invoke_window
 		, std::int8_t invoke_limit);
 
-	rpc_result put(entry const& data 
+	api::error_code put(entry const& data
 		, std::string salt
 		, std::function<void(dht::item const&, int)> cb
 		, std::int8_t invoke_branch
 		, std::int8_t invoke_window
 		, std::int8_t invoke_limit);
 
-	rpc_result send(dht::public_key const& to
+	api::error_code send(dht::public_key const& to
 		, entry const& payload
 		, std::function<void(entry const& payload
 			, std::vector<std::pair<dht::node_entry, bool>> const& nodes)> cb

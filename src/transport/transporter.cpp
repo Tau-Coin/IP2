@@ -82,7 +82,7 @@ void transporter::stop()
 	m_rpc_queue.swap(empty);
 }
 
-rpc_result transporter::get(dht::public_key const& key
+api::error_code transporter::get(dht::public_key const& key
 	, std::string salt
 	, std::int64_t timestamp
 	, std::function<void(dht::item const&, bool)> cb
@@ -90,11 +90,11 @@ rpc_result transporter::get(dht::public_key const& key
 	, std::int8_t invoke_window
 	, std::int8_t invoke_limit)
 {
-	if (!m_running) return stopped;
+	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
 			settings_pack::transport_invoking_interval))
 	{
-		return buffer_full;
+		return api::TRANSPORT_BUFFER_FULL;
 	}
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -123,21 +123,21 @@ rpc_result transporter::get(dht::public_key const& key
 		, ctx->m_salt, ctx->m_timestamp);
 	m_rpc_queue.push(rpc(std::move(method)));
 
-	return ok;
+	return api::NO_ERROR;
 }
 
-rpc_result transporter::put(entry const& data 
+api::error_code transporter::put(entry const& data
 	, std::string salt
 	, std::function<void(dht::item const&, int)> cb
 	, std::int8_t invoke_branch
 	, std::int8_t invoke_window
 	, std::int8_t invoke_limit)
 {
-	if (!m_running) return stopped;
+	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
 		settings_pack::transport_invoking_interval))
 	{
-		return buffer_full;
+		return api::TRANSPORT_BUFFER_FULL;
 	}
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -163,10 +163,10 @@ rpc_result transporter::put(entry const& data
 		, invoke_branch, invoke_window, invoke_limit, ctx->m_salt);
 	m_rpc_queue.push(rpc(std::move(method)));
 
-	return ok;
+	return api::NO_ERROR;
 }
 
-rpc_result transporter::send(dht::public_key const& to
+api::error_code transporter::send(dht::public_key const& to
 	, entry const& payload
 	, std::function<void(entry const& payload
 		, std::vector<std::pair<dht::node_entry, bool>> const& nodes)> cb
@@ -175,11 +175,11 @@ rpc_result transporter::send(dht::public_key const& to
 	, std::int8_t invoke_limit
 	, std::int8_t hit_limit)
 {
-	if (!m_running) return stopped;
+	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
 		settings_pack::transport_invoking_interval))
 	{
-		return buffer_full;
+		return api::TRANSPORT_BUFFER_FULL;
 	}
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -207,7 +207,7 @@ rpc_result transporter::send(dht::public_key const& to
 		, invoke_branch, invoke_window, invoke_limit, hit_limit, std::move(callback));
 	m_rpc_queue.push(rpc(std::move(method)));
 
-	return ok;
+	return api::NO_ERROR;
 }
 
 void transporter::get_callback(dht::item const& it, bool authoritative

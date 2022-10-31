@@ -3587,6 +3587,42 @@ namespace {
 		// TODO: transfer this API to assemble module
 	}
 
+	// transport
+	void session_impl::start_transporter()
+	{
+		stop_transporter();
+
+		if (m_abort)
+		{
+#ifndef TORRENT_DISABLE_LOGGING
+			session_log("not starting transporter, aborting");
+#endif
+			return;
+		}
+
+        m_transporter = std::make_shared<ip2::transport::transporter>(
+			m_io_context, *this, m_settings, m_stats_counters);
+
+#ifndef TORRENT_DISABLE_LOGGING
+		session_log("starting transport");
+#endif
+
+		m_transporter->start();
+	}
+
+	void session_impl::stop_transporter()
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		session_log("about to stop transporter, running: %s"
+			, m_transporter ? "true" : "false");
+#endif
+
+		if (m_transporter)
+		{
+			m_transporter->stop();
+		}
+	}
+
 	void session_impl::set_dht_state(dht::dht_state&& state)
 	{
 		m_dht_state = std::move(state);
