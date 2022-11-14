@@ -977,6 +977,16 @@ TRANSPORT_SOURCES =
 	transporter
 	;
 
+ASSEMBLE_SOURCES =
+	rpc_params_config
+	context
+	put_context
+	protocol
+	putter
+	get_context
+	getter
+	;
+
 ED25519_SOURCES =
 	add_scalar
 	fe
@@ -1023,6 +1033,7 @@ lib IP2
 	src/communication/$(COMMUNICATION_SOURCES).cpp
 	src/blockchain/$(BLOCKCHAIN_SOURCES).cpp
 	src/transport/$(TRANSPORT_SOURCES).cpp
+	src/assemble/$(ASSEMBLE_SOURCES).cpp
 
 	: # requirements
 	<threading>multi

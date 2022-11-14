@@ -9,6 +9,7 @@ see LICENSE file.
 
 #include "ip2/transport/transporter.hpp"
 
+#include "ip2/aux_/session_interface.hpp"
 #ifndef TORRENT_DISABLE_LOGGING
 #include "ip2/hex.hpp" // to_hex
 #endif
@@ -82,6 +83,12 @@ void transporter::stop()
 	m_rpc_queue.swap(empty);
 }
 
+bool transporter::has_enough_buffer(std::int32_t slots)
+{
+	return m_rpc_queue.size() + slots <=
+		m_settings.get_int(settings_pack::transport_invoking_queue_max_size);
+}
+
 api::error_code transporter::get(dht::public_key const& key
 	, std::string salt
 	, std::int64_t timestamp
@@ -92,7 +99,7 @@ api::error_code transporter::get(dht::public_key const& key
 {
 	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
-			settings_pack::transport_invoking_interval))
+			settings_pack::transport_invoking_queue_max_size))
 	{
 		return api::TRANSPORT_BUFFER_FULL;
 	}
@@ -135,7 +142,7 @@ api::error_code transporter::put(entry const& data
 {
 	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
-		settings_pack::transport_invoking_interval))
+		settings_pack::transport_invoking_queue_max_size))
 	{
 		return api::TRANSPORT_BUFFER_FULL;
 	}
@@ -177,7 +184,7 @@ api::error_code transporter::send(dht::public_key const& to
 {
 	if (!m_running) return api::TRANSPORT_STOPPED;
 	if (m_rpc_queue.size() >= (long)m_settings.get_int(
-		settings_pack::transport_invoking_interval))
+		settings_pack::transport_invoking_queue_max_size))
 	{
 		return api::TRANSPORT_BUFFER_FULL;
 	}

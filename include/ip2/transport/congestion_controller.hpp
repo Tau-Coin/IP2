@@ -12,12 +12,13 @@ see LICENSE file.
 
 #include "ip2/transport/transport_logger.hpp"
 
-#include "ip2/aux_/session_interface.hpp"
+#include "ip2/config.hpp"
 
 namespace ip2 {
 
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace transport {

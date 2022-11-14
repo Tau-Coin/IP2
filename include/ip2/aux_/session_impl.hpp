@@ -452,6 +452,9 @@ namespace aux {
 			void start_transporter();
 			void stop_transporter();
 
+			ip2::transport::transporter* transporter() override
+			{ return m_transporter.get(); }
+
 			// you must give up ownership of the dht state
 			void set_dht_state(dht::dht_state&& state);
 			void set_dht_storage(dht::dht_storage_constructor_type sc);

@@ -32,6 +32,7 @@ see LICENSE file.
 #include "ip2/aux_/socket_type.hpp"
 #include "ip2/aux_/ssl.hpp"
 #include "ip2/kademlia/types.hpp"
+#include "ip2/transport/transporter.hpp"
 
 #include <functional>
 #include <memory>
@@ -200,6 +201,8 @@ namespace ip2::aux {
 		virtual udp::endpoint external_udp_endpoint() const = 0;
 		virtual dht::dht_tracker* dht() = 0;
 		virtual int dht_nodes() = 0;
+
+		virtual ip2::transport::transporter* transporter() = 0;
 
 		virtual leveldb::DB* kvdb() = 0;
 		virtual sqlite3* sqldb() = 0;

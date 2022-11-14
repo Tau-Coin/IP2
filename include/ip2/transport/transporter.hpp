@@ -18,7 +18,6 @@ see LICENSE file.
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
 #include "ip2/api/error_code.hpp"
-#include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
 
@@ -36,8 +35,11 @@ using namespace ip2::api;
 
 namespace ip2 {
 
+	struct counters;
+
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace transport {
@@ -64,6 +66,8 @@ public:
 
 	void start();
 	void stop();
+
+	bool has_enough_buffer(int slots);
 
 	api::error_code get(dht::public_key const& key
 		, std::string salt
