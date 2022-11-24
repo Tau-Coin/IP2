@@ -985,6 +985,9 @@ ASSEMBLE_SOURCES =
 	putter
 	get_context
 	getter
+	relay_context
+	relayer
+	relay_dispatcher
 	;
 
 ED25519_SOURCES =

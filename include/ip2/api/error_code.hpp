@@ -27,6 +27,7 @@ enum error_code
 	BLOB_TOO_LARGE,
 	PUT_RESPONSE_ZERO,
 	GET_TOO_MANY_TIMES,
+	RELAY_RESPONSE_ZERO,
 };
 
 } // namespace api
