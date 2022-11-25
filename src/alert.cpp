@@ -1316,7 +1316,8 @@ namespace {
 		"blockchain_fork_point_block_alert","blockchain_top_three_votes_alert",
 		"blockchain_new_transaction_alert", "blockchain_state_alert",
 		"blockchain_syncing_block_alert", "blockchain_syncing_head_block_alert",
-		"blockchain_tx_confirmation_alert", "transport_log_alert"
+		"blockchain_tx_confirmation_alert", "transport_log_alert",
+		"assemble_log_alert"
 		}};
 
 		TORRENT_ASSERT(alert_type >= 0);
@@ -1874,5 +1875,35 @@ namespace {
 #endif
 	}
 
+	assemble_log_alert::assemble_log_alert(aux::stack_allocator& alloc, char const* log)
+			: m_alloc(alloc)
+			, m_str_idx(alloc.copy_string(log))
+	{}
+
+	assemble_log_alert::assemble_log_alert(aux::stack_allocator& alloc, char const* fmt, va_list v)
+			: m_alloc(alloc)
+			, m_str_idx(alloc.format_string(fmt, v))
+	{}
+
+	char const* assemble_log_alert::log_message() const
+	{
+		return m_alloc.get().ptr(m_str_idx);
+	}
+
+#if TORRENT_ABI_VERSION == 1
+	char const* assemble_log_alert::msg() const
+	{
+		return log_message();
+	}
+#endif
+
+	std::string assemble_log_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		return log_message();
+#endif
+	}
 
 } // namespace ip2

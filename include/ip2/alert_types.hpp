@@ -1586,6 +1586,29 @@ namespace ip2 {
 		aux::allocation_slot m_str_idx;
 	};
 
+	// This alert is posted by assemble event. Its main purpose is
+	// troubleshooting and debugging. It's not enabled by the default alert
+	// mask and is enabled by the ``alert_category::assemble_log`` bit.
+	// Furthermore, it's by default disabled as a build configuration.
+	struct TORRENT_EXPORT assemble_log_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT assemble_log_alert(aux::stack_allocator& alloc, char const* log);
+		TORRENT_UNEXPORT assemble_log_alert(aux::stack_allocator& alloc, char const* fmt, va_list v);
+
+		TORRENT_DEFINE_ALERT(assemble_log_alert, 61)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble_log;
+		std::string message() const override;
+
+		// returns the log message
+		char const* log_message() const;
+
+	private:
+		std::reference_wrapper<aux::stack_allocator const> m_alloc;
+		aux::allocation_slot m_str_idx;
+	};
+
 
 #undef TORRENT_DEFINE_ALERT_IMPL
 #undef TORRENT_DEFINE_ALERT

@@ -988,6 +988,7 @@ ASSEMBLE_SOURCES =
 	relay_context
 	relayer
 	relay_dispatcher
+	assembler
 	;
 
 ED25519_SOURCES =

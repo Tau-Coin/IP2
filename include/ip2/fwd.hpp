@@ -85,6 +85,7 @@ struct blockchain_fail_to_get_chain_data_alert;
 struct blockchain_online_peer_alert;
 struct communication_peer_attention_alert;
 struct transport_log_alert;
+struct assemble_log_alert;
 
 // include/ip2/announce_entry.hpp
 TORRENT_VERSION_NAMESPACE_2

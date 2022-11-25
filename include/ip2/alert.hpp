@@ -110,6 +110,9 @@ namespace alert_category {
 	// alerts on transport log
 	inline constexpr alert_category_t transport_log = 27_bit;
 
+	// alerts on assemble log
+	inline constexpr alert_category_t assemble_log = 28_bit;
+
 	// The full bitmask, representing all available categories.
 	//
 	// since the enum is signed, make sure this isn't
@@ -149,6 +152,7 @@ namespace alert_category {
 		static inline constexpr alert_category_t blockchain_notification = 25_bit;
 		static inline constexpr alert_category_t blockchain_log_notification = 26_bit;
 		static inline constexpr alert_category_t transport_log_notification = 27_bit;
+		static inline constexpr alert_category_t assemble_log_notification = 28_bit;
 		static inline constexpr alert_category_t all_categories = alert_category_t::all();
 
 		// hidden
