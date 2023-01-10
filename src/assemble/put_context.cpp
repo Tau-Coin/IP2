@@ -25,41 +25,41 @@ put_context::put_context(assemble_logger& logger, dht::public_key const& sender
 	, m_seg_count(seg_count)
 {}
 
-void put_context::add_invoked_segment_hash(sha1_hash const& h)
+void put_context::add_root_index(sha1_hash const& h)
 {
-	m_invoked_seg_hashes.push_back(h);
+	m_root_index.push_back(h);
 
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
 	aux::to_hex(h, hex_hash);
 
-	m_logger.log(aux::LOG_INFO, "[%u] put segment:%s", id(), hex_hash);
+	m_logger.log(aux::LOG_INFO, "[%u] add root index:%s", id(), hex_hash);
 #endif
 }
 
-void put_context::add_callbacked_segment_hash(sha1_hash const& h, int response)
+void put_context::add_invoked_hash(sha1_hash const& h)
 {
-	m_callbacked_seg_hashes.insert(std::pair<sha1_hash, int>(h, response));
+	m_invoked_hashes.push_back(h);
 
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
 	aux::to_hex(h, hex_hash);
 
-    m_logger.log(aux::LOG_INFO, "[%u] put segment callback:%s, responses:%d"
+	m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s", id(), hex_hash);
+#endif
+}
+
+void put_context::add_callbacked_hash(sha1_hash const& h, int response)
+{
+	m_callbacked_hashes.insert(std::pair<sha1_hash, int>(h, response));
+
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_hash[41];
+	aux::to_hex(h, hex_hash);
+
+    m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
 		, id(), hex_hash, response);
 #endif
-}
-
-sha1_hash put_context::get_top_hash()
-{
-	if (m_invoked_seg_hashes.size() == 0)
-	{
-		return sha1_hash{};
-	}
-
-	auto it = m_invoked_seg_hashes.end();
-	it--;
-	return *it;
 }
 
 void put_context::done()
@@ -71,7 +71,7 @@ void put_context::done()
 	m_logger.log(aux::LOG_INFO
 		, "[%u] put DONE: uri:%s, err:%d, seg_count:%u, invoked:%d, cb:%d"
 		, id(), hex_uri, get_error(), m_seg_count
-		, (int)m_invoked_seg_hashes.size(), (int)m_callbacked_seg_hashes.size());
+		, (int)m_invoked_hashes.size(), (int)m_callbacked_hashes.size());
 #endif
 }
 

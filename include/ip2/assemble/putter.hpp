@@ -72,6 +72,8 @@ private:
 
 	sha1_hash hash(std::string const& value);
 
+	sha1_hash hash(std::vector<sha1_hash> const& hl);
+
 	io_context& m_ios;
 	aux::session_interface& m_session;
 	aux::session_settings const& m_settings;

@@ -32,15 +32,23 @@ public:
 	put_context(assemble_logger& logger, dht::public_key const& sender
 		, aux::uri const& blob_uri, std::uint32_t seg_count);
 
-	void add_invoked_segment_hash(sha1_hash const& h);
+	void add_root_index(sha1_hash const& h);
 
-	void add_callbacked_segment_hash(sha1_hash const& h, int response);
+	void get_root_index(std::vector<sha1_hash>& ri)
+	{
+		for (auto& i : m_root_index)
+		{
+			ri.push_back(i);
+		}
+	}
 
-	sha1_hash get_top_hash();
+	void add_invoked_hash(sha1_hash const& h);
+
+	void add_callbacked_hash(sha1_hash const& h, int response);
 
 	bool is_done()
 	{
-		return m_invoked_seg_hashes.size() == m_callbacked_seg_hashes.size();
+		return m_invoked_hashes.size() == m_callbacked_hashes.size();
 	}
 
 	void done() override;
@@ -54,9 +62,12 @@ private:
 
 	std::uint32_t m_seg_count = 0;
 
-	std::vector<sha1_hash> m_invoked_seg_hashes; // segment hash
+	std::vector<sha1_hash> m_root_index;
 
-	std::map<sha1_hash, int> m_callbacked_seg_hashes; // segment put reponses
+	// segment hash or index(root or children) hash
+	std::vector<sha1_hash> m_invoked_hashes;
+
+	std::map<sha1_hash, int> m_callbacked_hashes; // put reponses
 };
 
 } // namespace assemble

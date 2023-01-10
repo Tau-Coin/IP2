@@ -93,88 +93,210 @@ void getter::get_callback(dht::item const& it, bool auth
 {
 	if (!auth) return;
 
-	sha1_hash next;
-	api::error_code result;
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_hash[41];
+	aux::to_hex(seg_hash, hex_hash);
+#endif
 
-	std::tie(next, result) = ctx->on_item_got(it, seg_hash);
+	ctx->on_arrived(seg_hash);
 
-	if (result == api::NO_ERROR && next.is_all_zeros())
+	if (ctx->is_root_index(seg_hash))
 	{
-		// all segments have bee got successfully.
-		// TODO: post 'incoming_relay_data_alert'
-		ctx->done();
-		m_running_tasks.erase(ctx);
-		return;
-	}
-	else if (result == api::NO_ERROR && !next.is_all_zeros()
-		&& next != seg_hash)
-	{
-		// previous segment is valid and go on getting next
-		// TODO: if not first segment, try to get from cache
-		std::string salt(next.data(), 20);
-		api::dht_rpc_params config = get_rpc_parmas(api::GET);
-
-		api::error_code ok = m_session.transporter()->get(ctx->get_sender()
-			, salt, ctx->get_timestamp()
-			, std::bind(&getter::get_callback, self(), _1, _2, ctx, next)
-			, config.invoke_branch, config.invoke_window, config.invoke_limit);
-
-		if (ok == api::NO_ERROR)
+		// this item is root index protocol
+		api::error_code err = ctx->on_root_index_got(it);
+		if (err != api::NO_ERROR)
 		{
-			ctx->start_getting_seg(next);
-		}
-		else
-		{
-			ctx->set_error(ok);
-			ctx->done();
-			m_running_tasks.erase(ctx);
-
-			return;
-		}
-	}
-	else if (result != api::NO_ERROR && !next.is_all_zeros()
-		&& next == seg_hash)
-	{
-		// previous segment is invalid and try to get again.
-		if (ctx->is_getting_allowed(next))
-		{
-			std::string salt(next.data(), 20);
-			api::dht_rpc_params config = get_rpc_parmas(api::GET);
-
-			api::error_code ok = m_session.transporter()->get(ctx->get_sender()
-				, salt, ctx->get_timestamp()
-				, std::bind(&getter::get_callback, self(), _1, _2, ctx, next)
-				, config.invoke_branch, config.invoke_window, config.invoke_limit);
-
-			if (ok == api::NO_ERROR)
+			if (ctx->is_getting_allowed(seg_hash))
 			{
-				ctx->start_getting_seg(next);
+#ifndef TORRENT_DISABLE_LOGGING
+				m_logger.log(aux::LOG_WARNING, "[%u] re-get index again: %s"
+					, ctx->id(), hex_hash);
+#endif
+
+				std::string salt(seg_hash.data(), 20);
+				api::dht_rpc_params config = get_rpc_parmas(api::GET);
+
+				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
+					, salt, ctx->get_timestamp()
+					, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+					, config.invoke_branch, config.invoke_window, config.invoke_limit);
+
+				if (ok == api::NO_ERROR)
+				{
+					ctx->start_getting_seg(seg_hash);
+				}
+				else
+				{
+					ctx->set_error(ok);
+					ctx->done();
+					// TODO: post get fail alert
+					m_running_tasks.erase(ctx);
+
+					return;
+				}
 			}
 			else
 			{
-				ctx->set_error(ok);
+#ifndef TORRENT_DISABLE_LOGGING
+				m_logger.log(aux::LOG_ERR, "[%u] getting index failed too many times:%s"
+					, ctx->id(), hex_hash);
+#endif
+				ctx->set_error(err);
 				ctx->done();
+				// TODO: post get alert
 				m_running_tasks.erase(ctx);
-
 				return;
 			}
 		}
 		else
 		{
-			ctx->set_error(api::GET_TOO_MANY_TIMES);
-			ctx->done();
-			m_running_tasks.erase(ctx);
+			// get all blob segments
+			std::vector<sha1_hash> seg_hashes;
+			ctx->get_root_index(seg_hashes);
 
-			return;
+			if (seg_hashes.size() == 0)
+			{
+#ifndef TORRENT_DISABLE_LOGGING
+				m_logger.log(aux::LOG_ERR, "[%u] empty segment index:%s"
+					, ctx->id(), hex_hash);
+#endif
+                //ctx->set_error(err);
+                ctx->done();
+                // TODO: post get alert
+                m_running_tasks.erase(ctx);
+                return;
+			}
+			else
+			{
+				// get all blob segments
+				// check network, if dht live nodes is 0, return error.
+				if (m_session.dht_nodes() == 0)
+				{
+#ifndef TORRENT_DISABLE_LOGGING
+					m_logger.log(aux::LOG_ERR
+						, "[%u] drop get request:%s, dht live nodes is 0"
+						, ctx->id(), hex_hash);
+#endif
+					ctx->set_error(api::DHT_LIVE_NODES_ZERO);
+					ctx->done();
+					// TODO: post get alert
+					m_running_tasks.erase(ctx);
+					return;
+				}
+
+				// check transport queue cache size.
+				// if transport queue doesn't have enough queue, return error.
+				if (!m_session.transporter()->has_enough_buffer(seg_hashes.size()))
+				{
+#ifndef TORRENT_DISABLE_LOGGING
+					m_logger.log(aux::LOG_ERR
+						, "[%u] drop get request:%s, buffer is full:%d"
+						, ctx->id(), hex_hash, seg_hashes.size());
+#endif
+					ctx->set_error(api::TRANSPORT_BUFFER_FULL);
+					ctx->done();
+					// TODO: post get alert
+					m_running_tasks.erase(ctx);
+					return;
+				}
+
+				api::dht_rpc_params config = get_rpc_parmas(api::GET);
+
+				for (auto& s : seg_hashes)
+				{
+					std::string seg_salt(s.data(), 20);
+
+					api::error_code ok = m_session.transporter()->get(ctx->get_sender()
+						, seg_salt, ctx->get_timestamp()
+						, std::bind(&getter::get_callback, self(), _1, _2, ctx, s)
+						, config.invoke_branch, config.invoke_window
+						, config.invoke_limit);
+
+					if (ok == api::NO_ERROR)
+					{
+						ctx->start_getting_seg(s);
+					}
+					else
+					{
+						ctx->set_error(ok);
+						// TODO: how to handle this error
+						//ctx->done();
+						//m_running_tasks.erase(ctx);
+						//return;
+						break;
+					}
+				}
+			}
 		}
 	}
 	else
 	{
-		ctx->set_error(result);
-		ctx->done();
-		m_running_tasks.erase(ctx);
+		// this item is blob segment
+		api::error_code err = ctx->on_segment_got(it, seg_hash);
 
-		return;
+		if (err != api::NO_ERROR)
+		{
+			if (ctx->is_getting_allowed(seg_hash))
+			{
+#ifndef TORRENT_DISABLE_LOGGING
+				m_logger.log(aux::LOG_WARNING, "[%u] re-get segment again:%s"
+					, ctx->id(), hex_hash);
+#endif
+
+				std::string salt(seg_hash.data(), 20);
+				api::dht_rpc_params config = get_rpc_parmas(api::GET);
+
+				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
+					, salt, ctx->get_timestamp()
+					, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+					, config.invoke_branch, config.invoke_window, config.invoke_limit);
+
+				if (ok == api::NO_ERROR)
+				{
+					ctx->start_getting_seg(seg_hash);
+				}
+				else
+				{
+					ctx->set_error(ok);
+				}
+			}
+			else
+			{
+#ifndef TORRENT_DISABLE_LOGGING
+				m_logger.log(aux::LOG_ERR, "[%u] getting segment failed too many times:%s"
+					, ctx->id(), hex_hash);
+#endif
+				ctx->set_error(err);
+			}
+		}
+
+		if (ctx->is_done())
+		{
+			if (ctx->get_error() != api::NO_ERROR)
+			{
+				// TODO: post get failed alert
+			}
+			else
+			{
+				// TODO: post get successfully alert
+				std::string blob;
+				bool result = ctx->get_segments_blob(blob);
+				if (result)
+				{
+					// TODO: post get blob alert
+				}
+				else
+				{
+#ifndef TORRENT_DISABLE_LOGGING
+					m_logger.log(aux::LOG_ERR, "[%u] get broken blob:%s"
+						, ctx->id(), hex_hash);
+#endif
+				}
+			}
+
+			ctx->done();
+			m_running_tasks.erase(ctx);
+		}
 	}
 }
 
@@ -220,9 +342,7 @@ void getter::start_getting_task(incoming_relay_req const& task)
 		m_logger, task.sender, task.blob_uri, task.ts);
 	api::dht_rpc_params config = get_rpc_parmas(api::GET);
 	std::string salt(task.blob_uri.bytes.data(), 20);
-	sha1_hash seg_hash;
-	std::memcpy(seg_hash.data(), task.sender.bytes.data(), 12);
-	std::memcpy(&seg_hash[12], task.blob_uri.bytes.data(), 8);
+	sha1_hash seg_hash(task.blob_uri.bytes.data());
 
 	api::error_code result = m_session.transporter()->get(task.sender
 		, salt, task.ts.value

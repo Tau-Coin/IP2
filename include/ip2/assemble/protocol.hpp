@@ -21,6 +21,7 @@ see LICENSE file.
 
 #include <string>
 #include <tuple>
+#include <vector>
 
 using namespace ip2::api;
 
@@ -29,13 +30,21 @@ namespace assemble {
 namespace protocol {
 
 /*
+		blob index protcol: // tree structure
+		{
+			'v': <version number with 4 bytes>
+			'n': 'i' // segment index
+			'a': {
+				'h': <segment hashes>
+			}
+		}
+
 		blob seg protcol:
 		{
 			'v': <version number with 4 bytes>
 			'n': 's' // segment
 			'a': {
 				'v': <segment value>
-				'n': <next segment hash>
 			}
 		}
 
@@ -67,8 +76,9 @@ namespace protocol {
 		return strncmp(pro_ver.c_str(), ver.c_str(), 2) == 0 ? true : false;
 	}
 
-	static const std::int32_t blob_mtu = 10 * 1024;
+	static const std::int32_t blob_mtu = 45 * 1000;
 	static const std::int32_t blob_seg_mtu = 950;
+	static const std::int32_t index_hash_count = 45;
 	static const std::int32_t relay_msg_mtu = 950;
 
 	struct basic_protocol
@@ -110,17 +120,15 @@ namespace protocol {
 		static std::string name;
 
 		blob_seg_protocol(std::string const& ver, std::string const& n
-			, std::string const& seg_value, sha1_hash const& next_pointer);
+			, std::string const& seg_value);
 
-		blob_seg_protocol(std::string const& seg_value, sha1_hash const& next_pointer);
+		blob_seg_protocol(std::string const& seg_value);
 
 		std::string seg_value() { return m_seg_value; }
-		sha1_hash next_pointer() { return m_next_pointer; }
 
 	protected:
 
 		std::string m_seg_value;
-		sha1_hash m_next_pointer;
 
 	private:
 
@@ -129,6 +137,38 @@ namespace protocol {
 		static const int tiny = 0;
 		static char const ver[];
 	};
+
+	struct blob_index_protocol : basic_protocol
+	{
+	public:
+
+		static std::string version;
+		static std::string name;
+
+		blob_index_protocol(std::string const& ver, std::string const& n
+			, std::vector<sha1_hash> const& hashes);
+
+        blob_index_protocol(std::vector<sha1_hash> const& hashes);
+
+        void seg_hashes(std::vector<sha1_hash> hashes)
+		{
+			for (auto& h : m_seg_hashes)
+			{
+				hashes.push_back(h);
+			}
+		}
+
+    protected:
+
+        std::vector<sha1_hash> m_seg_hashes;
+
+    private:
+
+        static const int major = 0;
+        static const int minor = 0;
+        static const int tiny = 0;
+        static char const ver[];
+    };
 
 	struct relay_uri_protocol : basic_protocol
 	{

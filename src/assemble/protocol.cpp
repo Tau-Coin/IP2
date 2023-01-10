@@ -50,29 +50,55 @@ std::string blob_seg_protocol::version = std::string(blob_seg_protocol::ver
 std::string blob_seg_protocol::name = "s";
 
 blob_seg_protocol::blob_seg_protocol(std::string const& ver, std::string const& n
-	, std::string const& seg_value, sha1_hash const& next_pointer)
+	, std::string const& seg_value)
 	: basic_protocol(ver, n)
 	, m_seg_value(seg_value)
-	, m_next_pointer(next_pointer)
 {
 	m_arg["v"] = m_seg_value;
-	if (!m_next_pointer.is_all_zeros())
-	{
-		m_arg["n"] = std::string(m_next_pointer.data(), 20);
-	}
 }
 
-blob_seg_protocol::blob_seg_protocol(std::string const& seg_value
-	, sha1_hash const& next_pointer)
+blob_seg_protocol::blob_seg_protocol(std::string const& seg_value)
 	: basic_protocol(version, name)
 	, m_seg_value(seg_value)
-	, m_next_pointer(next_pointer)
 {
 	m_arg["v"] = m_seg_value;
-	if (!m_next_pointer.is_all_zeros())
+}
+
+char const blob_index_protocol::ver[] = { 'I'
+    , blob_index_protocol::major, blob_index_protocol::minor, blob_index_protocol::tiny };
+
+std::string blob_index_protocol::version = std::string(blob_index_protocol::ver
+    , blob_index_protocol::ver + version_length);
+
+std::string blob_index_protocol::name = "i";
+
+blob_index_protocol::blob_index_protocol(std::string const& ver, std::string const& n
+	, std::vector<sha1_hash> const& hashes)
+	: basic_protocol(ver, n)
+{
+	std::string hashes_str;
+
+	for (auto& h : hashes)
 	{
-		m_arg["n"] = std::string(m_next_pointer.data(), 20);
+		m_seg_hashes.push_back(h);
+		hashes_str.append(h.data(), 20);
 	}
+
+	m_arg["h"] = hashes_str;
+}
+
+blob_index_protocol::blob_index_protocol(std::vector<sha1_hash> const& hashes)
+	: basic_protocol(version, name)
+{
+	std::string hashes_str;
+
+	for (auto& h : hashes)
+	{
+		m_seg_hashes.push_back(h);
+		hashes_str.append(h.data(), 20);
+	}
+
+	m_arg["h"] = hashes_str;
 }
 
 char const relay_uri_protocol::ver[] = { 'U'
@@ -175,7 +201,6 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		}
 
 		std::string seg;
-		sha1_hash next;
 
 		entry const* se = a->find_key("v");
 		if (se && se->type() == entry::string_t
@@ -189,14 +214,41 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
-		entry const* ne = a->find_key("n");
-		if (ne && ne->type() == entry::string_t
-			&& ne->string().size() == 20)
+		return std::make_tuple(blob_seg_protocol{version, name, seg}
+			, api::NO_ERROR);
+	}
+	else if (name == blob_index_protocol::name)
+	{
+		if (!version_match(version, blob_index_protocol::version))
 		{
-			std::memcpy(next.data(), ne->string().data(), 20);
+			return std::make_tuple(basic_protocol{}
+				, api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
 		}
 
-		return std::make_tuple(blob_seg_protocol{version, name, seg, next}
+		std::string hash_str;
+		std::vector<sha1_hash> hashes;
+
+		entry const* he = a->find_key("h");
+		if (he && he->type() == entry::string_t
+			&& he->string().size() % 20 == 0)
+		{
+			std::memcpy(hash_str.data(), he->string().data(), he->string().size());
+
+			int count = hash_str.size() / 20;
+			for (int i = 0; i != count; i++)
+			{
+				sha1_hash h;
+				std::memcpy(h.data(), hash_str.data() + (i - 1) * 20, 20);
+				hashes.push_back(h);
+			}
+		}
+		else
+		{
+			return std::make_tuple(basic_protocol{}
+				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
+		}
+
+		return std::make_tuple(blob_index_protocol{version, name, hashes}
 			, api::NO_ERROR);
 	}
 	else if (name == relay_uri_protocol::name)

@@ -22,6 +22,7 @@ see LICENSE file.
 #include <ip2/uri.hpp>
 
 #include <map>
+#include <set>
 #include <tuple>
 #include <vector>
 
@@ -43,15 +44,51 @@ public:
 
 	std::int64_t get_timestamp() { return m_ts.value; }
 
+	bool is_root_index(sha1_hash const& h) { return h ==  m_uri_hash; }
+
+	void get_root_index(std::vector<sha1_hash>& index)
+	{
+		for (auto& i : m_root_index)
+		{
+			index.push_back(i);
+		}
+	}
+
 	void start_getting_seg(sha1_hash const& h);
 
 	bool is_getting_allowed(sha1_hash const& h);
 
-	// return tuple<next_seg_hash, api:error_code>
-	std::tuple<sha1_hash, api::error_code> on_item_got(dht::item const& it
-		, sha1_hash seg_hash);
+	void on_arrived(sha1_hash const& hash)
+	{
+		m_flying_segments.erase(hash);
+	}
+
+	api::error_code on_root_index_got(dht::item const& it);
+
+	api::error_code on_segment_got(dht::item const& it, sha1_hash const& seg_hash);
 
 	void done() override;
+
+	bool is_done()
+	{
+		return m_flying_segments.size() == 0;
+	}
+
+	bool get_segments_blob(std::string& value)
+	{
+		// ignore broken blob
+		if (m_root_index.size() != m_segments.size()) return false;
+
+		for (auto& i : m_root_index)
+		{
+			auto it = m_segments.find(i);
+			if (it == m_segments.end()) return false;
+
+			value.append(it->second, it->second.size());
+		}
+
+		return true;
+	}
 
 private:
 
@@ -61,10 +98,15 @@ private:
 	aux::uri m_uri;
 	dht::timestamp m_ts;
 
-	// 'int' field represents try to getting count.
+	sha1_hash m_uri_hash;
+
+	// 'int' field represents the count of getting segment.
 	std::map<sha1_hash, int> m_invoked_seg_hashes;
 
-	std::string m_value; // append blob segment
+	std::set<sha1_hash> m_flying_segments;
+
+	std::vector<sha1_hash> m_root_index;
+	std::map<sha1_hash, std::string> m_segments;
 };
 
 } // namespace assemble
