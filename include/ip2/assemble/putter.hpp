@@ -17,7 +17,6 @@ see LICENSE file.
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
 #include "ip2/api/error_code.hpp"
-#include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
 #include "ip2/span.hpp"
@@ -37,8 +36,11 @@ using namespace ip2::api;
 
 namespace ip2 {
 
+	struct counters;
+
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace assemble {
@@ -60,8 +62,8 @@ public:
 
 	std::shared_ptr<putter> self() { return shared_from_this(); }
 
-	std::tuple<sha256_hash, api::error_code> put_blob(span<char const> blob
-		, aux::uri const& blob_uri, std::int8_t invoke_limit);
+	std::tuple<sha1_hash, api::error_code> put_blob(span<char const> blob
+		, aux::uri const& blob_uri);
 
 	void update_node_id();
 
@@ -73,6 +75,8 @@ private:
 	sha1_hash hash(std::string const& value);
 
 	sha1_hash hash(std::vector<sha1_hash> const& hl);
+
+	sha1_hash hash(span<char const> blob, aux::uri const& blob_uri);
 
 	io_context& m_ios;
 	aux::session_interface& m_session;

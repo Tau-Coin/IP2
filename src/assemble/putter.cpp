@@ -10,6 +10,8 @@ see LICENSE file.
 #include "ip2/assemble/putter.hpp"
 #include "ip2/assemble/protocol.hpp"
 
+#include "ip2/aux_/session_interface.hpp"
+
 #include "ip2/kademlia/node_id.hpp"
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -39,13 +41,13 @@ putter::putter(io_context& ios
 	update_node_id();
 }
 
-std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
-	, aux::uri const& blob_uri, std::int8_t invoke_limit)
+std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
+	, aux::uri const& blob_uri)
 {
 	// check blob size
 	if (blob.size() > protocol::blob_mtu)
 	{
-		return std::make_tuple(sha256_hash{}, api::BLOB_TOO_LARGE);
+		return std::make_tuple(sha1_hash{}, api::BLOB_TOO_LARGE);
 	}
 
 	// check network, if dht live nodes is 0, return error.
@@ -59,7 +61,7 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 			, "drop put req:%s, error: dht nodes 0", hex_uri);
 #endif
 
-		return std::make_tuple(sha256_hash{}, api::DHT_LIVE_NODES_ZERO);
+		return std::make_tuple(sha1_hash{}, api::DHT_LIVE_NODES_ZERO);
 	}
 
 	std::uint32_t n = static_cast<std::uint32_t>(blob.size()) / protocol::blob_seg_mtu;
@@ -80,7 +82,7 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 			, "drop put req:%s, error: buffer is full", hex_uri);
 #endif
 
-		return std::make_tuple(sha256_hash{}, api::TRANSPORT_BUFFER_FULL);
+		return std::make_tuple(sha1_hash{}, api::TRANSPORT_BUFFER_FULL);
 	}
 
 	std::shared_ptr<put_context> ctx = std::make_shared<put_context>(m_logger
@@ -98,7 +100,6 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 	protocol::blob_seg_protocol p(last_seg);
 	entry pl = p.to_entry();
 	api::dht_rpc_params config = get_rpc_parmas(api::PUT);
-	config.invoke_limit = invoke_limit;
 
 	api::error_code ok = m_session.transporter()->put(pl
 		, std::string(last_seg_hash.data(), 20)
@@ -116,7 +117,7 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 		ctx->set_error(ok);
 		ctx->done();
 
-		return std::make_tuple(sha256_hash{}, ok);
+		return std::make_tuple(sha1_hash{}, ok);
 	}
 
 	seg_count -= 1;
@@ -153,9 +154,7 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 		seg_count -= 1;
 	}
 
-	sha256_hash root;
-	std::memcpy(root.data(), m_self_pubkey.bytes.data(), 12);
-	std::memcpy(&root[12], blob_uri.bytes.data(), 20);
+	sha1_hash op_id = hash(blob, blob_uri);
 
 	// if no error, put root index
 	if (seg_count == 0 && ctx->get_error() == api::NO_ERROR)
@@ -185,7 +184,7 @@ std::tuple<sha256_hash, api::error_code> putter::put_blob(span<char const> blob
 		}
 	}
 
-	return std::make_tuple(root, api::NO_ERROR);
+	return std::make_tuple(op_id, api::NO_ERROR);
 }
 
 void putter::update_node_id()
@@ -225,6 +224,16 @@ sha1_hash putter::hash(std::vector<sha1_hash> const& hl)
 	{
 		h.update(it->data(), 20);
 	}
+
+	return h.final();
+}
+
+sha1_hash putter::hash(span<char const> blob, aux::uri const& blob_uri)
+{
+	hasher h;
+
+	h.update(blob.data(), blob.size());
+	h.update(blob_uri.bytes.data(), 20);
 
 	return h.final();
 }

@@ -21,9 +21,12 @@ see LICENSE file.
 
 #include <map>
 #include <vector>
+#include <set>
 
 namespace ip2 {
 namespace assemble {
+
+static constexpr int reput_times_limit = 1;
 
 struct TORRENT_EXTRA_EXPORT put_context final : context
 {
@@ -46,9 +49,11 @@ public:
 
 	void add_callbacked_hash(sha1_hash const& h, int response);
 
+	bool is_reput_allowed(sha1_hash const& h);
+
 	bool is_done()
 	{
-		return m_invoked_hashes.size() == m_callbacked_hashes.size();
+		return m_flying_segments.size() == 0;
 	}
 
 	void done() override;
@@ -64,10 +69,12 @@ private:
 
 	std::vector<sha1_hash> m_root_index;
 
-	// segment hash or index(root or children) hash
-	std::vector<sha1_hash> m_invoked_hashes;
+	// segment hash or index hash
+	std::map<sha1_hash, int> m_invoked_hashes; // segment -> put count
 
 	std::map<sha1_hash, int> m_callbacked_hashes; // put reponses
+
+	std::set<sha1_hash> m_flying_segments;
 };
 
 } // namespace assemble

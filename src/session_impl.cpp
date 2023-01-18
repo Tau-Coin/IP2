@@ -3567,24 +3567,44 @@ namespace {
 		}
 	}
 
-	sha256_hash session_impl::put_swarm(std::vector<char> const& data
-			, aux::uri const& data_uri)
+	ip2::api::error_code session_impl::put_data_into_swarm(
+		std::vector<char> const& blob
+		, std::array<char, 20> const& uri
+		, std::array<char, 20>& op_id)
 	{
-		sha256_hash ret;
 		// TODO: transfer this API to assemble module
-		return ret;
+
+		return ip2::api::NO_ERROR;
 	}
 
-	void session_impl::relay_data(dht::public_key const& receiver
-			, aux::uri const& data_uri, dht::public_key const& uri_sender)
+	ip2::api::error_code session_impl::relay_data_uri(
+		std::array<char, 32> const& receiver
+		, std::array<char, 20> const& uri
+		, std::int64_t timestamp)
 	{
 		// TODO: transfer this API to assemble module
+
+		return ip2::api::NO_ERROR;
 	}
 
-	void session_impl::relay_message(dht::public_key const& receiver
-			, std::vector<char> const& message)
+	ip2::api::error_code session_impl::get_data_from_swarm(
+		std::array<char, 32> const& sender
+		, std::array<char, 20> const& uri
+		, std::int64_t timestamp)
 	{
 		// TODO: transfer this API to assemble module
+
+		return ip2::api::NO_ERROR;
+	}
+
+	ip2::api::error_code session_impl::relay_message(
+		std::array<char, 32> const& receiver
+		, std::vector<char> const& message
+		, std::array<char, 20>& op_id)
+	{
+		// TODO: transfer this API to assemble module
+
+		return ip2::api::NO_ERROR;
 	}
 
 	// transport
@@ -3620,6 +3640,42 @@ namespace {
 		if (m_transporter)
 		{
 			m_transporter->stop();
+		}
+	}
+
+	// transport
+	void session_impl::start_assembler()
+	{
+		stop_assembler();
+
+		if (m_abort)
+		{
+#ifndef TORRENT_DISABLE_LOGGING
+			session_log("not starting assembler, aborting");
+#endif
+			return;
+		}
+
+		m_assembler = std::make_shared<ip2::assemble::assembler>(
+			m_io_context, *this, m_settings, m_stats_counters);
+
+#ifndef TORRENT_DISABLE_LOGGING
+		session_log("starting assemble");
+#endif
+
+		m_assembler->start();
+	}
+
+	void session_impl::stop_assembler()
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		session_log("about to stop assembler, running: %s"
+			, m_assembler ? "true" : "false");
+#endif
+
+		if (m_assembler)
+		{
+			m_assembler->stop();
 		}
 	}
 

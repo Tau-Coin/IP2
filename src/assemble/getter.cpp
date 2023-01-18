@@ -9,6 +9,8 @@ see LICENSE file.
 
 #include "ip2/assemble/getter.hpp"
 
+#include "ip2/aux_/session_interface.hpp"
+
 #include "ip2/kademlia/node_id.hpp"
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -35,7 +37,6 @@ getter::getter(io_context& ios
 	, m_settings(settings)
 	, m_counters(cnt)
 	, m_logger(logger)
-	, m_handle_incoming_relay_timer(ios)
 {
 	update_node_id();
 }
@@ -46,22 +47,62 @@ void getter::update_node_id()
 	std::memcpy(m_self_pubkey.bytes.data(), node_id.data(), dht::public_key::len);
 }
 
-void getter::start()
+api::error_code getter::get_blob(dht::public_key const& sender
+	, aux::uri blob_uri, dht::timestamp ts)
 {
-	if (m_running) return;
-	m_running = true;
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_sender[65];
+	char hex_uri[41];
+	aux::to_hex(sender.bytes, hex_sender);
+	aux::to_hex(blob_uri.bytes, hex_uri);
+#endif
 
-	m_handle_incoming_relay_timer.expires_after(milliseconds(handle_incoming_relay_period));
-	m_handle_incoming_relay_timer.async_wait(
-		std::bind(&getter::handle_incoming_relay_timeout, self(), _1));
-}
+	// check network, if dht live nodes is 0, return error.
+	if (m_session.dht_nodes() == 0)
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_ERR
+			, "drop get req:%s/%s, error: dht nodes 0", hex_sender, hex_uri);
+#endif
 
-void getter::stop()
-{
-	if (!m_running) return;
-	m_running = false;
+		return api::DHT_LIVE_NODES_ZERO;
+	}
 
-	m_handle_incoming_relay_timer.cancel();
+	// check transport queue cache size.
+	// if transport queue doesn't have enough queue, return error.
+	if (!m_session.transporter()->has_enough_buffer(1))
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_ERR
+			, "drop get req:%s/%s, error: buffer is full", hex_sender, hex_uri);
+#endif
+
+		return api::TRANSPORT_BUFFER_FULL;
+	}
+
+	std::shared_ptr<get_context> ctx = std::make_shared<get_context>(
+		m_logger, sender, blob_uri, ts);
+	api::dht_rpc_params config = get_rpc_parmas(api::GET);
+	std::string salt(blob_uri.bytes.data(), 20);
+	sha1_hash seg_hash(blob_uri.bytes.data());
+
+	api::error_code result = m_session.transporter()->get(sender
+		, salt, ts.value
+		, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+		, config.invoke_branch, config.invoke_window, config.invoke_limit);
+
+	if (result == api::NO_ERROR)
+	{
+		ctx->start_getting_seg(seg_hash);
+		m_running_tasks.insert(ctx);
+	}
+    else
+    {
+        ctx->set_error(result);
+        ctx->done();
+    }
+
+	return result;
 }
 
 void getter::on_incoming_relay_request(dht::public_key const& sender
@@ -74,18 +115,13 @@ void getter::on_incoming_relay_request(dht::public_key const& sender
 	aux::to_hex(blob_uri.bytes, hex_uri);
 #endif
 
-	if ((int)m_incoming_tasks.size() >= incoming_relay_limit)
-	{
 #ifndef TORRENT_DISABLE_LOGGING
-		m_logger.log(aux::LOG_ERR
-			, "drop incoming relay: sender: %s, uri:%s, queue size:%d"
-			, hex_sender, hex_uri, (int)m_incoming_tasks.size());
+	m_logger.log(aux::LOG_INFO
+		, "incoming relay uri: sender: %s, uri:%s"
+		, hex_sender, hex_uri);
 #endif
 
-		return;
-	}
-
-	m_incoming_tasks.push(incoming_relay_req{sender, blob_uri, ts});
+	//TODO: post "incoming_relay_data_uri_alert"
 }
 
 void getter::get_callback(dht::item const& it, bool auth
@@ -160,7 +196,7 @@ void getter::get_callback(dht::item const& it, bool auth
 				m_logger.log(aux::LOG_ERR, "[%u] empty segment index:%s"
 					, ctx->id(), hex_hash);
 #endif
-                //ctx->set_error(err);
+                ctx->set_error(api::EMPTY_BLOB_INDEX);
                 ctx->done();
                 // TODO: post get alert
                 m_running_tasks.erase(ctx);
@@ -219,10 +255,17 @@ void getter::get_callback(dht::item const& it, bool auth
 					else
 					{
 						ctx->set_error(ok);
-						// TODO: how to handle this error
-						//ctx->done();
-						//m_running_tasks.erase(ctx);
-						//return;
+						// how to handle this error?
+						// if no flying request, done this get task.
+						// else wait for reponse.
+						if (ctx->is_done())
+						{
+							ctx->done();
+							// TODO: post get failed alert
+							m_running_tasks.erase(ctx);
+							return;
+						}
+
 						break;
 					}
 				}
@@ -299,70 +342,6 @@ void getter::get_callback(dht::item const& it, bool auth
 		}
 	}
 }
-
-void getter::handle_incoming_relay_timeout(error_code const& e)
-{
-	if (!m_running || e) return;
-
-	if ((int)m_running_tasks.size() >= tasks_concurrency_limit
-		|| m_session.dht_nodes() == 0
-		|| !m_session.transporter()->has_enough_buffer(1))
-	{
-		m_handle_incoming_relay_timer.expires_after(
-			milliseconds(handle_incoming_relay_period));
-		m_handle_incoming_relay_timer.async_wait(
-			std::bind(&getter::handle_incoming_relay_timeout, self(), _1));
-
-		return;
-	}
-
-	auto const& t = m_incoming_tasks.front();
-	m_incoming_tasks.pop();
-	start_getting_task(t);
-
-	m_handle_incoming_relay_timer.expires_after(milliseconds(handle_incoming_relay_period));
-	m_handle_incoming_relay_timer.async_wait(
-		std::bind(&getter::handle_incoming_relay_timeout, self(), _1));
-}
-
-void getter::start_getting_task(incoming_relay_req const& task)
-{
-#ifndef TORRENT_DISABLE_LOGGING
-	char hex_sender[65];
-	char hex_uri[41];
-	aux::to_hex(task.sender.bytes, hex_sender);
-	aux::to_hex(task.blob_uri.bytes, hex_uri);
-
-	m_logger.log(aux::LOG_INFO
-		, "start getting task: sender: %s, uri:%s"
-		, hex_sender, hex_uri);
-#endif
-
-	std::shared_ptr<get_context> ctx = std::make_shared<get_context>(
-		m_logger, task.sender, task.blob_uri, task.ts);
-	api::dht_rpc_params config = get_rpc_parmas(api::GET);
-	std::string salt(task.blob_uri.bytes.data(), 20);
-	sha1_hash seg_hash(task.blob_uri.bytes.data());
-
-	api::error_code result = m_session.transporter()->get(task.sender
-		, salt, task.ts.value
-		, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
-		, config.invoke_branch, config.invoke_window, config.invoke_limit);
-
-	if (result == api::NO_ERROR)
-	{
-		ctx->start_getting_seg(seg_hash);
-		m_running_tasks.insert(ctx);
-	}
-	else
-	{
-		ctx->set_error(result);
-		ctx->done();
-	}
-}
-
-void getter::drop_incoming_relay_task(incoming_relay_req const& task)
-{}
 
 } // namespace assemble
 } // namespace ip2

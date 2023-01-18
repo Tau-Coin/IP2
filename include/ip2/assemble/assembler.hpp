@@ -18,7 +18,6 @@ see LICENSE file.
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
 #include "ip2/api/error_code.hpp"
-#include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
 #include "ip2/span.hpp"
@@ -33,14 +32,17 @@ using namespace ip2::api;
 
 namespace ip2 {
 
+	struct counters;
+
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace assemble {
 
 class TORRENT_EXTRA_EXPORT assembler final
-	: assemble_logger, std::enable_shared_from_this<assembler>
+	: std::enable_shared_from_this<assembler>, assemble_logger
 {
 
 public:
@@ -65,6 +67,18 @@ public:
 	void stop();
 
 	void update_node_id();
+
+	std::tuple<sha1_hash, api::error_code> put(span<char const> blob
+		, aux::uri const& blob_uri);
+
+	api::error_code get(dht::public_key const& sender
+		, aux::uri data_uri, dht::timestamp ts);
+
+	std::tuple<sha1_hash, api::error_code> relay_message(
+		dht::public_key const& receiver, span<char const> message);
+
+	api::error_code relay_uri(dht::public_key const& receiver
+		, aux::uri const& data_uri, dht::timestamp ts);
 
 private:
 

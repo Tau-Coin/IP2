@@ -1906,4 +1906,130 @@ namespace {
 #endif
 	}
 
+	put_data_alert::put_data_alert(aux::stack_allocator&
+		, std::array<char, 20> const& operation_id
+		, api::error_code const ec)
+		: op_id(operation_id), error(ec)
+	{}
+
+	std::string put_data_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg[100];
+		std::snprintf(msg, sizeof(msg), "Put data done (op_id=%s ec=%d)"
+			, aux::to_hex(op_id).c_str(), error);
+		return msg;
+#endif
+	}
+
+	relay_data_uri_alert::relay_data_uri_alert(aux::stack_allocator& alloc
+		, std::array<char, 32> const& to
+		, std::array<char, 20> const& data_uri
+		, std::int64_t ts
+		, api::error_code const ec)
+		: receiver(to)
+		, uri(data_uri)
+		, timestamp(ts)
+		, error(ec)
+	{}
+
+	std::string relay_data_uri_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg[150];
+		std::snprintf(msg, sizeof(msg), "Relay URI done (receiver=%s URI=%s ts=%" PRId64 " ec=%d"
+			, aux::to_hex(receiver).c_str(), aux::to_hex(uri).c_str()
+			, timestamp, error);
+		return msg;
+#endif
+	}
+
+	incoming_relay_data_uri_alert::incoming_relay_data_uri_alert(aux::stack_allocator& alloc
+		, std::array<char, 32> const& from
+		, std::array<char, 20> const& data_uri
+		, std::int64_t ts)
+		: sender(from)
+		, uri(data_uri)
+		, timestamp(ts)
+	{}
+
+	std::string incoming_relay_data_uri_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg[150];
+		std::snprintf(msg, sizeof(msg), "Incoming relay URI done (sender=%s URI=%s ts=%" PRId64 ""
+			, aux::to_hex(sender).c_str(), aux::to_hex(uri).c_str(), timestamp);
+		return msg;
+#endif
+	}
+
+	get_data_alert::get_data_alert(aux::stack_allocator& alloc
+		, std::array<char, 32> const& from
+		, std::array<char, 20> const& data_uri
+		, std::int64_t ts
+		, std::vector<char> const& blob
+		, api::error_code const ec)
+		: sender(from)
+		, uri(data_uri)
+		, timestamp(ts)
+		, data(blob)
+		, error(ec)
+	{}
+
+	std::string get_data_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg[150];
+		std::snprintf(msg, sizeof(msg), "Get data done (sender=%s URI=%s ts=%" PRId64 " ec=%d"
+			, aux::to_hex(sender).c_str(), aux::to_hex(uri).c_str()
+			, timestamp, error);
+		return msg;
+#endif
+	}
+
+	relay_message_alert::relay_message_alert(aux::stack_allocator&
+		, std::array<char, 20> const& operation_id
+		, api::error_code const ec)
+		: op_id(operation_id), error(ec)
+	{}
+
+	std::string relay_message_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg[100];
+		std::snprintf(msg, sizeof(msg), "Relay message done (op_id=%s ec=%d)"
+			, aux::to_hex(op_id).c_str(), error);
+		return msg;
+#endif
+	}
+
+	incoming_relay_message_alert::incoming_relay_message_alert(aux::stack_allocator& alloc
+		, std::array<char, 32> const& from
+		, std::vector<char> const& incoming_msg)
+		: sender(from)
+		, msg(incoming_msg)
+	{}
+
+	std::string incoming_relay_message_alert::message() const
+	{
+#ifdef TORRENT_DISABLE_ALERT_MSG
+		return {};
+#else
+		char msg_str[100];
+		std::snprintf(msg_str, sizeof(msg_str), "Incoming relay message (sender=%s msg size=%d)"
+			, aux::to_hex(sender).c_str(), (int)msg.size());
+		return msg_str;
+#endif
+	}
+
 } // namespace ip2

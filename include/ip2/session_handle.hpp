@@ -52,6 +52,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "ip2/aux_/common.h" // for aux::bytes
 
+#include "ip2/api/error_code.hpp"
+
 #include "ip2/kademlia/dht_storage.hpp"
 #include "ip2/kademlia/announce_flags.hpp"
 
@@ -443,25 +445,36 @@ namespace ip2 {
         void sql_test();
 
 		// put data into capture swarm.
-		// The data max size is 100KB, and ip2 slices data and put segment into swarm.
-		// return data root which reprents the target of data in swarm.
-		// The "put_swarm_alert" alert will be posted to user to indicate
+		// The data max size is 45KB, and ip2 slices data and puts segments into swarm.
+		// return operation id which reprents current operation of putting data in swarm.
+		// The "put_data_alert" alert will be posted to user to indicate
 		// putting successfully or failed.
-		sha256_hash put_swarm(std::vector<char> const& data, aux::uri const& data_uri);
+		ip2::api::error_code put_data_into_swarm(std::vector<char> const& blob
+			, std::array<char, 20> const& uri
+			, std::array<char, 20>& op_id);
 
-		// send data root to other peer by 'relay' protocol.
+		// send data uri to other peer by 'relay' protocol.
 		// the receiver can get the corresponding data by this uri & uri_sender.
-		// The "relay_data_alert" alert will be posted to user to indicate
+		// The "relay_data_uri_alert" alert will be posted to user to indicate
 		// relay successfully or failed.
-		void relay_data(dht::public_key const& receiver
-				, aux::uri const& data_uri, dht::public_key const& uri_sender);
+		ip2::api::error_code relay_data_uri(std::array<char, 32> const& receiver
+			, std::array<char, 20> const& uri
+			, std::int64_t timestamp = 0);
+
+		// get data by sender and uri.
+		// The "get_data_uri_alert" alert will be posted to user to transfer
+		// the blob data.
+		ip2::api::error_code get_data_from_swarm(std::array<char, 32> const& sender
+			, std::array<char, 20> const& uri
+			, std::int64_t timestamp = 0);
 
 		// send message(binary data) to other peer by 'relay' protocol.
 		// The data max size is 1000 bytes(TODO: 1000?).
 		// The "relay_message_alert" alert will be posted to user to indicate
 		// relay successfully or failed.
-		void relay_message(dht::public_key const& receiver
-				, std::vector<char> const& message);
+		ip2::api::error_code relay_message(std::array<char, 32> const& receiver
+			, std::vector<char> const& message
+			, std::array<char, 20>& op_id);
 
 		// This call dereferences the reference count of the specified peer
 		// class. When creating a peer class it's automatically referenced by 1.

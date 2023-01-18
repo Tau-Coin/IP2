@@ -17,7 +17,6 @@ see LICENSE file.
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
 #include "ip2/api/error_code.hpp"
-#include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
 #include "ip2/span.hpp"
@@ -36,8 +35,11 @@ using namespace ip2::api;
 
 namespace ip2 {
 
+	struct counters;
+
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace assemble {
@@ -61,18 +63,26 @@ public:
 
 	std::shared_ptr<relayer> self() { return shared_from_this(); }
 
-	std::tuple<sha256_hash, api::error_code> relay_message(
+	std::tuple<sha1_hash, api::error_code> relay_message(
 		dht::public_key const& receiver, span<char const> message);
 
 	void on_incoming_relay_message(dht::public_key const& pk, std::string const& msg);
+
+	api::error_code relay_uri(dht::public_key const& receiver
+		, aux::uri const& data_uri, dht::timestamp ts);
 
 	void update_node_id();
 
 private:
 
-	void send_callback(entry const& payload
+	void send_message_callback(entry const& payload
 		, std::vector<std::pair<dht::node_entry, bool>> const& nodes
 		, std::shared_ptr<relay_context> ctx);
+
+    void send_uri_callback(entry const& payload
+        , std::vector<std::pair<dht::node_entry, bool>> const& nodes
+        , std::shared_ptr<relay_context> ctx
+		, dht::public_key receiver, aux::uri data_uri, dht::timestamp ts);
 
 	io_context& m_ios;
 	aux::session_interface& m_session;

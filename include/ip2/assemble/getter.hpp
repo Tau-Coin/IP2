@@ -17,7 +17,6 @@ see LICENSE file.
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
 #include "ip2/api/error_code.hpp"
-#include "ip2/aux_/session_interface.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/aux_/deadline_timer.hpp"
 #include "ip2/span.hpp"
@@ -38,28 +37,16 @@ using namespace ip2::api;
 
 namespace ip2 {
 
+	struct counters;
+
 namespace aux {
     struct session_settings;
+	struct session_interface;
 }
 
 namespace assemble {
 
-static constexpr int handle_incoming_relay_period = 500; // milliseconds
-
-static constexpr int incoming_relay_limit = 500;
-
-static constexpr int tasks_concurrency_limit = 2;
-
-struct incoming_relay_req
-{
-	dht::public_key sender;
-	aux::uri blob_uri;
-	dht::timestamp ts;
-
-	incoming_relay_req(dht::public_key const& s, aux::uri const& u, dht::timestamp t)
-		: sender(s), blob_uri(u), ts(t)
-	{}
-};
+static constexpr int get_tasks_limit = 50;
 
 class TORRENT_EXTRA_EXPORT getter final
 	: std::enable_shared_from_this<getter>
@@ -78,8 +65,8 @@ public:
 
 	std::shared_ptr<getter> self() { return shared_from_this(); }
 
-	void start();
-	void stop();
+	api::error_code get_blob(dht::public_key const& sender
+		, aux::uri blob_uri, dht::timestamp ts);
 
 	void on_incoming_relay_request(dht::public_key const& sender
 		, aux::uri blob_uri, dht::timestamp ts);
@@ -91,11 +78,6 @@ private:
 	void get_callback(dht::item const& it, bool auth
 		, std::shared_ptr<get_context> ctx, sha1_hash seg_hash);
 
-	void handle_incoming_relay_timeout(error_code const& e);
-
-	void start_getting_task(incoming_relay_req const& task);
-	void drop_incoming_relay_task(incoming_relay_req const& task);
-
 	io_context& m_ios;
 	aux::session_interface& m_session;
 	aux::session_settings const& m_settings;
@@ -105,13 +87,7 @@ private:
 
 	dht::public_key m_self_pubkey;
 
-	std::queue<incoming_relay_req> m_incoming_tasks;
-
 	std::set<std::shared_ptr<get_context> > m_running_tasks;
-
-	aux::deadline_timer m_handle_incoming_relay_timer;
-
-	bool m_running = false;
 };
 
 } // namespace assemble

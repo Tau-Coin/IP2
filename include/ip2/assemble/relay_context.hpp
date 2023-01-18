@@ -37,11 +37,11 @@ struct TORRENT_EXTRA_EXPORT relay_context final : context
 public:
 
 	relay_context(assemble_logger& logger, dht::public_key const& receiver
-		, sha256_hash const& msg_id, relay_type t);
+		, sha1_hash const& msg_id, relay_type t);
 
 	dht::public_key get_receiver() { return m_receiver; }
 
-	sha256_hash get_msg_id() { return m_msg_id; }
+	sha1_hash get_msg_id() { return m_msg_id; }
 
 	relay_type get_relay_type() { return m_type; } 
 
@@ -53,7 +53,7 @@ private:
 	assemble_logger& m_logger;
 
 	dht::public_key m_receiver;
-	sha256_hash m_msg_id;
+	sha1_hash m_msg_id;
 
 	relay_type m_type;
 };

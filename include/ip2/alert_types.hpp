@@ -47,6 +47,7 @@ see LICENSE file.
 #include "ip2/blockchain/block.hpp"
 #include "ip2/blockchain/transaction.hpp"
 #include "ip2/blockchain/vote.hpp"
+#include "ip2/api/error_code.hpp"
 
 #include "ip2/aux_/disable_warnings_push.hpp"
 #include <boost/shared_array.hpp>
@@ -66,7 +67,7 @@ namespace ip2 {
 	constexpr int user_alert_id = 10000;
 
 	// this constant represents "max_alert_index" + 1
-	constexpr int num_alert_types = 61;
+	constexpr int num_alert_types = 68;
 
 	// internal
 	constexpr int abi_alert_count = 128;
@@ -1609,6 +1610,139 @@ namespace ip2 {
 		aux::allocation_slot m_str_idx;
 	};
 
+	// this alert is posted when putting blob is completed.
+	struct TORRENT_EXPORT put_data_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT put_data_alert(aux::stack_allocator& alloc
+			, std::array<char, 20> const& op_id, api::error_code const ec);
+
+		TORRENT_DEFINE_ALERT_PRIO(put_data_alert, 62, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// the operation id of putting blob
+		std::array<char, 20> op_id;
+
+		api::error_code const error;
+	};
+
+	// this alert is posted when relay data uri is completed.
+	struct TORRENT_EXPORT relay_data_uri_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT relay_data_uri_alert(aux::stack_allocator& alloc
+			, std::array<char, 32> const& to
+			, std::array<char, 20> const& data_uri
+			, std::int64_t ts
+			, api::error_code const ec);
+
+		TORRENT_DEFINE_ALERT_PRIO(relay_data_uri_alert, 63, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// receiver public key
+		std::array<char, 32> receiver;
+
+		// uri
+		std::array<char, 20> uri;
+
+		std::int64_t timestamp;
+
+		api::error_code const error;
+	};
+
+	// this alert is posted when relay data uri is incoming.
+	struct TORRENT_EXPORT incoming_relay_data_uri_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT incoming_relay_data_uri_alert(aux::stack_allocator& alloc
+			, std::array<char, 32> const& from
+			, std::array<char, 20> const& data_uri
+			, std::int64_t ts);
+
+		TORRENT_DEFINE_ALERT_PRIO(incoming_relay_data_uri_alert, 64, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// sender public key
+		std::array<char, 32> sender;
+
+		// uri
+		std::array<char, 20> uri;
+
+		std::int64_t timestamp;
+	};
+
+	// this alert is posted when get data is completed.
+	struct TORRENT_EXPORT get_data_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT get_data_alert(aux::stack_allocator& alloc
+			, std::array<char, 32> const& from
+			, std::array<char, 20> const& data_uri
+			, std::int64_t ts
+			, std::vector<char> const& blob
+			, api::error_code const ec);
+
+		TORRENT_DEFINE_ALERT_PRIO(get_data_alert, 65, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// sender public key
+		std::array<char, 32> sender;
+
+		// uri
+		std::array<char, 20> uri;
+
+		std::int64_t timestamp;
+
+		// blob
+		std::vector<char> data;
+
+		api::error_code error;
+    };
+
+	// this alert is posted when relay message is completed.
+	struct TORRENT_EXPORT relay_message_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT relay_message_alert(aux::stack_allocator& alloc
+			, std::array<char, 20> const& op_id, api::error_code const ec);
+
+		TORRENT_DEFINE_ALERT_PRIO(relay_message_alert, 66, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// the operation id of putting blob
+		std::array<char, 20> op_id;
+
+		api::error_code const error;
+	};
+
+	// this alert is posted when relay message is incoming.
+	struct TORRENT_EXPORT incoming_relay_message_alert final : alert
+	{
+		// internal
+		TORRENT_UNEXPORT incoming_relay_message_alert(aux::stack_allocator& alloc
+			, std::array<char, 32> const& from
+			, std::vector<char> const& incoming_msg);
+
+		TORRENT_DEFINE_ALERT_PRIO(incoming_relay_message_alert, 67, alert_priority::critical)
+
+		static inline constexpr alert_category_t static_category = alert_category::assemble;
+		std::string message() const override;
+
+		// sender
+		std::array<char, 32> sender;
+
+        std::vector<char> msg;
+	};
 
 #undef TORRENT_DEFINE_ALERT_IMPL
 #undef TORRENT_DEFINE_ALERT

@@ -39,27 +39,83 @@ void put_context::add_root_index(sha1_hash const& h)
 
 void put_context::add_invoked_hash(sha1_hash const& h)
 {
-	m_invoked_hashes.push_back(h);
-
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
 	aux::to_hex(h, hex_hash);
+#endif
 
-	m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s", id(), hex_hash);
+	m_flying_segments.insert(h);
+
+	auto it = m_invoked_hashes.find(h);
+	if (it == m_invoked_hashes.end())
+	{
+		m_invoked_hashes.insert(std::pair<sha1_hash, int>(h, 1));
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s, times:%d"
+			, id(), hex_hash, 1);
+#endif
+
+		return;
+	}
+
+	it->second++;
+
+#ifndef TORRENT_DISABLE_LOGGING
+	m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s, times:%d"
+		, id(), hex_hash, it->second);
 #endif
 }
 
 void put_context::add_callbacked_hash(sha1_hash const& h, int response)
 {
-	m_callbacked_hashes.insert(std::pair<sha1_hash, int>(h, response));
-
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
 	aux::to_hex(h, hex_hash);
-
-    m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
-		, id(), hex_hash, response);
 #endif
+
+	m_flying_segments.erase(h);
+
+	auto it = m_invoked_hashes.find(h);
+	if (it == m_invoked_hashes.end())
+	{
+		m_callbacked_hashes.insert(std::pair<sha1_hash, int>(h, response));
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
+			, id(), hex_hash, response);
+#endif
+
+		return;
+	}
+
+	it->second = response;
+
+#ifndef TORRENT_DISABLE_LOGGING
+    m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
+		, id(), hex_hash, it->second);
+#endif
+}
+
+bool put_context::is_reput_allowed(sha1_hash const& h)
+{
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_hash[41];
+	aux::to_hex(h, hex_hash);
+#endif
+
+	auto it = m_invoked_hashes.find(h);
+
+	if (it == m_invoked_hashes.end())
+	{
+		return true;
+	}
+
+	int times = it->second;
+#ifndef TORRENT_DISABLE_LOGGING
+	m_logger.log(aux::LOG_INFO, "[%u] allowed reput hash:%s, times:%d"
+		, id(), hex_hash, times);
+#endif
+
+	return times < reput_times_limit;
 }
 
 void put_context::done()

@@ -527,24 +527,41 @@ namespace ip2 {
 		return sync_call(&session_impl::sql_test);
     }
 
-	sha256_hash session_handle::put_swarm(std::vector<char> const& data
-			, aux::uri const& data_uri)
+	ip2::api::error_code session_handle::put_data_into_swarm(
+			std::vector<char> const& data
+			, std::array<char, 20> const& uri
+			, std::array<char, 20>& op_id)
 	{
-		return sync_call_ret<sha256_hash>(&session_impl::put_swarm, data, data_uri);
+		return sync_call_ret<ip2::api::error_code>(&session_impl::put_data_into_swarm
+			, data, uri, op_id);
 	}
 
-	void session_handle::relay_data(dht::public_key const& receiver
-			, aux::uri const& data_uri, dht::public_key const& uri_sender)
+	ip2::api::error_code session_handle::relay_data_uri(
+			std::array<char, 32> const& receiver
+			, std::array<char, 20> const& uri
+			, std::int64_t timestamp)
 	{
-		return sync_call(&session_impl::relay_data, receiver, data_uri, uri_sender);
+		return sync_call_ret<ip2::api::error_code>(&session_impl::relay_data_uri
+			, receiver, uri, timestamp);
 	}
 
-	void session_handle::relay_message(dht::public_key const& receiver
-			, std::vector<char> const& message)
+	ip2::api::error_code session_handle::get_data_from_swarm(
+			std::array<char, 32> const& sender
+			, std::array<char, 20> const& uri
+			, std::int64_t timestamp)
 	{
-		return sync_call(&session_impl::relay_message, receiver, message);
+		return sync_call_ret<ip2::api::error_code>(&session_impl::get_data_from_swarm
+			, sender, uri, timestamp);
 	}
 
+	ip2::api::error_code session_handle::relay_message(
+			std::array<char, 32> const& receiver
+			, std::vector<char> const& message
+			, std::array<char, 20>& op_id)
+	{
+		return sync_call_ret<ip2::api::error_code>(&session_impl::relay_message
+			, receiver, message, op_id);
+	}
 
 	void session_handle::set_ip_filter(ip_filter f)
 	{

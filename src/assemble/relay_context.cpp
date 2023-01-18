@@ -17,7 +17,7 @@ namespace ip2 {
 namespace assemble {
 
 relay_context::relay_context(assemble_logger& logger
-	, dht::public_key const& receiver, sha256_hash const& msg_id, relay_type t)
+	, dht::public_key const& receiver, sha1_hash const& msg_id, relay_type t)
 	: m_logger(logger)
 	, m_receiver(receiver)
 	, m_msg_id(msg_id)

@@ -33,6 +33,7 @@ see LICENSE file.
 #include "ip2/aux_/ssl.hpp"
 #include "ip2/kademlia/types.hpp"
 #include "ip2/transport/transporter.hpp"
+#include "ip2/assemble/assembler.hpp"
 
 #include <functional>
 #include <memory>
@@ -202,6 +203,7 @@ namespace ip2::aux {
 		virtual dht::dht_tracker* dht() = 0;
 		virtual int dht_nodes() = 0;
 
+		virtual ip2::assemble::assembler* assembler() = 0;
 		virtual ip2::transport::transporter* transporter() = 0;
 
 		virtual leveldb::DB* kvdb() = 0;
