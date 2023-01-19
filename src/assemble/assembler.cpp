@@ -76,8 +76,7 @@ void assembler::stop()
 	m_running = false;
 }
 
-std::tuple<sha1_hash, api::error_code> assembler::put(span<char const> blob
-	, aux::uri const& blob_uri)
+api::error_code assembler::put(span<char const> blob, aux::uri const& blob_uri)
 {
 	return m_putter.put_blob(blob, blob_uri);
 }
@@ -88,8 +87,8 @@ api::error_code assembler::get(dht::public_key const& sender
 	return m_getter.get_blob(sender, data_uri, ts);
 }
 
-std::tuple<sha1_hash, api::error_code> assembler::relay_message(
-	dht::public_key const& receiver, span<char const> message)
+api::error_code assembler::relay_message(dht::public_key const& receiver
+	, span<char const> message)
 {
 	return m_relayer.relay_message(receiver, message);
 }

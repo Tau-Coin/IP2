@@ -41,13 +41,12 @@ putter::putter(io_context& ios
 	update_node_id();
 }
 
-std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
-	, aux::uri const& blob_uri)
+api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri)
 {
 	// check blob size
 	if (blob.size() > protocol::blob_mtu)
 	{
-		return std::make_tuple(sha1_hash{}, api::BLOB_TOO_LARGE);
+		return api::BLOB_TOO_LARGE;
 	}
 
 	// check network, if dht live nodes is 0, return error.
@@ -61,7 +60,7 @@ std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
 			, "drop put req:%s, error: dht nodes 0", hex_uri);
 #endif
 
-		return std::make_tuple(sha1_hash{}, api::DHT_LIVE_NODES_ZERO);
+		return api::DHT_LIVE_NODES_ZERO;
 	}
 
 	std::uint32_t n = static_cast<std::uint32_t>(blob.size()) / protocol::blob_seg_mtu;
@@ -82,7 +81,7 @@ std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
 			, "drop put req:%s, error: buffer is full", hex_uri);
 #endif
 
-		return std::make_tuple(sha1_hash{}, api::TRANSPORT_BUFFER_FULL);
+		return api::TRANSPORT_BUFFER_FULL;
 	}
 
 	std::shared_ptr<put_context> ctx = std::make_shared<put_context>(m_logger
@@ -117,7 +116,7 @@ std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
 		ctx->set_error(ok);
 		ctx->done();
 
-		return std::make_tuple(sha1_hash{}, ok);
+		return ok;
 	}
 
 	seg_count -= 1;
@@ -184,7 +183,7 @@ std::tuple<sha1_hash, api::error_code> putter::put_blob(span<char const> blob
 		}
 	}
 
-	return std::make_tuple(op_id, api::NO_ERROR);
+	return api::NO_ERROR;
 }
 
 void putter::update_node_id()

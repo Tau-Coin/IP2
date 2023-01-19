@@ -47,8 +47,8 @@ void relayer::update_node_id()
 	std::memcpy(m_self_pubkey.bytes.data(), node_id.data(), dht::public_key::len);
 }
 
-std::tuple<sha1_hash, api::error_code> relayer::relay_message(
-	dht::public_key const& receiver, span<char const> message)
+api::error_code relayer::relay_message(dht::public_key const& receiver
+	, span<char const> message)
 {
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_key[65];
@@ -63,7 +63,7 @@ std::tuple<sha1_hash, api::error_code> relayer::relay_message(
 			, "drop relay message:%s, error: dht nodes 0", hex_key);
 #endif
 
-		return std::make_tuple(sha1_hash{}, api::DHT_LIVE_NODES_ZERO);
+		return api::DHT_LIVE_NODES_ZERO;
 	}
 
 	// check transport queue cache size.
@@ -75,7 +75,7 @@ std::tuple<sha1_hash, api::error_code> relayer::relay_message(
 			, "drop relay message:%s, error: buffer is full", hex_key);
 #endif
 
-		return std::make_tuple(sha1_hash{}, api::TRANSPORT_BUFFER_FULL);
+		return api::TRANSPORT_BUFFER_FULL;
 	}
 
 	// check message size
@@ -86,7 +86,7 @@ std::tuple<sha1_hash, api::error_code> relayer::relay_message(
 			, "drop relay message:%s, too large:%d", hex_key, (int)message.size());
 #endif
 
-		return std::make_tuple(sha1_hash{}, api::BLOB_TOO_LARGE);
+		return api::BLOB_TOO_LARGE;
 	}
 
 	hasher h(message);
@@ -110,14 +110,14 @@ std::tuple<sha1_hash, api::error_code> relayer::relay_message(
 		ctx->start_relay();
 		m_running_tasks.insert(ctx);
 
-		return std::make_tuple(msg_id, api::NO_ERROR);
+		return api::NO_ERROR;
 	}
 	else
 	{
 		ctx->set_error(ok);
 		ctx->done();
 
-		return std::make_tuple(sha1_hash{}, ok);
+		return ok;
 	}
 }
 

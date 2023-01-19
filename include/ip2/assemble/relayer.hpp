@@ -63,8 +63,8 @@ public:
 
 	std::shared_ptr<relayer> self() { return shared_from_this(); }
 
-	std::tuple<sha1_hash, api::error_code> relay_message(
-		dht::public_key const& receiver, span<char const> message);
+	api::error_code relay_message(dht::public_key const& receiver
+		, span<char const> message);
 
 	void on_incoming_relay_message(dht::public_key const& pk, std::string const& msg);
 

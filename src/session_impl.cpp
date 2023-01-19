@@ -3569,8 +3569,7 @@ namespace {
 
 	ip2::api::error_code session_impl::put_data_into_swarm(
 		std::vector<char> const& blob
-		, std::array<char, 20> const& uri
-		, std::array<char, 20>& op_id)
+		, std::array<char, 20> const& uri)
 	{
 		// TODO: transfer this API to assemble module
 
@@ -3599,8 +3598,7 @@ namespace {
 
 	ip2::api::error_code session_impl::relay_message(
 		std::array<char, 32> const& receiver
-		, std::vector<char> const& message
-		, std::array<char, 20>& op_id)
+		, std::vector<char> const& message)
 	{
 		// TODO: transfer this API to assemble module
 

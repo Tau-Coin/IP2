@@ -747,8 +747,7 @@ namespace aux {
 		// The "put_data_alert" alert will be posted to user to indicate
 		// putting successfully or failed.
 		ip2::api::error_code put_data_into_swarm(std::vector<char> const& blob
-			, std::array<char, 20> const& uri
-			, std::array<char, 20>& op_id);
+			, std::array<char, 20> const& uri);
 
 		// send data uri to other peer by 'relay' protocol.
 		// the receiver can get the corresponding data by this uri & uri_sender.
@@ -770,8 +769,7 @@ namespace aux {
 		// The "relay_message_alert" alert will be posted to user to indicate
 		// relay successfully or failed.
 		ip2::api::error_code relay_message(std::array<char, 32> const& receiver
-			, std::vector<char> const& message
-			, std::array<char, 20>& op_id);
+			, std::vector<char> const& message);
 
 		private:
 

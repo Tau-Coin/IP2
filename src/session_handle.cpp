@@ -529,11 +529,10 @@ namespace ip2 {
 
 	ip2::api::error_code session_handle::put_data_into_swarm(
 			std::vector<char> const& data
-			, std::array<char, 20> const& uri
-			, std::array<char, 20>& op_id)
+			, std::array<char, 20> const& uri)
 	{
 		return sync_call_ret<ip2::api::error_code>(&session_impl::put_data_into_swarm
-			, data, uri, op_id);
+			, data, uri);
 	}
 
 	ip2::api::error_code session_handle::relay_data_uri(
@@ -556,11 +555,10 @@ namespace ip2 {
 
 	ip2::api::error_code session_handle::relay_message(
 			std::array<char, 32> const& receiver
-			, std::vector<char> const& message
-			, std::array<char, 20>& op_id)
+			, std::vector<char> const& message)
 	{
 		return sync_call_ret<ip2::api::error_code>(&session_impl::relay_message
-			, receiver, message, op_id);
+			, receiver, message);
 	}
 
 	void session_handle::set_ip_filter(ip_filter f)

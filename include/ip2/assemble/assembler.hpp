@@ -68,14 +68,13 @@ public:
 
 	void update_node_id();
 
-	std::tuple<sha1_hash, api::error_code> put(span<char const> blob
-		, aux::uri const& blob_uri);
+	api::error_code put(span<char const> blob, aux::uri const& blob_uri);
 
 	api::error_code get(dht::public_key const& sender
 		, aux::uri data_uri, dht::timestamp ts);
 
-	std::tuple<sha1_hash, api::error_code> relay_message(
-		dht::public_key const& receiver, span<char const> message);
+	api::error_code relay_message(dht::public_key const& receiver
+		, span<char const> message);
 
 	api::error_code relay_uri(dht::public_key const& receiver
 		, aux::uri const& data_uri, dht::timestamp ts);

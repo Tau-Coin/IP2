@@ -62,8 +62,7 @@ public:
 
 	std::shared_ptr<putter> self() { return shared_from_this(); }
 
-	std::tuple<sha1_hash, api::error_code> put_blob(span<char const> blob
-		, aux::uri const& blob_uri);
+	api::error_code put_blob(span<char const> blob, aux::uri const& blob_uri);
 
 	void update_node_id();
 

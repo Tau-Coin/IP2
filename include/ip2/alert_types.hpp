@@ -1615,7 +1615,10 @@ namespace ip2 {
 	{
 		// internal
 		TORRENT_UNEXPORT put_data_alert(aux::stack_allocator& alloc
-			, std::array<char, 20> const& op_id, api::error_code const ec);
+			, std::array<char, 20> const& data_uri, api::error_code const ec);
+
+		TORRENT_UNEXPORT put_data_alert(aux::stack_allocator& alloc
+			, char const* data_uri, api::error_code const ec);
 
 		TORRENT_DEFINE_ALERT_PRIO(put_data_alert, 62, alert_priority::critical)
 
@@ -1623,7 +1626,7 @@ namespace ip2 {
 		std::string message() const override;
 
 		// the operation id of putting blob
-		std::array<char, 20> op_id;
+		std::array<char, 20> uri;
 
 		api::error_code const error;
 	};
@@ -1635,6 +1638,13 @@ namespace ip2 {
 		TORRENT_UNEXPORT relay_data_uri_alert(aux::stack_allocator& alloc
 			, std::array<char, 32> const& to
 			, std::array<char, 20> const& data_uri
+			, std::int64_t ts
+			, api::error_code const ec);
+
+		// internal
+		TORRENT_UNEXPORT relay_data_uri_alert(aux::stack_allocator& alloc
+			, char const* to
+			, char const* data_uri
 			, std::int64_t ts
 			, api::error_code const ec);
 
@@ -1663,6 +1673,11 @@ namespace ip2 {
 			, std::array<char, 20> const& data_uri
 			, std::int64_t ts);
 
+		TORRENT_UNEXPORT incoming_relay_data_uri_alert(aux::stack_allocator& alloc
+			, char const* from
+			, char const* data_uri
+			, std::int64_t ts);
+
 		TORRENT_DEFINE_ALERT_PRIO(incoming_relay_data_uri_alert, 64, alert_priority::critical)
 
 		static inline constexpr alert_category_t static_category = alert_category::assemble;
@@ -1686,6 +1701,14 @@ namespace ip2 {
 			, std::array<char, 20> const& data_uri
 			, std::int64_t ts
 			, std::vector<char> const& blob
+			, api::error_code const ec);
+
+		TORRENT_UNEXPORT get_data_alert(aux::stack_allocator& alloc
+			, char const* from
+			, char const* data_uri
+			, std::int64_t ts
+			, char const* blob
+			, int blob_len
 			, api::error_code const ec);
 
 		TORRENT_DEFINE_ALERT_PRIO(get_data_alert, 65, alert_priority::critical)
@@ -1712,7 +1735,11 @@ namespace ip2 {
 	{
 		// internal
 		TORRENT_UNEXPORT relay_message_alert(aux::stack_allocator& alloc
-			, std::array<char, 20> const& op_id, api::error_code const ec);
+			, std::array<char, 32> const& msg_receiver, api::error_code const ec);
+
+		// internal
+		TORRENT_UNEXPORT relay_message_alert(aux::stack_allocator& alloc
+			, char const* msg_receiver, api::error_code const ec);
 
 		TORRENT_DEFINE_ALERT_PRIO(relay_message_alert, 66, alert_priority::critical)
 
@@ -1720,7 +1747,7 @@ namespace ip2 {
 		std::string message() const override;
 
 		// the operation id of putting blob
-		std::array<char, 20> op_id;
+		std::array<char, 32> receiver;
 
 		api::error_code const error;
 	};
@@ -1732,6 +1759,12 @@ namespace ip2 {
 		TORRENT_UNEXPORT incoming_relay_message_alert(aux::stack_allocator& alloc
 			, std::array<char, 32> const& from
 			, std::vector<char> const& incoming_msg);
+
+		// internal
+		TORRENT_UNEXPORT incoming_relay_message_alert(aux::stack_allocator& alloc
+			, char const* from
+			, char const* incoming_msg
+			, int msg_len);
 
 		TORRENT_DEFINE_ALERT_PRIO(incoming_relay_message_alert, 67, alert_priority::critical)
 

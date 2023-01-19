@@ -22,6 +22,7 @@ see LICENSE file.
 #include <string>
 #include <cstdio> // for snprintf
 #include <cinttypes> // for PRId64 et.al.
+#include <algorithm>
 #include <utility>
 
 #include "ip2/config.hpp"
@@ -1907,10 +1908,18 @@ namespace {
 	}
 
 	put_data_alert::put_data_alert(aux::stack_allocator&
-		, std::array<char, 20> const& operation_id
+		, std::array<char, 20> const& data_uri
 		, api::error_code const ec)
-		: op_id(operation_id), error(ec)
+		: uri(data_uri), error(ec)
 	{}
+
+	put_data_alert::put_data_alert(aux::stack_allocator&
+		, char const* data_uri
+		, api::error_code const ec)
+		: error(ec)
+	{
+		std::copy(data_uri, data_uri + 20, uri.begin());
+	}
 
 	std::string put_data_alert::message() const
 	{
@@ -1918,8 +1927,8 @@ namespace {
 		return {};
 #else
 		char msg[100];
-		std::snprintf(msg, sizeof(msg), "Put data done (op_id=%s ec=%d)"
-			, aux::to_hex(op_id).c_str(), error);
+		std::snprintf(msg, sizeof(msg), "Put data done (URI=%s ec=%d)"
+			, aux::to_hex(uri).c_str(), error);
 		return msg;
 #endif
 	}
@@ -1934,6 +1943,18 @@ namespace {
 		, timestamp(ts)
 		, error(ec)
 	{}
+
+	relay_data_uri_alert::relay_data_uri_alert(aux::stack_allocator& alloc
+		, char const* to
+		, char const* data_uri
+		, std::int64_t ts
+		, api::error_code const ec)
+		: timestamp(ts)
+		, error(ec)
+	{
+		std::copy(to, to + 32, receiver.begin());
+		std::copy(data_uri, data_uri + 20, uri.begin());
+	}
 
 	std::string relay_data_uri_alert::message() const
 	{
@@ -1956,6 +1977,16 @@ namespace {
 		, uri(data_uri)
 		, timestamp(ts)
 	{}
+
+	incoming_relay_data_uri_alert::incoming_relay_data_uri_alert(aux::stack_allocator& alloc
+		, char const* from
+		, char const* data_uri
+		, std::int64_t ts)
+		: timestamp(ts)
+	{
+		std::copy(from, from + 32, sender.begin());
+		std::copy(data_uri, data_uri + 20, uri.begin());
+	}
 
 	std::string incoming_relay_data_uri_alert::message() const
 	{
@@ -1982,6 +2013,21 @@ namespace {
 		, error(ec)
 	{}
 
+	get_data_alert::get_data_alert(aux::stack_allocator& alloc
+		, char const* from
+		, char const* data_uri
+		, std::int64_t ts
+		, char const* blob
+		, int blob_len
+		, api::error_code const ec)
+		: timestamp(ts)
+		, error(ec)
+	{
+		std::copy(from, from + 32, sender.begin());
+		std::copy(data_uri, data_uri + 20, uri.begin());
+		std::copy(blob, blob + blob_len, data.begin());
+	}
+
 	std::string get_data_alert::message() const
 	{
 #ifdef TORRENT_DISABLE_ALERT_MSG
@@ -1996,10 +2042,18 @@ namespace {
 	}
 
 	relay_message_alert::relay_message_alert(aux::stack_allocator&
-		, std::array<char, 20> const& operation_id
+		, std::array<char, 32> const& msg_receiver
 		, api::error_code const ec)
-		: op_id(operation_id), error(ec)
+		: receiver(msg_receiver), error(ec)
 	{}
+
+	relay_message_alert::relay_message_alert(aux::stack_allocator&
+		, char const* msg_receiver
+		, api::error_code const ec)
+		: error(ec)
+	{
+		std::copy(msg_receiver, msg_receiver + 32, receiver.begin());
+	}
 
 	std::string relay_message_alert::message() const
 	{
@@ -2007,8 +2061,8 @@ namespace {
 		return {};
 #else
 		char msg[100];
-		std::snprintf(msg, sizeof(msg), "Relay message done (op_id=%s ec=%d)"
-			, aux::to_hex(op_id).c_str(), error);
+		std::snprintf(msg, sizeof(msg), "Relay message done (receiver=%s ec=%d)"
+			, aux::to_hex(receiver).c_str(), error);
 		return msg;
 #endif
 	}
@@ -2019,6 +2073,15 @@ namespace {
 		: sender(from)
 		, msg(incoming_msg)
 	{}
+
+	incoming_relay_message_alert::incoming_relay_message_alert(aux::stack_allocator& alloc
+		, char const* from
+		, char const* incoming_msg
+		, int msg_len)
+	{
+		std::copy(from, from + 32, sender.begin());
+		std::copy(incoming_msg, incoming_msg + msg_len, msg.begin());
+	}
 
 	std::string incoming_relay_message_alert::message() const
 	{
