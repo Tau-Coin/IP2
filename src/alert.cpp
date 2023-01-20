@@ -2025,7 +2025,10 @@ namespace {
 	{
 		std::copy(from, from + 32, sender.begin());
 		std::copy(data_uri, data_uri + 20, uri.begin());
-		std::copy(blob, blob + blob_len, data.begin());
+		if (blob_len)
+		{
+			std::copy(blob, blob + blob_len, data.begin());
+		}
 	}
 
 	std::string get_data_alert::message() const
@@ -2080,7 +2083,10 @@ namespace {
 		, int msg_len)
 	{
 		std::copy(from, from + 32, sender.begin());
-		std::copy(incoming_msg, incoming_msg + msg_len, msg.begin());
+		if (msg_len > 0)
+		{
+			std::copy(incoming_msg, incoming_msg + msg_len, msg.begin());
+		}
 	}
 
 	std::string incoming_relay_message_alert::message() const

@@ -35,6 +35,11 @@ public:
 	put_context(assemble_logger& logger, dht::public_key const& sender
 		, aux::uri const& blob_uri, std::uint32_t seg_count);
 
+	aux::uri get_uri()
+	{
+		return m_uri;
+	}
+
 	void add_root_index(sha1_hash const& h);
 
 	void get_root_index(std::vector<sha1_hash>& ri)

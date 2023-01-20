@@ -78,6 +78,8 @@ private:
 	void get_callback(dht::item const& it, bool auth
 		, std::shared_ptr<get_context> ctx, sha1_hash seg_hash);
 
+	void post_alert(std::shared_ptr<get_context> ctx);
+
 	io_context& m_ios;
 	aux::session_interface& m_session;
 	aux::session_settings const& m_settings;

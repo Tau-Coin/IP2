@@ -10,6 +10,7 @@ see LICENSE file.
 #include "ip2/assemble/getter.hpp"
 
 #include "ip2/aux_/session_interface.hpp"
+#include "ip2/aux_/alert_manager.hpp" // for alert_manager
 
 #include "ip2/kademlia/node_id.hpp"
 
@@ -121,7 +122,9 @@ void getter::on_incoming_relay_request(dht::public_key const& sender
 		, hex_sender, hex_uri);
 #endif
 
-	//TODO: post "incoming_relay_data_uri_alert"
+	// post "incoming_relay_data_uri_alert"
+	m_session.alerts().emplace_alert<incoming_relay_data_uri_alert>(sender.bytes.data()
+		, blob_uri.bytes.data(), ts.value);
 }
 
 void getter::get_callback(dht::item const& it, bool auth
@@ -165,7 +168,8 @@ void getter::get_callback(dht::item const& it, bool auth
 				{
 					ctx->set_error(ok);
 					ctx->done();
-					// TODO: post get fail alert
+					// post get fail alert
+					post_alert(ctx);
 					m_running_tasks.erase(ctx);
 
 					return;
@@ -179,7 +183,8 @@ void getter::get_callback(dht::item const& it, bool auth
 #endif
 				ctx->set_error(err);
 				ctx->done();
-				// TODO: post get alert
+				// post get alert
+				post_alert(ctx);
 				m_running_tasks.erase(ctx);
 				return;
 			}
@@ -198,7 +203,8 @@ void getter::get_callback(dht::item const& it, bool auth
 #endif
                 ctx->set_error(api::EMPTY_BLOB_INDEX);
                 ctx->done();
-                // TODO: post get alert
+                // post get alert
+				post_alert(ctx);
                 m_running_tasks.erase(ctx);
                 return;
 			}
@@ -215,7 +221,8 @@ void getter::get_callback(dht::item const& it, bool auth
 #endif
 					ctx->set_error(api::DHT_LIVE_NODES_ZERO);
 					ctx->done();
-					// TODO: post get alert
+					// post get alert
+					post_alert(ctx);
 					m_running_tasks.erase(ctx);
 					return;
 				}
@@ -231,7 +238,8 @@ void getter::get_callback(dht::item const& it, bool auth
 #endif
 					ctx->set_error(api::TRANSPORT_BUFFER_FULL);
 					ctx->done();
-					// TODO: post get alert
+					// post get alert
+					post_alert(ctx);
 					m_running_tasks.erase(ctx);
 					return;
 				}
@@ -261,7 +269,8 @@ void getter::get_callback(dht::item const& it, bool auth
 						if (ctx->is_done())
 						{
 							ctx->done();
-							// TODO: post get failed alert
+							// post get failed alert
+							post_alert(ctx);
 							m_running_tasks.erase(ctx);
 							return;
 						}
@@ -317,16 +326,18 @@ void getter::get_callback(dht::item const& it, bool auth
 		{
 			if (ctx->get_error() != api::NO_ERROR)
 			{
-				// TODO: post get failed alert
+				// post get failed alert
+				post_alert(ctx);
 			}
 			else
 			{
-				// TODO: post get successfully alert
+				// post get successfully alert
 				std::string blob;
 				bool result = ctx->get_segments_blob(blob);
 				if (result)
 				{
-					// TODO: post get blob alert
+					// post get blob alert
+					post_alert(ctx);
 				}
 				else
 				{
@@ -341,6 +352,26 @@ void getter::get_callback(dht::item const& it, bool auth
 			m_running_tasks.erase(ctx);
 		}
 	}
+}
+
+void getter::post_alert(std::shared_ptr<get_context> ctx)
+{
+	dht::public_key sender = ctx->get_sender();
+	aux::uri data_uri = ctx->get_uri();
+
+	std::string data;
+	bool got = ctx->get_segments_blob(data);
+	if (!got)
+	{
+		m_session.alerts().emplace_alert<get_data_alert>(sender.bytes.data()
+			, data_uri.bytes.data(), ctx->get_timestamp()
+			, data.c_str(), 0, ctx->get_error());
+		return;
+	}
+
+	m_session.alerts().emplace_alert<get_data_alert>(sender.bytes.data()
+		, data_uri.bytes.data(), ctx->get_timestamp()
+		, data.c_str(), (int)data.size(), ctx->get_error());
 }
 
 } // namespace assemble

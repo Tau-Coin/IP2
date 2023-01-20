@@ -11,6 +11,7 @@ see LICENSE file.
 #include "ip2/assemble/protocol.hpp"
 
 #include "ip2/aux_/session_interface.hpp"
+#include "ip2/aux_/alert_manager.hpp"
 
 #include "ip2/kademlia/node_id.hpp"
 
@@ -160,7 +161,7 @@ api::error_code relayer::relay_uri(dht::public_key const& receiver
 	sha1_hash msg_id = h.final();
 
 	std::shared_ptr<relay_context> ctx = std::make_shared<relay_context>(m_logger
-		, receiver, msg_id, URI);
+		, receiver, msg_id, data_uri, ts, URI);
 
 	protocol::relay_uri_protocol p(m_self_pubkey, data_uri, ts);
 	entry pl = p.to_entry();
@@ -190,7 +191,9 @@ api::error_code relayer::relay_uri(dht::public_key const& receiver
 
 void relayer::on_incoming_relay_message(dht::public_key const& pk, std::string const& msg)
 {
-	// TODO: post 'incoming_relay_alert'
+	// post 'incoming_relay_alert'
+	m_session.alerts().emplace_alert<incoming_relay_message_alert>(pk.bytes.data()
+		, msg.c_str(), (int)msg.size());
 }
 
 void relayer::send_message_callback(entry const& payload
@@ -206,7 +209,10 @@ void relayer::send_message_callback(entry const& payload
 
 	if (ctx->get_relay_type() == MESSAGE)
 	{
-		// TODO: post 'relay_message_alert'
+		// post 'relay_message_alert'
+		dht::public_key receiver = ctx->get_receiver();
+		m_session.alerts().emplace_alert<relay_message_alert>(receiver.bytes.data()
+			, ctx->get_error());
 	}
 
 	m_running_tasks.erase(ctx);
@@ -226,7 +232,11 @@ void relayer::send_uri_callback(entry const& payload
 
     if (ctx->get_relay_type() == URI)
 	{
-		// TODO: post 'relay_data_uri_alert'
+		// post 'relay_data_uri_alert'
+		dht::public_key receiver = ctx->get_receiver();
+		aux::uri data_uri = ctx->get_uri();
+		m_session.alerts().emplace_alert<relay_data_uri_alert>(receiver.bytes.data()
+			, data_uri.bytes.data(), ctx->get_timestamp(), ctx->get_error());
 	}
 
 	m_running_tasks.erase(ctx);

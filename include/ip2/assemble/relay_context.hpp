@@ -39,11 +39,19 @@ public:
 	relay_context(assemble_logger& logger, dht::public_key const& receiver
 		, sha1_hash const& msg_id, relay_type t);
 
+	relay_context(assemble_logger& logger, dht::public_key const& receiver
+		, sha1_hash const& msg_id, aux::uri const& data_uri
+		, dht::timestamp ts, relay_type t);
+
 	dht::public_key get_receiver() { return m_receiver; }
 
 	sha1_hash get_msg_id() { return m_msg_id; }
 
 	relay_type get_relay_type() { return m_type; } 
+
+	aux::uri get_uri() { return m_uri; }
+
+	std::int64_t get_timestamp() { return m_ts.value; }
 
 	void start_relay();
 	void done() override;
@@ -54,6 +62,10 @@ private:
 
 	dht::public_key m_receiver;
 	sha1_hash m_msg_id;
+
+	// just for relay data uri
+	aux::uri m_uri;
+	dht::timestamp m_ts;
 
 	relay_type m_type;
 };

@@ -42,6 +42,8 @@ public:
 
 	dht::public_key get_sender() { return m_sender; }
 
+	aux::uri get_uri() { return m_uri; }
+
 	std::int64_t get_timestamp() { return m_ts.value; }
 
 	bool is_root_index(sha1_hash const& h) { return h == m_uri_hash; }

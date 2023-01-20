@@ -11,6 +11,7 @@ see LICENSE file.
 #include "ip2/assemble/protocol.hpp"
 
 #include "ip2/aux_/session_interface.hpp"
+#include "ip2/aux_/alert_manager.hpp" // for alert_manager
 
 #include "ip2/kademlia/node_id.hpp"
 
@@ -204,7 +205,10 @@ void putter::put_callback(dht::item const& it, int responses
 	if (ctx->is_done())
 	{
 		ctx->done();
-		// TODO: post alert with error code
+		// post alert with error code
+		aux::uri data_uri = ctx->get_uri();
+		m_session.alerts().emplace_alert<put_data_alert>(data_uri.bytes.data()
+			, ctx->get_error());
 		m_running_tasks.erase(ctx);
 	}
 }
