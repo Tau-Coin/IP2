@@ -933,6 +933,8 @@ void apply_deprecated_dht_settings(settings_pack& sett, bdecode_node const& s)
 		stop_ip_notifier();
 		stop_upnp();
 		stop_natpmp();
+		stop_assembler();
+		stop_transporter();
 		stop_dht();
 		stop_communication();
 		stop_blockchain();
@@ -3571,9 +3573,14 @@ namespace {
 		std::vector<char> const& blob
 		, std::array<char, 20> const& uri)
 	{
-		// TODO: transfer this API to assemble module
+		// transfer this API to assemble module
+		if (m_assembler)
+		{
+			aux::uri blob_uri(uri.data());
+			return m_assembler->put(span(blob.data(), blob.size()), blob_uri);
+		}
 
-		return ip2::api::NO_ERROR;
+		return ip2::api::ABORT_ERROR;
 	}
 
 	ip2::api::error_code session_impl::relay_data_uri(
@@ -3581,9 +3588,15 @@ namespace {
 		, std::array<char, 20> const& uri
 		, std::int64_t timestamp)
 	{
-		// TODO: transfer this API to assemble module
+		// transfer this API to assemble module
+		if (m_assembler)
+		{
+			dht::public_key pk(receiver.data());
+			aux::uri blob_uri(uri.data());
+			return m_assembler->relay_uri(pk, blob_uri, dht::timestamp(timestamp));
+		}
 
-		return ip2::api::NO_ERROR;
+		return ip2::api::ABORT_ERROR;
 	}
 
 	ip2::api::error_code session_impl::get_data_from_swarm(
@@ -3591,18 +3604,29 @@ namespace {
 		, std::array<char, 20> const& uri
 		, std::int64_t timestamp)
 	{
-		// TODO: transfer this API to assemble module
+		// transfer this API to assemble module
+		if (m_assembler)
+		{
+			dht::public_key pk(sender.data());
+			aux::uri blob_uri(uri.data());
+			return m_assembler->get(pk, blob_uri, dht::timestamp(timestamp));
+		}
 
-		return ip2::api::NO_ERROR;
+		return ip2::api::ABORT_ERROR;
 	}
 
 	ip2::api::error_code session_impl::relay_message(
 		std::array<char, 32> const& receiver
 		, std::vector<char> const& message)
 	{
-		// TODO: transfer this API to assemble module
+		// transfer this API to assemble module
+		if (m_assembler)
+		{
+			dht::public_key pk(receiver.data());
+			return m_assembler->relay_message(pk, span(message.data(), message.size()));
+		}
 
-		return ip2::api::NO_ERROR;
+		return ip2::api::ABORT_ERROR;
 	}
 
 	// transport
@@ -3721,6 +3745,8 @@ namespace {
 			if (m_outstanding_router_lookups == 0) 
 			{
 				start_dht();
+				start_transporter();
+				start_assembler();
                 if(c_enable)
 				    start_communication();
                 if(b_enable)
@@ -3764,6 +3790,8 @@ namespace {
 		if (m_outstanding_router_lookups == 0)
 		{
 			start_dht();
+			start_transporter();
+			start_assembler();
             if(c_enable)
                 start_communication();
             if(b_enable)

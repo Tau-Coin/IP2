@@ -29,6 +29,7 @@ enum error_code
 	GET_TOO_MANY_TIMES,
 	RELAY_RESPONSE_ZERO,
 	EMPTY_BLOB_INDEX,
+	ABORT_ERROR,
 };
 
 } // namespace api
