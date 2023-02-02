@@ -13,10 +13,10 @@ namespace ip2 {
 namespace assemble {
 
 namespace {
-	static std::uint32_t s_search_id = 0;
+	static std::uint32_t s_context_id = 0;
 }
 
-context::context() : m_id(s_search_id++), m_error(api::NO_ERROR) {}
+context::context() : m_id(s_context_id++), m_error(api::NO_ERROR) {}
 
 } // namespace assemble
 } // namespace ip2

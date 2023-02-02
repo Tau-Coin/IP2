@@ -15,14 +15,13 @@ using namespace ip2::assemble::protocol;
 namespace ip2 {
 namespace assemble {
 
-relay_dispatcher::relay_dispatcher(assemble_logger& logger
-	, getter& g, relayer& r)
-	: m_logger(logger)
-	, m_getter(g)
+relay_dispatcher::relay_dispatcher(getter& g, relayer& r, assemble_logger& logger)
+	: m_getter(g)
 	, m_relayer(r)
+	, m_logger(logger)
 {}
 
-void relay_dispatcher::on_dht_relay(sha256_hash const& from, entry const& payload)
+void relay_dispatcher::on_dht_relay(dht::public_key const& from, entry const& payload)
 {
 	protocol::basic_protocol bp; 
 	api::error_code err;
@@ -50,8 +49,7 @@ void relay_dispatcher::on_dht_relay(sha256_hash const& from, entry const& payloa
 		protocol::relay_msg_protocol *rmp
 			= static_cast<protocol::relay_msg_protocol*>(&bp);
 
-		dht::public_key pk(from.data());
-		m_relayer.on_incoming_relay_message(pk, rmp->msg());
+		m_relayer.on_incoming_relay_message(from, rmp->msg());
 	}
 	else
 	{

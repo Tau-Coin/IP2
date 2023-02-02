@@ -30,10 +30,9 @@ struct TORRENT_EXTRA_EXPORT relay_dispatcher final : transport::relay_listener
 {
 public:
 
-	relay_dispatcher(assemble_logger& logger
-		, getter& g, relayer& r);
+	relay_dispatcher(getter& g, relayer& r, assemble_logger& logger);
 
-	void on_dht_relay(sha256_hash const& from, entry const& payload) override;
+	void on_dht_relay(dht::public_key const& from, entry const& payload) override;
 
 private:
 

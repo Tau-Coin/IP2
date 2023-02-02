@@ -4359,6 +4359,7 @@ namespace {
 
 	void session_impl::on_dht_relay(dht::public_key const& from, entry const& payload)
 	{
+		/*
         if (m_communication)
         {
             m_communication->on_dht_relay(from, payload);
@@ -4367,9 +4368,12 @@ namespace {
         {
             m_blockchain->on_dht_relay(from, payload);
         }
+		 */
+		if (m_transporter)
+		{
+			m_transporter->on_dht_relay(from, payload);
+		}
 	}
-
-
 
 	sqlite3* session_impl::get_items_database()
 	{

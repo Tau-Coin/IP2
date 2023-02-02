@@ -14,6 +14,7 @@ see LICENSE file.
 #include "ip2/assemble/getter.hpp"
 #include "ip2/assemble/putter.hpp"
 #include "ip2/assemble/relayer.hpp"
+#include "ip2/assemble/relay_dispatcher.hpp"
 
 #include <ip2/entry.hpp>
 #include <ip2/io_context.hpp>
@@ -42,7 +43,7 @@ namespace aux {
 namespace assemble {
 
 class TORRENT_EXTRA_EXPORT assembler final
-	: std::enable_shared_from_this<assembler>, assemble_logger
+	: std::enable_shared_from_this<assembler>, public assemble_logger
 {
 
 public:
@@ -56,6 +57,8 @@ public:
 	assembler& operator=(assembler const&) = delete;
 	assembler(assembler&&) = delete;
 	assembler& operator=(assembler&&) = delete;
+
+	~assembler();
 
 	std::shared_ptr<assembler> self() { return shared_from_this(); }
 
@@ -91,6 +94,8 @@ private:
 	getter m_getter;
 	putter m_putter;
 	relayer m_relayer;
+
+	std::shared_ptr<relay_dispatcher> m_relay_dispatcher;
 
 	bool m_running = false;
 };

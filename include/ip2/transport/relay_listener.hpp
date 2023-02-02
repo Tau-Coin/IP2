@@ -19,7 +19,7 @@ namespace transport {
 
 struct TORRENT_EXPORT relay_listener
 {
-	virtual void on_dht_relay(sha256_hash const& from, entry const& payload) = 0;
+	virtual void on_dht_relay(dht::public_key const& from, entry const& payload) = 0;
 };
 
 } // namespace transport

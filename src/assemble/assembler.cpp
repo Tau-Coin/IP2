@@ -28,10 +28,19 @@ assembler::assembler(io_context& ios
 	, m_getter(ios, session, settings, cnt, *this)
 	, m_putter(ios, session, settings, cnt, *this)
 	, m_relayer(ios, session, settings, cnt, *this)
+	, m_relay_dispatcher(std::make_shared<relay_dispatcher>(m_getter, m_relayer, *this))
 {
 	// initialize node id
 	sha256_hash node_id = dht::get_node_id(m_settings);
 	std::memcpy(m_self_pubkey.bytes.data(), node_id.data(), dht::public_key::len);
+
+	//m_relay_dispatcher = std::make_shared<relay_dispatcher>(*this, m_getter, m_relayer);
+	m_session.transporter()->register_relay_listener(m_relay_dispatcher);
+}
+
+assembler::~assembler()
+{
+	m_session.transporter()->unregister_relay_listener(m_relay_dispatcher);
 }
 
 void assembler::update_node_id()

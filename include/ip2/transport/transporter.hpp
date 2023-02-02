@@ -119,6 +119,14 @@ public:
 		m_relay_listeners.erase(std::move(listener));
 	}
 
+	void on_dht_relay(dht::public_key const& from, entry const& payload)
+	{
+		for (auto& l : m_relay_listeners)
+		{
+			l->on_dht_relay(from, payload);
+		}
+	}
+
 	void invoking_timeout(error_code const& e);
 
 private:
