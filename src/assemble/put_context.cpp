@@ -37,7 +37,7 @@ void put_context::add_root_index(sha1_hash const& h)
 #endif
 }
 
-void put_context::add_invoked_hash(sha1_hash const& h)
+void put_context::add_invoked_hash(sha1_hash const& h, bool seg)
 {
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
@@ -50,23 +50,43 @@ void put_context::add_invoked_hash(sha1_hash const& h)
 	if (it == m_invoked_hashes.end())
 	{
 		m_invoked_hashes.insert(std::pair<sha1_hash, int>(h, 1));
+		if (seg)
+		{
 #ifndef TORRENT_DISABLE_LOGGING
-		m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s, times:%d"
-			, id(), hex_hash, 1);
+			m_logger.log(aux::LOG_INFO, "[%u] put segment:%s, times:%d"
+				, id(), hex_hash, 1);
 #endif
+		}
+		else
+		{
+#ifndef TORRENT_DISABLE_LOGGING
+			m_logger.log(aux::LOG_INFO, "[%u] put index:%s, times:%d"
+				, id(), hex_hash, 1);
+#endif
+		}
 
 		return;
 	}
 
 	it->second++;
 
+	if (seg)
+	{
 #ifndef TORRENT_DISABLE_LOGGING
-	m_logger.log(aux::LOG_INFO, "[%u] put index or segment:%s, times:%d"
-		, id(), hex_hash, it->second);
+		m_logger.log(aux::LOG_INFO, "[%u] put segment:%s, times:%d"
+			, id(), hex_hash, it->second);
 #endif
+	}
+	else
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO, "[%u] put index:%s, times:%d"
+			, id(), hex_hash, it->second);
+#endif
+	}
 }
 
-void put_context::add_callbacked_hash(sha1_hash const& h, int response)
+void put_context::add_callbacked_hash(sha1_hash const& h, int response, bool seg)
 {
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
@@ -79,20 +99,40 @@ void put_context::add_callbacked_hash(sha1_hash const& h, int response)
 	if (it == m_invoked_hashes.end())
 	{
 		m_callbacked_hashes.insert(std::pair<sha1_hash, int>(h, response));
+		if (seg)
+		{
 #ifndef TORRENT_DISABLE_LOGGING
-		m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
-			, id(), hex_hash, response);
+			m_logger.log(aux::LOG_INFO, "[%u] put segment callback:%s, responses:%d"
+				, id(), hex_hash, response);
 #endif
+		}
+		else
+		{
+#ifndef TORRENT_DISABLE_LOGGING
+			m_logger.log(aux::LOG_INFO, "[%u] put index callback:%s, responses:%d"
+				, id(), hex_hash, response);
+#endif
+		}
 
 		return;
 	}
 
 	it->second = response;
 
+	if (seg)
+	{
 #ifndef TORRENT_DISABLE_LOGGING
-    m_logger.log(aux::LOG_INFO, "[%u] put index or segment callback:%s, responses:%d"
-		, id(), hex_hash, it->second);
+		m_logger.log(aux::LOG_INFO, "[%u] put segment callback:%s, responses:%d"
+			, id(), hex_hash, it->second);
 #endif
+	}
+	else
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO, "[%u] put index callback:%s, responses:%d"
+			, id(), hex_hash, it->second);
+#endif
+	}
 }
 
 bool put_context::is_reput_allowed(sha1_hash const& h)

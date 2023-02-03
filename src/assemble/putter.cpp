@@ -50,13 +50,15 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 		return api::BLOB_TOO_LARGE;
 	}
 
+#ifndef TORRENT_DISABLE_LOGGING
+	char hex_uri[41];
+	aux::to_hex(blob_uri.bytes, hex_uri);
+#endif
+
 	// check network, if dht live nodes is 0, return error.
 	if (m_session.dht_nodes() == 0)
 	{
 #ifndef TORRENT_DISABLE_LOGGING
-		char hex_uri[41];
-		aux::to_hex(blob_uri.bytes, hex_uri);
-
 		m_logger.log(aux::LOG_INFO
 			, "drop put req:%s, error: dht nodes 0", hex_uri);
 #endif
@@ -75,9 +77,6 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 	if (!m_session.transporter()->has_enough_buffer(buffer_slot))
 	{
 #ifndef TORRENT_DISABLE_LOGGING
-		char hex_uri[41];
-		aux::to_hex(blob_uri.bytes, hex_uri);
-
 		m_logger.log(aux::LOG_INFO
 			, "drop put req:%s, error: buffer is full", hex_uri);
 #endif
@@ -103,13 +102,13 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 
 	api::error_code ok = m_session.transporter()->put(pl
 		, std::string(last_seg_hash.data(), 20)
-		, std::bind(&putter::put_callback, self(), _1, _2, ctx, last_seg_hash)
+		, std::bind(&putter::put_callback, self(), _1, _2, ctx, last_seg_hash, true)
 		, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 	if (ok == api::NO_ERROR)
 	{
 		blob_seg_hashes.push_back(last_seg_hash);
-		ctx->add_invoked_hash(last_seg_hash);
+		ctx->add_invoked_hash(last_seg_hash, true);
 		m_running_tasks.insert(ctx);
 	}
 	else
@@ -137,13 +136,13 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 
 		api::error_code err = m_session.transporter()->put(e
 			, std::string(seg_hash.data(), 20) 
-			, std::bind(&putter::put_callback, self(), _1, _2, ctx, seg_hash)
+			, std::bind(&putter::put_callback, self(), _1, _2, ctx, seg_hash, true)
 			, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 		if (err == api::NO_ERROR)
 		{
 			blob_seg_hashes.push_back(seg_hash);
-			ctx->add_invoked_hash(seg_hash);
+			ctx->add_invoked_hash(seg_hash, true);
 		}
 		else
 		{
@@ -153,8 +152,6 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 
 		seg_count -= 1;
 	}
-
-	sha1_hash op_id = hash(blob, blob_uri);
 
 	// if no error, put root index
 	if (seg_count == 0 && ctx->get_error() == api::NO_ERROR)
@@ -171,17 +168,27 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 
 		api::error_code err = m_session.transporter()->put(ripe
 			, std::string(uri_hash.data(), 20)
-			, std::bind(&putter::put_callback, self(), _1, _2, ctx, uri_hash)
+			, std::bind(&putter::put_callback, self(), _1, _2, ctx, uri_hash, false)
 			, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 		if (err == api::NO_ERROR)
 		{
-			ctx->add_invoked_hash(uri_hash);
+			ctx->add_invoked_hash(uri_hash, false);
         }
 		else
 		{
 			ctx->set_error(err);
 		}
+	}
+
+	// if the first segment failed, directly return error
+	if (ctx->is_done())
+	{
+		api::error_code ret_error = ctx->get_error();
+		ctx->done();
+		m_running_tasks.erase(ctx);
+
+		return ret_error;
 	}
 
 	return api::NO_ERROR;
@@ -194,12 +201,33 @@ void putter::update_node_id()
 }
 
 void putter::put_callback(dht::item const& it, int responses
-	, std::shared_ptr<put_context> ctx, sha1_hash seg_hash)
+	, std::shared_ptr<put_context> ctx, sha1_hash h, bool is_seg)
 {
-	ctx->add_callbacked_hash(seg_hash, responses);
+	ctx->add_callbacked_hash(h, responses, is_seg);
 	if (responses == 0)
 	{
-		ctx->set_error(api::PUT_RESPONSE_ZERO);
+		if (ctx->is_reput_allowed(h))
+		{
+			api::dht_rpc_params config = get_rpc_parmas(api::PUT);
+
+			api::error_code err = m_session.transporter()->put(it.value()
+				, std::string(h.data(), 20)
+				, std::bind(&putter::put_callback, self(), _1, _2, ctx, h, is_seg)
+				, config.invoke_branch, config.invoke_window, config.invoke_limit);
+
+			if (err == api::NO_ERROR)
+			{
+				ctx->add_invoked_hash(h, is_seg);
+			}
+			else
+			{
+				ctx->set_error(err);
+			}
+		}
+		else
+		{
+			ctx->set_error(api::PUT_RESPONSE_ZERO);
+		}
 	}
 
 	if (ctx->is_done())

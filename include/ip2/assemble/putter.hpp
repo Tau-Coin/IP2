@@ -69,7 +69,7 @@ public:
 private:
 
 	void put_callback(dht::item const& it, int responses
-		, std::shared_ptr<put_context> ctx, sha1_hash seg_hash);
+		, std::shared_ptr<put_context> ctx, sha1_hash hash, bool is_seg);
 
 	sha1_hash hash(std::string const& value);
 

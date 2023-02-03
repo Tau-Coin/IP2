@@ -26,7 +26,7 @@ see LICENSE file.
 namespace ip2 {
 namespace assemble {
 
-static constexpr int reput_times_limit = 1;
+static constexpr int reput_times_limit = 2;
 
 struct TORRENT_EXTRA_EXPORT put_context final : context
 {
@@ -50,9 +50,9 @@ public:
 		}
 	}
 
-	void add_invoked_hash(sha1_hash const& h);
+	void add_invoked_hash(sha1_hash const& h, bool seg);
 
-	void add_callbacked_hash(sha1_hash const& h, int response);
+	void add_callbacked_hash(sha1_hash const& h, int response, bool seg);
 
 	bool is_reput_allowed(sha1_hash const& h);
 

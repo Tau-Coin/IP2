@@ -238,7 +238,7 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 			for (int i = 0; i != count; i++)
 			{
 				sha1_hash h;
-				std::memcpy(h.data(), hash_str.data() + (i - 1) * 20, 20);
+				std::memcpy(h.data(), hash_str.data() + i * 20, 20);
 				hashes.push_back(h);
 			}
 		}
