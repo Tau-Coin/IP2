@@ -17,11 +17,21 @@ namespace ip2 {
 namespace assemble {
 
 relay_context::relay_context(assemble_logger& logger
-	, dht::public_key const& receiver, sha1_hash const& msg_id, relay_type t)
+	, dht::public_key const& receiver)
 	: m_logger(logger)
 	, m_receiver(receiver)
-	, m_msg_id(msg_id)
-	, m_type(t)
+	, m_type(relay_type::MESSAGE)
+{}
+
+relay_context::relay_context(assemble_logger& logger
+	, dht::public_key const& receiver
+	, aux::uri const& data_uri
+	, dht::timestamp ts)
+	: m_logger(logger)
+	, m_receiver(receiver)
+	, m_uri(data_uri)
+	, m_ts(ts)
+	, m_type(relay_type::URI)
 {}
 
 void relay_context::start_relay()
@@ -29,11 +39,24 @@ void relay_context::start_relay()
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_receiver[65];
 	aux::to_hex(m_receiver.bytes, hex_receiver);
-
-	m_logger.log(aux::LOG_INFO
-		, "[%u] start relay: receiver: %s, msg_id: %s"
-		, id(), hex_receiver, aux::to_hex(m_msg_id).c_str());
 #endif
+
+	if (m_type == relay_type::MESSAGE)
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO
+			, "[%u] start relay message to %s", id(), hex_receiver);
+#endif
+	}
+	else
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		char hex_uri[41];
+		aux::to_hex(m_uri.bytes, hex_uri);
+		m_logger.log(aux::LOG_INFO
+			, "[%u] start relay uri %s to %s", id(), hex_uri, hex_receiver);
+#endif
+	}
 }
 
 void relay_context::done()
@@ -43,8 +66,7 @@ void relay_context::done()
 	aux::to_hex(m_receiver.bytes, hex_receiver);
 
 	m_logger.log(aux::LOG_INFO
-		, "[%u] relay DONE: receiver: %s, msg_id: %s, err: %d"
-		, id(), hex_receiver, aux::to_hex(m_msg_id).c_str(), get_error());
+		, "[%u] relay DONE: receiver: %s, err: %d", id(), hex_receiver, get_error());
 #endif
 }
 

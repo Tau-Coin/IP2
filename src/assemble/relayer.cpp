@@ -90,12 +90,7 @@ api::error_code relayer::relay_message(dht::public_key const& receiver
 		return api::BLOB_TOO_LARGE;
 	}
 
-	hasher h(message);
-	h.update(receiver.bytes.data(), 32);
-	sha1_hash msg_id = h.final();
-
-	std::shared_ptr<relay_context> ctx = std::make_shared<relay_context>(m_logger
-		, receiver, msg_id, MESSAGE);
+	std::shared_ptr<relay_context> ctx = std::make_shared<relay_context>(m_logger, receiver);
 
 	protocol::relay_msg_protocol p(std::string(message.data(), message.size()));
 	entry pl = p.to_entry();
@@ -155,13 +150,8 @@ api::error_code relayer::relay_uri(dht::public_key const& receiver
 		return api::TRANSPORT_BUFFER_FULL;
 	}
 
-	hasher h;
-	h.update(receiver.bytes.data(), 32);
-	h.update(data_uri.bytes.data(), 20);
-	sha1_hash msg_id = h.final();
-
 	std::shared_ptr<relay_context> ctx = std::make_shared<relay_context>(m_logger
-		, receiver, msg_id, data_uri, ts, URI);
+		, receiver, data_uri, ts);
 
 	protocol::relay_uri_protocol p(m_self_pubkey, data_uri, ts);
 	entry pl = p.to_entry();

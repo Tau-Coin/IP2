@@ -34,7 +34,6 @@ assembler::assembler(io_context& ios
 	sha256_hash node_id = dht::get_node_id(m_settings);
 	std::memcpy(m_self_pubkey.bytes.data(), node_id.data(), dht::public_key::len);
 
-	//m_relay_dispatcher = std::make_shared<relay_dispatcher>(*this, m_getter, m_relayer);
 	m_session.transporter()->register_relay_listener(m_relay_dispatcher);
 }
 
