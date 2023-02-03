@@ -85,16 +85,16 @@ api::error_code getter::get_blob(dht::public_key const& sender
 		m_logger, sender, blob_uri, ts);
 	api::dht_rpc_params config = get_rpc_parmas(api::GET);
 	std::string salt(blob_uri.bytes.data(), 20);
-	sha1_hash seg_hash(blob_uri.bytes.data());
+	sha1_hash index_hash(blob_uri.bytes.data());
 
 	api::error_code result = m_session.transporter()->get(sender
 		, salt, ts.value
-		, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+		, std::bind(&getter::get_callback, self(), _1, _2, ctx, index_hash, false)
 		, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 	if (result == api::NO_ERROR)
 	{
-		ctx->start_getting_seg(seg_hash);
+		ctx->start_getting_hash(index_hash, false);
 		m_running_tasks.insert(ctx);
 	}
     else
@@ -106,7 +106,7 @@ api::error_code getter::get_blob(dht::public_key const& sender
 	return result;
 }
 
-void getter::on_incoming_relay_request(dht::public_key const& sender
+void getter::on_incoming_relay_uri(dht::public_key const& sender
 	, aux::uri blob_uri, dht::timestamp ts)
 {
 #ifndef TORRENT_DISABLE_LOGGING
@@ -128,41 +128,41 @@ void getter::on_incoming_relay_request(dht::public_key const& sender
 }
 
 void getter::get_callback(dht::item const& it, bool auth
-	, std::shared_ptr<get_context> ctx, sha1_hash seg_hash)
+	, std::shared_ptr<get_context> ctx, sha1_hash h, bool is_seg)
 {
 	if (!auth) return;
 
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
-	aux::to_hex(seg_hash, hex_hash);
+	aux::to_hex(h, hex_hash);
 #endif
 
-	ctx->on_arrived(seg_hash);
+	ctx->on_arrived(h);
 
-	if (ctx->is_root_index(seg_hash))
+	if (!is_seg && ctx->is_root_index(h))
 	{
 		// this item is root index protocol
 		api::error_code err = ctx->on_root_index_got(it);
 		if (err != api::NO_ERROR)
 		{
-			if (ctx->is_getting_allowed(seg_hash))
+			if (ctx->is_getting_allowed(h))
 			{
 #ifndef TORRENT_DISABLE_LOGGING
-				m_logger.log(aux::LOG_WARNING, "[%u] re-get index again: %s"
+				m_logger.log(aux::LOG_WARNING, "[%u] re-get root index again: %s"
 					, ctx->id(), hex_hash);
 #endif
 
-				std::string salt(seg_hash.data(), 20);
+				std::string salt(h.data(), 20);
 				api::dht_rpc_params config = get_rpc_parmas(api::GET);
 
 				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 					, salt, ctx->get_timestamp()
-					, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+					, std::bind(&getter::get_callback, self(), _1, _2, ctx, h, false)
 					, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 				if (ok == api::NO_ERROR)
 				{
-					ctx->start_getting_seg(seg_hash);
+					ctx->start_getting_hash(h, false);
 				}
 				else
 				{
@@ -216,7 +216,7 @@ void getter::get_callback(dht::item const& it, bool auth
 				{
 #ifndef TORRENT_DISABLE_LOGGING
 					m_logger.log(aux::LOG_ERR
-						, "[%u] drop get request:%s, dht live nodes is 0"
+						, "[%u] drop get seg:%s, dht live nodes is 0"
 						, ctx->id(), hex_hash);
 #endif
 					ctx->set_error(api::DHT_LIVE_NODES_ZERO);
@@ -233,7 +233,7 @@ void getter::get_callback(dht::item const& it, bool auth
 				{
 #ifndef TORRENT_DISABLE_LOGGING
 					m_logger.log(aux::LOG_ERR
-						, "[%u] drop get request:%s, buffer is full:%d"
+						, "[%u] drop get seg:%s, buffer is full:%d"
 						, ctx->id(), hex_hash, seg_hashes.size());
 #endif
 					ctx->set_error(api::TRANSPORT_BUFFER_FULL);
@@ -252,13 +252,13 @@ void getter::get_callback(dht::item const& it, bool auth
 
 					api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 						, seg_salt, ctx->get_timestamp()
-						, std::bind(&getter::get_callback, self(), _1, _2, ctx, s)
+						, std::bind(&getter::get_callback, self(), _1, _2, ctx, s, true)
 						, config.invoke_branch, config.invoke_window
 						, config.invoke_limit);
 
 					if (ok == api::NO_ERROR)
 					{
-						ctx->start_getting_seg(s);
+						ctx->start_getting_hash(s, true);
 					}
 					else
 					{
@@ -266,15 +266,6 @@ void getter::get_callback(dht::item const& it, bool auth
 						// how to handle this error?
 						// if no flying request, done this get task.
 						// else wait for reponse.
-						if (ctx->is_done())
-						{
-							ctx->done();
-							// post get failed alert
-							post_alert(ctx);
-							m_running_tasks.erase(ctx);
-							return;
-						}
-
 						break;
 					}
 				}
@@ -284,28 +275,28 @@ void getter::get_callback(dht::item const& it, bool auth
 	else
 	{
 		// this item is blob segment
-		api::error_code err = ctx->on_segment_got(it, seg_hash);
+		api::error_code err = ctx->on_segment_got(it, h);
 
 		if (err != api::NO_ERROR)
 		{
-			if (ctx->is_getting_allowed(seg_hash))
+			if (ctx->is_getting_allowed(h))
 			{
 #ifndef TORRENT_DISABLE_LOGGING
 				m_logger.log(aux::LOG_WARNING, "[%u] re-get segment again:%s"
 					, ctx->id(), hex_hash);
 #endif
 
-				std::string salt(seg_hash.data(), 20);
+				std::string salt(h.data(), 20);
 				api::dht_rpc_params config = get_rpc_parmas(api::GET);
 
 				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 					, salt, ctx->get_timestamp()
-					, std::bind(&getter::get_callback, self(), _1, _2, ctx, seg_hash)
+					, std::bind(&getter::get_callback, self(), _1, _2, ctx, h, true)
 					, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 				if (ok == api::NO_ERROR)
 				{
-					ctx->start_getting_seg(seg_hash);
+					ctx->start_getting_hash(h, true);
 				}
 				else
 				{
@@ -321,36 +312,13 @@ void getter::get_callback(dht::item const& it, bool auth
 				ctx->set_error(err);
 			}
 		}
+	}
 
-		if (ctx->is_done())
-		{
-			if (ctx->get_error() != api::NO_ERROR)
-			{
-				// post get failed alert
-				post_alert(ctx);
-			}
-			else
-			{
-				// post get successfully alert
-				std::string blob;
-				bool result = ctx->get_segments_blob(blob);
-				if (result)
-				{
-					// post get blob alert
-					post_alert(ctx);
-				}
-				else
-				{
-#ifndef TORRENT_DISABLE_LOGGING
-					m_logger.log(aux::LOG_ERR, "[%u] get broken blob:%s"
-						, ctx->id(), hex_hash);
-#endif
-				}
-			}
-
-			ctx->done();
-			m_running_tasks.erase(ctx);
-		}
+	if (ctx->is_done())
+	{
+		post_alert(ctx);
+		ctx->done();
+		m_running_tasks.erase(ctx);
 	}
 }
 

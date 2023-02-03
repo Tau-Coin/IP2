@@ -41,7 +41,7 @@ void relay_dispatcher::on_dht_relay(dht::public_key const& from, entry const& pa
 		protocol::relay_uri_protocol *rup
 			= static_cast<protocol::relay_uri_protocol*>(&bp);
 
-		m_getter.on_incoming_relay_request(rup->pk()
+		m_getter.on_incoming_relay_uri(rup->pk()
 			, rup->blob_uri(), rup->ts());
 	}
 	else if (bp.get_name() == protocol::relay_msg_protocol::name)

@@ -56,7 +56,7 @@ public:
 		}
 	}
 
-	void start_getting_seg(sha1_hash const& h);
+	void start_getting_hash(sha1_hash const& h, bool is_seg);
 
 	bool is_getting_allowed(sha1_hash const& h);
 
@@ -103,7 +103,7 @@ private:
 	sha1_hash m_uri_hash;
 
 	// 'int' field represents the count of getting segment.
-	std::map<sha1_hash, int> m_invoked_seg_hashes;
+	std::map<sha1_hash, int> m_invoked_hashes; // root index hash and segment hash
 
 	std::set<sha1_hash> m_flying_segments;
 

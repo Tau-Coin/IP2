@@ -28,7 +28,7 @@ get_context::get_context(assemble_logger& logger, dht::public_key const& sender
 	, m_uri_hash(blob_uri.bytes.data())
 {}
 
-void get_context::start_getting_seg(sha1_hash const& h)
+void get_context::start_getting_hash(sha1_hash const& h, bool is_seg)
 {
 #ifndef TORRENT_DISABLE_LOGGING
 	char hex_hash[41];
@@ -37,25 +37,46 @@ void get_context::start_getting_seg(sha1_hash const& h)
 
 	m_flying_segments.insert(h);
 
-	auto it = m_invoked_seg_hashes.find(h);
+	auto it = m_invoked_hashes.find(h);
 
-	if (it == m_invoked_seg_hashes.end())
+	if (it == m_invoked_hashes.end())
 	{
-		m_invoked_seg_hashes.insert(std::pair<sha1_hash, int>(h, 1));
+		m_invoked_hashes.insert(std::pair<sha1_hash, int>(h, 1));
+
+		if (is_seg)
+		{
 #ifndef TORRENT_DISABLE_LOGGING
-		m_logger.log(aux::LOG_INFO, "[%u] start getting segment:%s, times:%d"
-			, id(), hex_hash, 1);
+			m_logger.log(aux::LOG_INFO, "[%u] get segment:%s, times:%d"
+				, id(), hex_hash, 1);
 #endif
+		}
+		else
+		{
+#ifndef TORRENT_DISABLE_LOGGING
+			m_logger.log(aux::LOG_INFO, "[%u] get index:%s, times:%d"
+				, id(), hex_hash, 1);
+#endif
+		}
 
 		return;
 	}
 
 	it->second++;
 
+	if (is_seg)
+	{
 #ifndef TORRENT_DISABLE_LOGGING
-	m_logger.log(aux::LOG_INFO, "[%u] start getting segment:%s, times:%d"
-		, id(), hex_hash, it->second);
+		m_logger.log(aux::LOG_INFO, "[%u] get segment:%s, times:%d"
+			, id(), hex_hash, it->second);
 #endif
+	}
+	else
+	{
+#ifndef TORRENT_DISABLE_LOGGING
+		m_logger.log(aux::LOG_INFO, "[%u] get index:%s, times:%d"
+			, id(), hex_hash, it->second);
+#endif
+	}
 }
 
 bool get_context::is_getting_allowed(sha1_hash const& h)
@@ -65,9 +86,9 @@ bool get_context::is_getting_allowed(sha1_hash const& h)
 	aux::to_hex(h, hex_hash);
 #endif
 
-	auto it = m_invoked_seg_hashes.find(h);
+	auto it = m_invoked_hashes.find(h);
 
-	if (it == m_invoked_seg_hashes.end())
+	if (it == m_invoked_hashes.end())
 	{
         return true;
 	}
@@ -75,11 +96,11 @@ bool get_context::is_getting_allowed(sha1_hash const& h)
     int times = it->second;
 
 #ifndef TORRENT_DISABLE_LOGGING 
-	m_logger.log(aux::LOG_INFO, "[%u] allowed getting segment:%s, times:%d"
+	m_logger.log(aux::LOG_INFO, "[%u] allowed getting:%s, times:%d"
 		, id(), hex_hash, times);
 #endif
 
-	return times <= reget_times_limit;
+	return times < reget_times_limit;
 }
 
 api::error_code get_context::on_root_index_got(dht::item const& it)
@@ -174,7 +195,7 @@ void get_context::done()
 	m_logger.log(aux::LOG_INFO
 		, "[%u] get DONE: sender: %s, uri:%s, err:%d, invoked:%d, index:%d, value size:%d"
 		, id(), hex_sender, hex_uri, get_error()
-		, (int)m_invoked_seg_hashes.size()
+		, (int)m_invoked_hashes.size()
 		, (int)m_root_index.size()
 		, (int)m_segments.size());
 #endif

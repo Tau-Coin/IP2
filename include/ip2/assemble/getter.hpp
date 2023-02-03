@@ -68,7 +68,7 @@ public:
 	api::error_code get_blob(dht::public_key const& sender
 		, aux::uri blob_uri, dht::timestamp ts);
 
-	void on_incoming_relay_request(dht::public_key const& sender
+	void on_incoming_relay_uri(dht::public_key const& sender
 		, aux::uri blob_uri, dht::timestamp ts);
 
 	void update_node_id();
@@ -76,7 +76,7 @@ public:
 private:
 
 	void get_callback(dht::item const& it, bool auth
-		, std::shared_ptr<get_context> ctx, sha1_hash seg_hash);
+		, std::shared_ptr<get_context> ctx, sha1_hash hash, bool is_seg);
 
 	void post_alert(std::shared_ptr<get_context> ctx);
 
