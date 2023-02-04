@@ -1027,9 +1027,9 @@ local usage-requirements =
 	<define>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 	;
 
-project IP2 ;
+project ip2 ;
 
-lib IP2
+lib ip2
 
 	: # sources
 	src/$(SOURCES).cpp
@@ -1078,6 +1078,6 @@ package.install install
 #    : <install-default-prefix>ip2-build/ip2 <install-source-root>ip2
     : <install-source-root>ip2
     :
-    : IP2
+    : ip2
 	: $(headers)
 	;

@@ -2929,6 +2929,9 @@ namespace {
         //4. blockchain update node id
         if(m_blockchain)
             m_blockchain->account_changed();
+
+		// 5. tell assembler update node id
+		if (m_assembler) m_assembler->update_node_id();
 	}
 
 	void session_impl::new_account_seed(std::string& account_seed) {
