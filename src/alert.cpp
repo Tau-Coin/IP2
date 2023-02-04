@@ -1962,7 +1962,7 @@ namespace {
 		return {};
 #else
 		char msg[150];
-		std::snprintf(msg, sizeof(msg), "Relay URI done (receiver=%s URI=%s ts=%" PRId64 " ec=%d"
+		std::snprintf(msg, sizeof(msg), "Relay URI done (receiver=%s URI=%s ts=%" PRId64 " ec=%d)"
 			, aux::to_hex(receiver).c_str(), aux::to_hex(uri).c_str()
 			, timestamp, error);
 		return msg;
@@ -1994,7 +1994,7 @@ namespace {
 		return {};
 #else
 		char msg[150];
-		std::snprintf(msg, sizeof(msg), "Incoming relay URI done (sender=%s URI=%s ts=%" PRId64 ""
+		std::snprintf(msg, sizeof(msg), "Incoming relay URI done (sender=%s URI=%s ts=%" PRId64 ")"
 			, aux::to_hex(sender).c_str(), aux::to_hex(uri).c_str(), timestamp);
 		return msg;
 #endif
@@ -2025,7 +2025,7 @@ namespace {
 	{
 		std::copy(from, from + 32, sender.begin());
 		std::copy(data_uri, data_uri + 20, uri.begin());
-		if (blob_len)
+		if (blob_len > 0)
 		{
 			std::copy(blob, blob + blob_len, data.begin());
 		}
@@ -2037,7 +2037,7 @@ namespace {
 		return {};
 #else
 		char msg[150];
-		std::snprintf(msg, sizeof(msg), "Get data done (sender=%s URI=%s ts=%" PRId64 " ec=%d"
+		std::snprintf(msg, sizeof(msg), "Get data done (sender=%s URI=%s ts=%" PRId64 " ec=%d)"
 			, aux::to_hex(sender).c_str(), aux::to_hex(uri).c_str()
 			, timestamp, error);
 		return msg;

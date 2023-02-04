@@ -1625,7 +1625,7 @@ namespace ip2 {
 		static inline constexpr alert_category_t static_category = alert_category::assemble;
 		std::string message() const override;
 
-		// the operation id of putting blob
+		// blob uri
 		std::array<char, 20> uri;
 
 		api::error_code const error;
@@ -1746,7 +1746,7 @@ namespace ip2 {
 		static inline constexpr alert_category_t static_category = alert_category::assemble;
 		std::string message() const override;
 
-		// the operation id of putting blob
+		// relay message receiver
 		std::array<char, 32> receiver;
 
 		api::error_code const error;
