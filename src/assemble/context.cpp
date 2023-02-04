@@ -18,5 +18,7 @@ namespace {
 
 context::context() : m_id(s_context_id++), m_error(api::NO_ERROR) {}
 
+void context::done() {}
+
 } // namespace assemble
 } // namespace ip2
