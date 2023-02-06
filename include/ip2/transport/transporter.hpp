@@ -46,7 +46,7 @@ namespace transport {
 
 class TORRENT_EXTRA_EXPORT transporter final
 	: public transport_logger
-	, std::enable_shared_from_this<transporter>
+	, public std::enable_shared_from_this<transporter>
 {
 public:
 	transporter(io_context& ios
@@ -128,9 +128,9 @@ public:
 		}
 	}
 
-	void invoking_timeout(error_code const& e);
-
 private:
+
+	void invoking_timeout(error_code const& e);
 
 	bool m_running;
 

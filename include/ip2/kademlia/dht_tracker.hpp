@@ -50,7 +50,7 @@ namespace ip2::dht {
 
 	struct TORRENT_EXTRA_EXPORT dht_tracker final
 		: socket_manager
-		, std::enable_shared_from_this<dht_tracker>
+		, public std::enable_shared_from_this<dht_tracker>
 	{
 		using send_fun_t = std::function<void(
 			aux::listen_socket_handle const&, udp::endpoint const&

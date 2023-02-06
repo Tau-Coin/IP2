@@ -370,9 +370,9 @@ namespace ip2 {
 		SET(dht_max_infohashes_sample_count, 20, nullptr),
 		SET(reopen_time_interval, 1000, nullptr),
 		SET(max_time_peers_zero, 10000, nullptr),
+		SET(log_level, aux::LOG_LEVEL::LOG_DEBUG, &session_impl::update_log_level),
 		SET(transport_invoking_interval, 50, nullptr),
 		SET(transport_invoking_queue_max_size, 10000, nullptr),
-		SET(log_level, aux::LOG_LEVEL::LOG_DEBUG, &session_impl::update_log_level),
 	}});
 
 #undef SET

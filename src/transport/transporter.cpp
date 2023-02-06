@@ -70,12 +70,12 @@ void transporter::start()
 
 	m_running = true;
 
-	ADD_OUTSTANDING_ASYNC("transporter::invoking_timeout");
+	log(aux::LOG_NOTICE, "transport invoking interval:%dms"
+		, m_congestion_controller.get_invoking_interval());
+
 	m_invoking_timer.expires_after(
 		milliseconds(m_congestion_controller.get_invoking_interval()));
 	m_invoking_timer.async_wait(std::bind(&transporter::invoking_timeout, self(), _1));
-
-	log(aux::LOG_NOTICE, "starting transporter done");
 }
 
 void transporter::stop()
@@ -270,15 +270,7 @@ void transporter::send_callback(entry const& it
 
 void transporter::invoking_timeout(error_code const& e)
 {
-	COMPLETE_ASYNC("transporter::invoking_timeout");
-	if (e)
-	{
-		log(aux::LOG_ERR, "invoking queue error:%d", e);
-	}
-
 	if (e || !m_running) return;
-
-	log(aux::LOG_INFO, "invoking queue size:%d", (int)m_rpc_queue.size());
 
 	if (m_rpc_queue.size() > 0 && m_session.dht_nodes() > 0)
 	{
@@ -289,7 +281,6 @@ void transporter::invoking_timeout(error_code const& e)
 		m_congestion_controller.tick();
 	}
 
-	ADD_OUTSTANDING_ASYNC("transporter::invoking_timeout");
 	m_invoking_timer.expires_after(
 		milliseconds(m_congestion_controller.get_invoking_interval()));
 	m_invoking_timer.async_wait(std::bind(&transporter::invoking_timeout, self(), _1));

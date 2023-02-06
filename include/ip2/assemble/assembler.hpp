@@ -43,7 +43,7 @@ namespace aux {
 namespace assemble {
 
 class TORRENT_EXTRA_EXPORT assembler final
-	: std::enable_shared_from_this<assembler>, public assemble_logger
+	: public std::enable_shared_from_this<assembler>, public assemble_logger
 {
 
 public:
