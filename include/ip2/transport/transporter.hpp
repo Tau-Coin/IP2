@@ -45,7 +45,8 @@ namespace aux {
 namespace transport {
 
 class TORRENT_EXTRA_EXPORT transporter final
-	: std::enable_shared_from_this<transporter>, transport_logger
+	: public transport_logger
+	, std::enable_shared_from_this<transporter>
 {
 public:
 	transporter(io_context& ios

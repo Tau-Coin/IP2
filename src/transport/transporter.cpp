@@ -13,6 +13,7 @@ see LICENSE file.
 #ifndef TORRENT_DISABLE_LOGGING
 #include "ip2/hex.hpp" // to_hex
 #endif
+#include "ip2/error_code.hpp"
 #include <ip2/time.hpp>
 #include "ip2/aux_/alert_manager.hpp" // for alert_manager
 #include <ip2/aux_/time.hpp> // for aux::time_now
@@ -37,6 +38,7 @@ transporter::transporter(io_context& ios
 	, m_counters(cnt)
 	, m_invoking_timer(ios)
 	, m_congestion_controller(session, settings, *this)
+	, m_running(false)
 {
 }
 
@@ -63,17 +65,22 @@ catch (std::exception const&)
 
 void transporter::start()
 {
+	if (m_running) return;
 	log(aux::LOG_NOTICE, "starting transporter...");
 
 	m_running = true;
 
+	ADD_OUTSTANDING_ASYNC("transporter::invoking_timeout");
 	m_invoking_timer.expires_after(
 		milliseconds(m_congestion_controller.get_invoking_interval()));
 	m_invoking_timer.async_wait(std::bind(&transporter::invoking_timeout, self(), _1));
+
+	log(aux::LOG_NOTICE, "starting transporter done");
 }
 
 void transporter::stop()
 {
+	if (!m_running) return;
 	log(aux::LOG_NOTICE, "stopping transporter...");
 
 	m_running = false;
@@ -263,7 +270,15 @@ void transporter::send_callback(entry const& it
 
 void transporter::invoking_timeout(error_code const& e)
 {
+	COMPLETE_ASYNC("transporter::invoking_timeout");
+	if (e)
+	{
+		log(aux::LOG_ERR, "invoking queue error:%d", e);
+	}
+
 	if (e || !m_running) return;
+
+	log(aux::LOG_INFO, "invoking queue size:%d", (int)m_rpc_queue.size());
 
 	if (m_rpc_queue.size() > 0 && m_session.dht_nodes() > 0)
 	{
@@ -274,6 +289,7 @@ void transporter::invoking_timeout(error_code const& e)
 		m_congestion_controller.tick();
 	}
 
+	ADD_OUTSTANDING_ASYNC("transporter::invoking_timeout");
 	m_invoking_timer.expires_after(
 		milliseconds(m_congestion_controller.get_invoking_interval()));
 	m_invoking_timer.async_wait(std::bind(&transporter::invoking_timeout, self(), _1));

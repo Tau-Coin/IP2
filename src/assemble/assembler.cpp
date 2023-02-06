@@ -75,6 +75,8 @@ void assembler::start()
 	if (m_running) return;
 
 	m_running = true;
+
+	log(aux::LOG_NOTICE, "starting assembler...");
 }
 
 void assembler::stop()
@@ -82,6 +84,8 @@ void assembler::stop()
 	if (!m_running) return;
 
 	m_running = false;
+
+	log(aux::LOG_NOTICE, "stopping assembler...");
 }
 
 api::error_code assembler::put(span<char const> blob, aux::uri const& blob_uri)
