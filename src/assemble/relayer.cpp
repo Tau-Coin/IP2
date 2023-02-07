@@ -97,7 +97,7 @@ api::error_code relayer::relay_message(dht::public_key const& receiver
 	api::dht_rpc_params config = get_rpc_parmas(api::RELAY);
 
 	api::error_code ok = m_session.transporter()->send(receiver, pl
-		, std::bind(&relayer::send_message_callback, self(), _1, _2, ctx)
+		, std::bind(&relayer::send_message_callback, this, _1, _2, ctx)
 		, config.invoke_branch, config.invoke_window
 		, config.invoke_limit, config.hit_limit);
 
@@ -158,7 +158,7 @@ api::error_code relayer::relay_uri(dht::public_key const& receiver
 	api::dht_rpc_params config = get_rpc_parmas(api::RELAY);
 
 	api::error_code ok = m_session.transporter()->send(receiver, pl
-		, std::bind(&relayer::send_uri_callback, self(), _1, _2
+		, std::bind(&relayer::send_uri_callback, this, _1, _2
 			, ctx, receiver, data_uri, ts)
 		, config.invoke_branch, config.invoke_window
 		, config.invoke_limit, config.hit_limit);

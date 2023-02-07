@@ -89,7 +89,7 @@ api::error_code getter::get_blob(dht::public_key const& sender
 
 	api::error_code result = m_session.transporter()->get(sender
 		, salt, ts.value
-		, std::bind(&getter::get_callback, self(), _1, _2, ctx, index_hash, false)
+		, std::bind(&getter::get_callback, this, _1, _2, ctx, index_hash, false)
 		, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 	if (result == api::NO_ERROR)
@@ -157,7 +157,7 @@ void getter::get_callback(dht::item const& it, bool auth
 
 				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 					, salt, ctx->get_timestamp()
-					, std::bind(&getter::get_callback, self(), _1, _2, ctx, h, false)
+					, std::bind(&getter::get_callback, this, _1, _2, ctx, h, false)
 					, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 				if (ok == api::NO_ERROR)
@@ -252,7 +252,7 @@ void getter::get_callback(dht::item const& it, bool auth
 
 					api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 						, seg_salt, ctx->get_timestamp()
-						, std::bind(&getter::get_callback, self(), _1, _2, ctx, s, true)
+						, std::bind(&getter::get_callback, this, _1, _2, ctx, s, true)
 						, config.invoke_branch, config.invoke_window
 						, config.invoke_limit);
 
@@ -291,7 +291,7 @@ void getter::get_callback(dht::item const& it, bool auth
 
 				api::error_code ok = m_session.transporter()->get(ctx->get_sender()
 					, salt, ctx->get_timestamp()
-					, std::bind(&getter::get_callback, self(), _1, _2, ctx, h, true)
+					, std::bind(&getter::get_callback, this, _1, _2, ctx, h, true)
 					, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 				if (ok == api::NO_ERROR)

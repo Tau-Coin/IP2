@@ -45,7 +45,7 @@ namespace aux {
 namespace assemble {
 
 class TORRENT_EXTRA_EXPORT relayer final
-	: std::enable_shared_from_this<relayer>
+	: public std::enable_shared_from_this<relayer>
 {
 
 public:

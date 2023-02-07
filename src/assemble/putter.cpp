@@ -100,9 +100,14 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 	entry pl = p.to_entry();
 	api::dht_rpc_params config = get_rpc_parmas(api::PUT);
 
+#ifndef TORRENT_DISABLE_LOGGING
+	m_logger.log(aux::LOG_INFO, "[%u] start putting blob with uri %s"
+		, ctx->id(), hex_uri);
+#endif
+
 	api::error_code ok = m_session.transporter()->put(pl
 		, std::string(last_seg_hash.data(), 20)
-		, std::bind(&putter::put_callback, self(), _1, _2, ctx, last_seg_hash, true)
+		, std::bind(&putter::put_callback, this, _1, _2, ctx, last_seg_hash, true)
 		, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 	if (ok == api::NO_ERROR)
@@ -136,7 +141,7 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 
 		api::error_code err = m_session.transporter()->put(e
 			, std::string(seg_hash.data(), 20) 
-			, std::bind(&putter::put_callback, self(), _1, _2, ctx, seg_hash, true)
+			, std::bind(&putter::put_callback, this, _1, _2, ctx, seg_hash, true)
 			, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 		if (err == api::NO_ERROR)
@@ -156,19 +161,21 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 	// if no error, put root index
 	if (seg_count == 0 && ctx->get_error() == api::NO_ERROR)
 	{
-		std::reverse(std::begin(blob_seg_hashes), std::end(blob_seg_hashes));
-		for (auto& h : blob_seg_hashes)
+		m_logger.log(aux::LOG_INFO, "hash vector size:%d", (int)blob_seg_hashes.size());
+		for (auto i = blob_seg_hashes.rbegin(); i != blob_seg_hashes.rend(); i++)
 		{
-			ctx->add_root_index(h);
+			ctx->add_root_index(*i);
 		}
 
-		protocol::blob_index_protocol rip(blob_seg_hashes);
+		std::vector<sha1_hash> root_hashes;
+		ctx->get_root_index(root_hashes);
+		protocol::blob_index_protocol rip(root_hashes);
 		entry ripe = rip.to_entry();
 		sha1_hash uri_hash(blob_uri.bytes.data());
 
 		api::error_code err = m_session.transporter()->put(ripe
 			, std::string(uri_hash.data(), 20)
-			, std::bind(&putter::put_callback, self(), _1, _2, ctx, uri_hash, false)
+			, std::bind(&putter::put_callback, this, _1, _2, ctx, uri_hash, false)
 			, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 		if (err == api::NO_ERROR)
@@ -212,7 +219,7 @@ void putter::put_callback(dht::item const& it, int responses
 
 			api::error_code err = m_session.transporter()->put(it.value()
 				, std::string(h.data(), 20)
-				, std::bind(&putter::put_callback, self(), _1, _2, ctx, h, is_seg)
+				, std::bind(&putter::put_callback, this, _1, _2, ctx, h, is_seg)
 				, config.invoke_branch, config.invoke_window, config.invoke_limit);
 
 			if (err == api::NO_ERROR)

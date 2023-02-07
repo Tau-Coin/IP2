@@ -49,7 +49,7 @@ namespace assemble {
 static constexpr int get_tasks_limit = 50;
 
 class TORRENT_EXTRA_EXPORT getter final
-	: std::enable_shared_from_this<getter>
+	: public std::enable_shared_from_this<getter>
 {
 public:
 	getter(io_context& ios

@@ -124,7 +124,7 @@ api::error_code transporter::get(dht::public_key const& key
 	std::shared_ptr<get_ctx> ctx = std::make_shared<get_ctx>(key, salt, timestamp
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(dht::item const&, bool)> callback
-		= std::bind(&transporter::get_callback, self(), _1, _2, ctx, cb);
+		= std::bind(&transporter::get_callback, this, _1, _2, ctx, cb);
 
 	void (dht_tracker::*get)(dht::public_key const& key
 		, std::function<void(dht::item const&, bool)> cb
@@ -165,7 +165,7 @@ api::error_code transporter::put(entry const& data
 	std::shared_ptr<put_ctx> ctx = std::make_shared<put_ctx>(data, salt
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(dht::item const&, int responses)> callback
-		= std::bind(&transporter::put_callback, self(), _1, _2, ctx, cb);
+		= std::bind(&transporter::put_callback, this, _1, _2, ctx, cb);
 
 	void (dht_tracker::*put)(entry const& data
 		, std::function<void(dht::item const&, int)> cb
@@ -207,7 +207,7 @@ api::error_code transporter::send(dht::public_key const& to
 		, invoke_branch, invoke_window, invoke_limit);
 	std::function<void(entry const&
 			, std::vector<std::pair<dht::node_entry, bool>> const& success_nodes)>
-		callback = std::bind(&transporter::send_callback, self(), _1, _2, ctx, cb);
+		callback = std::bind(&transporter::send_callback, this, _1, _2, ctx, cb);
 
 	void (dht_tracker::*send)(dht::public_key const& to, entry const& payload
 		, std::int8_t alpha, std::int8_t beta , std::int8_t invoke_limit

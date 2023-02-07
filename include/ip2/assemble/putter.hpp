@@ -46,7 +46,7 @@ namespace aux {
 namespace assemble {
 
 class TORRENT_EXTRA_EXPORT putter final
-	: std::enable_shared_from_this<putter>
+	: public std::enable_shared_from_this<putter>
 {
 public:
 	putter(io_context& ios
@@ -64,12 +64,12 @@ public:
 
 	api::error_code put_blob(span<char const> blob, aux::uri const& blob_uri);
 
+	void put_callback(dht::item const& it, int responses
+		, std::shared_ptr<put_context> ctx, sha1_hash hash, bool is_seg);
+
 	void update_node_id();
 
 private:
-
-	void put_callback(dht::item const& it, int responses
-		, std::shared_ptr<put_context> ctx, sha1_hash hash, bool is_seg);
 
 	sha1_hash hash(std::string const& value);
 
