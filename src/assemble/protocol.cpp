@@ -9,6 +9,10 @@ see LICENSE file.
 
 #include "ip2/assemble/protocol.hpp"
 
+#ifndef TORRENT_DISABLE_LOGGING
+#include "ip2/hex.hpp" // to_hex
+#endif
+
 namespace ip2 {
 namespace assemble {
 namespace protocol {
@@ -158,46 +162,54 @@ relay_msg_protocol::relay_msg_protocol(std::string const& ver, std::string const
 }
 
 // basic protocol factory method
-std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& proto)
+std::tuple<std::shared_ptr<basic_protocol>, api::error_code>
+		construct_protocol(entry const& proto, assemble_logger& logger)
 {
-	std::string version;
-	std::string name;
+	std::string version_str;
+	std::string name_str;
 
 	// get protocol version and name
 	entry const* ver = proto.find_key("v");
 	if (ver && ver->type() == entry::string_t
 		&& ver->string().size() == version_length)
 	{
-		std::memcpy(version.data(), ver->string().data(), version_length);
+		version_str.append(ver->string().data(), version_length);
 	}
 	else
 	{
-		return std::make_tuple(basic_protocol{}, api::ASSEMBLE_VERSION_ERROR);
+		return std::make_tuple(std::make_shared<basic_protocol>(), api::ASSEMBLE_VERSION_ERROR);
 	}
 
 	entry const* n = proto.find_key("n");
  	if (n && n->type() == entry::string_t
 		&& n->string().size() == 1)
 	{
-		std::memcpy(name.data(), n->string().data(), 1);
+		name_str.append(n->string().data(), 1);
 	}
 	else
 	{
-		return std::make_tuple(basic_protocol{}, api::ASSEMBLE_NAME_ERROR);
+		return std::make_tuple(std::make_shared<basic_protocol>()
+			, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 	}
+
+#ifndef TORRENT_DISABLE_LOGGING
+	logger.log(aux::LOG_INFO, "parse protocol name:%s, version:%s"
+		, name_str.c_str(), version_str.c_str());
+#endif
 
 	entry const* a = proto.find_key("a");
 	if (!a || a->type() != entry::dictionary_t)
 	{
-		return std::make_tuple(basic_protocol{}, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
+		return std::make_tuple(std::make_shared<basic_protocol>()
+			, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 	}
 
-	if (name == blob_seg_protocol::name)
+	if (strncmp(name_str.c_str(), blob_seg_protocol::name.c_str(), 1) == 0)
 	{
-		if (!version_match(version, blob_seg_protocol::version))
+		if (!version_match(version_str, blob_seg_protocol::version))
 		{
-			return std::make_tuple(basic_protocol{}
-				, api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
+			return std::make_tuple(std::make_shared<basic_protocol>()
+				 , api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
 		}
 
 		std::string seg;
@@ -206,22 +218,22 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		if (se && se->type() == entry::string_t
 			&& se->string().size() <= blob_seg_mtu)
 		{
-			std::memcpy(seg.data(), se->string().data(), se->string().size());
+			seg.append(se->string().data(), se->string().size());
 		}
 		else
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
-		return std::make_tuple(blob_seg_protocol{version, name, seg}
+		return std::make_tuple(std::make_shared<blob_seg_protocol>(version_str, name_str, seg)
 			, api::NO_ERROR);
 	}
-	else if (name == blob_index_protocol::name)
+	else if (strncmp(name_str.c_str(), blob_index_protocol::name.c_str(), 1) == 0)
 	{
-		if (!version_match(version, blob_index_protocol::version))
+		if (!version_match(version_str, blob_index_protocol::version))
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
 		}
 
@@ -232,7 +244,7 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		if (he && he->type() == entry::string_t
 			&& he->string().size() % 20 == 0)
 		{
-			std::memcpy(hash_str.data(), he->string().data(), he->string().size());
+			hash_str.append(he->string().data(), he->string().size());
 
 			int count = hash_str.size() / 20;
 			for (int i = 0; i != count; i++)
@@ -244,18 +256,18 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		}
 		else
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
-		return std::make_tuple(blob_index_protocol{version, name, hashes}
+		return std::make_tuple(std::make_shared<blob_index_protocol>(version_str, name_str, hashes)
 			, api::NO_ERROR);
 	}
-	else if (name == relay_uri_protocol::name)
+	else if (strncmp(name_str.c_str(), relay_uri_protocol::name.c_str(), 1) == 0)
 	{
-		if (!version_match(version, relay_uri_protocol::version))
+		if (!version_match(version_str, relay_uri_protocol::version))
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
 		}
 
@@ -271,7 +283,7 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		}
 		else
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
@@ -283,7 +295,7 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		}
 		else
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
@@ -293,14 +305,15 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 			ts = ip2::dht::timestamp(te->integer());
 		}
 
-		return std::make_tuple(relay_uri_protocol{version, name, sender, blob_uri, ts}
+		return std::make_tuple(
+			std::make_shared<relay_uri_protocol>(version_str, name_str, sender, blob_uri, ts)
 			, api::NO_ERROR);
 	}
-	else if (name == relay_msg_protocol::name)
+	else if (strncmp(name_str.c_str(), relay_msg_protocol::name.c_str(), 1) == 0)
 	{
-		if (!version_match(version, relay_msg_protocol::version))
+		if (!version_match(version_str, relay_msg_protocol::version))
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_VER_MISMATCH);
 		}
 
@@ -310,20 +323,21 @@ std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& prot
 		if (me && me->type() == entry::string_t
 			&& me->string().size() <= relay_msg_mtu)
 		{
-			std::memcpy(msg.data(), me->string().data(), me->string().size());
+			msg.append(me->string().data(), me->string().size());
 		}
 		else
 		{
-			return std::make_tuple(basic_protocol{}
+			return std::make_tuple(std::make_shared<basic_protocol>()
 				, api::ASSEMBLE_PROTOCOL_FORMAT_ERROR);
 		}
 
-		return std::make_tuple(relay_msg_protocol{version, name, msg}
+		return std::make_tuple(std::make_shared<relay_msg_protocol>(version_str, name_str, msg)
 			, api::NO_ERROR);
 	}
 	else
 	{
-		return std::make_tuple(basic_protocol{}, api::ASSEMBLE_NAME_ERROR);
+		return std::make_tuple(std::make_shared<basic_protocol>()
+			, api::ASSEMBLE_NAME_ERROR);
 	}
 }
 

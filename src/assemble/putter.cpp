@@ -93,8 +93,8 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 	std::uint32_t end = static_cast<std::uint32_t>(blob.size() - 1);
 
 	std::string last_seg;
-	std::memcpy(last_seg.data(), blob.data() + begin, end - begin + 1);
-	sha1_hash last_seg_hash = hash(last_seg);
+	last_seg.append(blob.data() + begin, end - begin + 1);
+	sha1_hash last_seg_hash = hash(last_seg, end - begin + 1);
 
 	protocol::blob_seg_protocol p(last_seg);
 	entry pl = p.to_entry();
@@ -133,8 +133,8 @@ api::error_code putter::put_blob(span<char const> blob, aux::uri const& blob_uri
 		end = seg_count * blob_seg_mtu;
 
 		std::string seg;
-		std::memcpy(seg.data(), blob.data() + begin, end - begin); 
-		sha1_hash seg_hash = hash(seg);
+		seg.append(blob.data() + begin, blob_seg_mtu);
+		sha1_hash seg_hash = hash(seg, blob_seg_mtu);
 
 		protocol::blob_seg_protocol proto(seg);
 		entry e = proto.to_entry();
@@ -248,9 +248,9 @@ void putter::put_callback(dht::item const& it, int responses
 	}
 }
 
-sha1_hash putter::hash(std::string const& value)
+sha1_hash putter::hash(std::string const& value, std::size_t value_size)
 {
-	hasher h(value.data(), value.size());
+	hasher h(value.data(), value_size);
 	return h.final();
 }
 

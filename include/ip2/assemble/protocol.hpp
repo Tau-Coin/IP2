@@ -10,6 +10,7 @@ see LICENSE file.
 #ifndef IP2_ASSEMBLE_PROTOCOL_HPP
 #define IP2_ASSEMBLE_PROTOCOL_HPP
 
+#include "ip2/assemble/assemble_logger.hpp"
 #include "ip2/config.hpp"
 #include "ip2/aux_/common.h"
 #include "ip2/api/error_code.hpp"
@@ -92,10 +93,14 @@ namespace protocol {
 
 		basic_protocol(std::string const& ver, std::string const& n);
 
+		virtual ~basic_protocol() {}
+
 		entry to_entry();
 
 		std::string get_version() { return m_version; }
 		std::string get_name() { return m_name; }
+		void set_version(std::string const& v) { m_version = v; }
+		void set_name(std::string const& n) { m_name = n; }
 
 	protected:
 
@@ -112,7 +117,7 @@ namespace protocol {
 		static char const ver[];
 	};
 
-	struct blob_seg_protocol : basic_protocol
+	struct blob_seg_protocol : public basic_protocol
 	{
 	public:
 
@@ -138,7 +143,7 @@ namespace protocol {
 		static char const ver[];
 	};
 
-	struct blob_index_protocol : basic_protocol
+	struct blob_index_protocol : public basic_protocol
 	{
 	public:
 
@@ -170,7 +175,7 @@ namespace protocol {
         static char const ver[];
     };
 
-	struct relay_uri_protocol : basic_protocol
+	struct relay_uri_protocol : public basic_protocol
 	{
 	public:
 
@@ -202,7 +207,7 @@ namespace protocol {
 		static char const ver[];
 	};
 
-	struct relay_msg_protocol : basic_protocol
+	struct relay_msg_protocol : public basic_protocol
 	{
 	public:
 
@@ -229,7 +234,8 @@ namespace protocol {
 	};
 
 	// basic protocol factory method
-	std::tuple<basic_protocol, api::error_code> construct_protocol(entry const& proto);
+	std::tuple<std::shared_ptr<basic_protocol>, api::error_code>
+		construct_protocol(entry const& proto, assemble_logger& logger);
 
 } // namespace protocol
 } // namespace assemble

@@ -111,10 +111,9 @@ api::error_code get_context::on_root_index_got(dht::item const& it)
 #endif
 
 	entry const& proto = it.value();
-	protocol::basic_protocol bp;
+	std::shared_ptr<protocol::basic_protocol> bp;
 	api::error_code err;
-
-	std::tie(bp, err) = protocol::construct_protocol(proto);
+	std::tie(bp, err) = protocol::construct_protocol(proto, m_logger);
 	if (err != api::NO_ERROR)
 	{
 #ifndef TORRENT_DISABLE_LOGGING
@@ -125,18 +124,18 @@ api::error_code get_context::on_root_index_got(dht::item const& it)
 		return err;
 	}
 
-	if (bp.get_name() != protocol::blob_index_protocol::name)
+	if (bp->get_name() != protocol::blob_index_protocol::name)
 	{
 #ifndef TORRENT_DISABLE_LOGGING
 		m_logger.log(aux::LOG_ERR, "[%u] parse index error:%s, name:%s"
-			, id(), hex_uri, bp.get_name().c_str());
+			, id(), hex_uri, bp->get_name().c_str());
 #endif
 
 		return api::ASSEMBLE_NAME_ERROR;
 	}
 
-	protocol::blob_index_protocol *index_proto
-		= static_cast<protocol::blob_index_protocol*>(&bp);
+	std::shared_ptr<protocol::blob_index_protocol> index_proto
+		= std::dynamic_pointer_cast<protocol::blob_index_protocol>(bp);
 	index_proto->seg_hashes(m_root_index);
 
 	return api::NO_ERROR;
@@ -151,10 +150,9 @@ api::error_code get_context::on_segment_got(dht::item const& it
 #endif
 
 	entry const& proto = it.value();
-	protocol::basic_protocol bp;
+	std::shared_ptr<protocol::basic_protocol> bp;
 	api::error_code err;
-
-	std::tie(bp, err) = protocol::construct_protocol(proto);
+	std::tie(bp, err) = protocol::construct_protocol(proto, m_logger);
 	if (err != api::NO_ERROR)
 	{
 #ifndef TORRENT_DISABLE_LOGGING 
@@ -165,18 +163,18 @@ api::error_code get_context::on_segment_got(dht::item const& it
 		return err;
 	}
 
-	if (bp.get_name() != protocol::blob_seg_protocol::name)
+	if (bp->get_name() != protocol::blob_seg_protocol::name)
 	{
 #ifndef TORRENT_DISABLE_LOGGING 
 		m_logger.log(aux::LOG_ERR, "[%u] parse segment error:%s, name:%s"
-			, id(), hex_hash, bp.get_name().c_str());
+			, id(), hex_hash, bp->get_name().c_str());
 #endif
 
 		return api::ASSEMBLE_NAME_ERROR;
 	}
 
-	protocol::blob_seg_protocol *seg_proto
-		= static_cast<protocol::blob_seg_protocol*>(&bp);
+	std::shared_ptr<protocol::blob_seg_protocol> seg_proto
+		= std::dynamic_pointer_cast<protocol::blob_seg_protocol>(bp);
 	std::string value = seg_proto->seg_value();
 
 	m_segments.insert(std::pair<sha1_hash, std::string>(seg_hash, std::move(value)));

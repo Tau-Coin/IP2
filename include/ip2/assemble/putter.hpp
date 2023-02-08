@@ -71,7 +71,7 @@ public:
 
 private:
 
-	sha1_hash hash(std::string const& value);
+	sha1_hash hash(std::string const& value, std::size_t value_size);
 
 	sha1_hash hash(std::vector<sha1_hash> const& hl);
 
