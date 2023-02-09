@@ -182,8 +182,7 @@ api::error_code relayer::relay_uri(dht::public_key const& receiver
 void relayer::on_incoming_relay_message(dht::public_key const& pk, std::string const& msg)
 {
 	// post 'incoming_relay_alert'
-	m_session.alerts().emplace_alert<incoming_relay_message_alert>(pk.bytes.data()
-		, msg.c_str(), (int)msg.size());
+	m_session.alerts().emplace_alert<incoming_relay_message_alert>(pk.bytes.data(), msg);
 }
 
 void relayer::send_message_callback(entry const& payload

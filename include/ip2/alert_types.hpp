@@ -1763,8 +1763,7 @@ namespace ip2 {
 		// internal
 		TORRENT_UNEXPORT incoming_relay_message_alert(aux::stack_allocator& alloc
 			, char const* from
-			, char const* incoming_msg
-			, int msg_len);
+			, std::string const& incoming_msg);
 
 		TORRENT_DEFINE_ALERT_PRIO(incoming_relay_message_alert, 67, alert_priority::critical)
 

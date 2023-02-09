@@ -155,7 +155,7 @@ namespace protocol {
 
         blob_index_protocol(std::vector<sha1_hash> const& hashes);
 
-        void seg_hashes(std::vector<sha1_hash> hashes)
+        void seg_hashes(std::vector<sha1_hash>& hashes)
 		{
 			for (auto& h : m_seg_hashes)
 			{

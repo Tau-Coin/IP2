@@ -177,9 +177,34 @@ api::error_code get_context::on_segment_got(dht::item const& it
 		= std::dynamic_pointer_cast<protocol::blob_seg_protocol>(bp);
 	std::string value = seg_proto->seg_value();
 
+#ifndef TORRENT_DISABLE_LOGGING
+	m_logger.log(aux::LOG_INFO, "[%u] blob seg[%s] got with the size:%d"
+		, id(), hex_hash, (int)value.size());
+#endif
+	m_segments_total_size += value.size();
+
 	m_segments.insert(std::pair<sha1_hash, std::string>(seg_hash, std::move(value)));
 
 	return api::NO_ERROR;
+}
+
+bool get_context::get_segments_blob(std::vector<char>& value)
+{
+	// ignore broken blob
+	if (m_root_index.size() != m_segments.size()) return false;
+
+	//value.reserve(m_segments_total_size);
+
+	for (auto& i : m_root_index)
+	{
+		auto it = m_segments.find(i);
+		if (it == m_segments.end()) return false;
+
+		//value.append(it->second, it->second.size());
+		std::copy(it->second.begin(), it->second.end(), std::back_inserter(value));
+	}
+
+	return true;
 }
 
 void get_context::done()

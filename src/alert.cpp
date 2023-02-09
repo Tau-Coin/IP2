@@ -2027,7 +2027,7 @@ namespace {
 		std::copy(data_uri, data_uri + 20, uri.begin());
 		if (blob_len > 0)
 		{
-			std::copy(blob, blob + blob_len, data.begin());
+			std::copy(blob, blob + blob_len, std::back_inserter(data));
 		}
 	}
 
@@ -2036,10 +2036,10 @@ namespace {
 #ifdef TORRENT_DISABLE_ALERT_MSG
 		return {};
 #else
-		char msg[150];
-		std::snprintf(msg, sizeof(msg), "Get data done (sender=%s URI=%s ts=%" PRId64 " ec=%d)"
+		char msg[200];
+		std::snprintf(msg, sizeof(msg), "Get data done (sender=%s URI=%s ts=%" PRId64 " size=%d ec=%d)"
 			, aux::to_hex(sender).c_str(), aux::to_hex(uri).c_str()
-			, timestamp, error);
+			, timestamp, (int)data.size(), error);
 		return msg;
 #endif
 	}
@@ -2079,13 +2079,12 @@ namespace {
 
 	incoming_relay_message_alert::incoming_relay_message_alert(aux::stack_allocator& alloc
 		, char const* from
-		, char const* incoming_msg
-		, int msg_len)
+		, std::string const& incoming_msg)
 	{
 		std::copy(from, from + 32, sender.begin());
-		if (msg_len > 0)
+		if (incoming_msg.size() > 0)
 		{
-			std::copy(incoming_msg, incoming_msg + msg_len, msg.begin());
+			std::copy(incoming_msg.begin(), incoming_msg.end(), std::back_inserter(msg));
 		}
 	}
 
@@ -2094,7 +2093,7 @@ namespace {
 #ifdef TORRENT_DISABLE_ALERT_MSG
 		return {};
 #else
-		char msg_str[100];
+		char msg_str[150];
 		std::snprintf(msg_str, sizeof(msg_str), "Incoming relay message (sender=%s msg size=%d)"
 			, aux::to_hex(sender).c_str(), (int)msg.size());
 		return msg_str;

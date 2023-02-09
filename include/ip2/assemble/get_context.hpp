@@ -76,21 +76,7 @@ public:
 		return m_flying_segments.size() == 0;
 	}
 
-	bool get_segments_blob(std::string& value)
-	{
-		// ignore broken blob
-		if (m_root_index.size() != m_segments.size()) return false;
-
-		for (auto& i : m_root_index)
-		{
-			auto it = m_segments.find(i);
-			if (it == m_segments.end()) return false;
-
-			value.append(it->second, it->second.size());
-		}
-
-		return true;
-	}
+	bool get_segments_blob(std::vector<char>& value);
 
 private:
 
@@ -109,6 +95,7 @@ private:
 
 	std::vector<sha1_hash> m_root_index;
 	std::map<sha1_hash, std::string> m_segments;
+	std::size_t m_segments_total_size = 0;
 };
 
 } // namespace assemble

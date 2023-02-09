@@ -326,20 +326,21 @@ void getter::post_alert(std::shared_ptr<get_context> ctx)
 {
 	dht::public_key sender = ctx->get_sender();
 	aux::uri data_uri = ctx->get_uri();
+	std::array<char, 32> from;
+	std::array<char, 20> uri;
+	std::copy(sender.bytes.begin(), sender.bytes.end(), from.begin());
+	std::copy(data_uri.bytes.begin(), data_uri.bytes.end(), uri.begin());
 
-	std::string data;
+	std::vector<char> data;
 	bool got = ctx->get_segments_blob(data);
-	if (!got)
-	{
-		m_session.alerts().emplace_alert<get_data_alert>(sender.bytes.data()
-			, data_uri.bytes.data(), ctx->get_timestamp()
-			, data.c_str(), 0, ctx->get_error());
-		return;
-	}
 
-	m_session.alerts().emplace_alert<get_data_alert>(sender.bytes.data()
-		, data_uri.bytes.data(), ctx->get_timestamp()
-		, data.c_str(), (int)data.size(), ctx->get_error());
+#ifndef TORRENT_DISABLE_LOGGING
+	m_logger.log(aux::LOG_ERR, "[%u] post get alert, result:%s, err:%d, data size:%d"
+		, ctx->id(), got ? "true" : "false", ctx->get_error(), (int)data.size());
+#endif
+
+	m_session.alerts().emplace_alert<get_data_alert>(from, uri, ctx->get_timestamp()
+		, data, ctx->get_error());
 }
 
 } // namespace assemble
