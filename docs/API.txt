@@ -1,0 +1,43 @@
+#include "ip2/session_handle.hpp"
+
+1. put_data_into_swarm 
+
+	ip2::api::error_code put_data_into_swarm(std::vector<char> const& blob
+		, std::array<char, 20> const& uri);
+      
+	// Put data into capture swarm.
+	// The data max size is 40KB, and ip2 slices data and puts segments into swarm.
+	// return error code which reprents current operation result of putting data in swarm.
+	// The "put_data_alert" alert will be posted to user to indicate
+	// putting successfully or failed.
+
+2. relay_data_uri
+
+	ip2::api::error_code relay_data_uri(std::array<char, 32> const& receiver
+		, std::array<char, 20> const& uri 
+		, std::int64_t timestamp = 0);
+
+	// Send data uri to other peer by 'relay' protocol.
+	// The receiver can get the corresponding data by this uri & uri_sender.
+	// The "relay_data_uri_alert" alert will be posted to user to indicate
+	// relay successfully or failed.
+
+3. get_data_from_swarm
+
+	ip2::api::error_code get_data_from_swarm(std::array<char, 32> const& sender
+		, std::array<char, 20> const& uri
+		, std::int64_t timestamp = 0);
+
+	// Get data by sender, uri and timestamp.
+	// The "get_data_uri_alert" alert will be posted to user to transfer
+	// the blob data.
+
+4. relay_message
+
+	ip2::api::error_code relay_message(std::array<char, 32> const& receiver
+		, std::vector<char> const& message);
+
+	// Send message(binary data) to other peer by 'relay' protocol.
+	// The data max size is 900 bytes(TODO: 1000?).
+	// The "relay_message_alert" alert will be posted to user to indicate
+	// relay successfully or failed.

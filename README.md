@@ -25,50 +25,52 @@
 
 #### 1. launch ip2 session
 
-&emsp;&emsp;settings_pack sp_set;
-&emsp;&emsp;sp_set.set_str(settings_pack::dht_bootstrap_nodes, bootstrap_nodes);
-&emsp;&emsp; // bootstrap nodes format: tau:://public_key@ip:port
-&emsp;&emsp; // tau://9CB3E5A7B060D06A6A47E0E9AFCE4455077B0F5B313E7FF105A48A6D7AF356C7@10.0.2.15:6881
-&emsp;&emsp;sp_set.set_str(settings_pack::listen_interfaces, listen_interfaces.str());
-&emsp;&emsp; // listen interface format: 192.168.2.120:6881
-&emsp;&emsp;session_params sp_param(sp_set);
-&emsp;&emsp;session ses(sp_param);
+```
+	settings_pack sp_set;
+	sp_set.set_str(settings_pack::dht_bootstrap_nodes, bootstrap_nodes);
+	// bootstrap nodes format: tau:://public_key@ip:port
+	// tau://9CB3E5A7B060D06A6A47E0E9AFCE4455077B0F5B313E7FF105A48A6D7AF356C7@10.0.2.15:6881
+	sp_set.set_str(settings_pack::listen_interfaces, listen_interfaces.str());
+	// listen interface format: 192.168.2.120:6881
+	session_params sp_param(sp_set);
+	session ses(sp_param);
+'''
 
 #### 2. dispatch alerts
-
-&emsp;&emsp;std::vector<alert*> alert_queue;
-&emsp;&emsp;bool quit = false;
-&emsp;&emsp;while (!quit)
-&emsp;&emsp;{
-&emsp;&emsp;&emsp;&emsp;ses.pop_alerts(&alert_queue);
-&emsp;&emsp;&emsp;&emsp;for(std::vector<alert*>::iterator i = alert_queue.begin()
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; , end(alert_queue.end()); i != end; ++i)
-&emsp;&emsp;&emsp;&emsp;{
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;int alert_type = (*i)->type();
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;switch(alert_type){
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case put_data_alert::alert_type:// put blob done
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case relay_data_uri_alert::alert_type: // relay uri done
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case incoming_relay_data_uri_alert::alert_type:// incoming relay uri
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case get_data_alert::alert_type:// get blob done
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case relay_message_alert::alert_type: // relay message done
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;case incoming_relay_message_alert::alert_type: // incoming relay message
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;}
-&emsp;&emsp;&emsp;&emsp;}
-&emsp;&emsp;}
-
+'''
+	std::vector<alert*> alert_queue;
+	bool quit = false;
+	while (!quit)
+	{
+		ses.pop_alerts(&alert_queue);
+		for(std::vector<alert*>::iterator i = alert_queue.begin()
+			, end(alert_queue.end()); i != end; ++i)
+		{
+			int alert_type = (*i)->type();
+			switch(alert_type){
+			case put_data_alert::alert_type:// put blob done
+				break;
+			case relay_data_uri_alert::alert_type: // relay uri done
+				break;
+			case incoming_relay_data_uri_alert::alert_type:// incoming relay uri
+				break;
+			case get_data_alert::alert_type:// get blob done
+				break;
+			case relay_message_alert::alert_type: // relay message done
+				break;
+			case incoming_relay_message_alert::alert_type: // incoming relay message
+				break;
+			}
+		}
+	}
+'''
 #### 3. call IP2 API
-
-&emsp;&emsp;error_code ec = ses.put_data_into_swarm(blob, uri);
-&emsp;&emsp;error_code ec = ses.relay_data_uri(receiver, uri, timestamp);
-&emsp;&emsp;error_code ec = ses.get_data_from_swarm(sender, uri, timestamp);
-&emsp;&emsp;error_code ec = ses.relay_message(receiver, message);
-
+'''
+	error_code ec = ses.put_data_into_swarm(blob, uri);
+	error_code ec = ses.relay_data_uri(receiver, uri, timestamp);
+	error_code ec = ses.get_data_from_swarm(sender, uri, timestamp);
+	error_code ec = ses.relay_message(receiver, message);
+'''
  For more detail, please see [ip2-shell](https://github.com/Tau-Coin/ip2-shell).
 
 ## Contribute
