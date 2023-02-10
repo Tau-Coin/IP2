@@ -445,7 +445,7 @@ namespace ip2 {
         void sql_test();
 
 		// put data into capture swarm.
-		// The data max size is 45KB, and ip2 slices data and puts segments into swarm.
+		// The data max size is 40KB, and ip2 slices data and puts segments into swarm.
 		// return operation id which reprents current operation of putting data in swarm.
 		// The "put_data_alert" alert will be posted to user to indicate
 		// putting successfully or failed.
@@ -468,7 +468,7 @@ namespace ip2 {
 			, std::int64_t timestamp = 0);
 
 		// send message(binary data) to other peer by 'relay' protocol.
-		// The data max size is 1000 bytes(TODO: 1000?).
+		// The data max size is 900 bytes(TODO: 1000?).
 		// The "relay_message_alert" alert will be posted to user to indicate
 		// relay successfully or failed.
 		ip2::api::error_code relay_message(std::array<char, 32> const& receiver

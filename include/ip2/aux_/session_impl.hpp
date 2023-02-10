@@ -742,7 +742,7 @@ namespace aux {
             void sql_test();
 
 		// put data into capture swarm.
-		// The data max size is 45KB, and ip2 slices data and puts segments into swarm.
+		// The data max size is 40KB, and ip2 slices data and puts segments into swarm.
 		// return operation id which reprents current operation of putting data in swarm.
 		// The "put_data_alert" alert will be posted to user to indicate
 		// putting successfully or failed.
