@@ -34,10 +34,11 @@
 	// listen interface format: 192.168.2.120:6881
 	session_params sp_param(sp_set);
 	session ses(sp_param);
-'''
+```
 
 #### 2. dispatch alerts
-'''
+
+```
 	std::vector<alert*> alert_queue;
 	bool quit = false;
 	while (!quit)
@@ -63,14 +64,17 @@
 			}
 		}
 	}
-'''
+```
+
 #### 3. call IP2 API
-'''
+
+```
 	error_code ec = ses.put_data_into_swarm(blob, uri);
 	error_code ec = ses.relay_data_uri(receiver, uri, timestamp);
 	error_code ec = ses.get_data_from_swarm(sender, uri, timestamp);
 	error_code ec = ses.relay_message(receiver, message);
-'''
+```
+
  For more detail, please see [ip2-shell](https://github.com/Tau-Coin/ip2-shell).
 
 ## Contribute
