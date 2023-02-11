@@ -26,15 +26,31 @@
 #### 1. launch ip2 session
 
 ```
+	char hex_device_id[32 + 1]={}; // the last char is used for '\0'
+	// device id is the random 16 bytes
+
+	char hex_account_seed[64 + 1]={}; // the last char is used for '\0'
+	// hex string of ed25519 seed. If not exist, create it by 'dht::ed25519_create_seed()'
+
 	settings_pack sp_set;
+
+	sp_set.set_str(settings_pack::device_id, device_id);
+	sp_set.set_str(settings_pack::account_seed, account_seed);
+
+	// 'true' is client mode, and 'false' is the servr mode
+	sp_set.set_bool(settings_pack::dht_non_referrable, true);
+
 	sp_set.set_str(settings_pack::dht_bootstrap_nodes, bootstrap_nodes);
-	// bootstrap nodes format: tau:://public_key@ip:port
+	// bootstrap nodes format: tau:://<hex string of public_key>@<ip>:<port>
 	// tau://9CB3E5A7B060D06A6A47E0E9AFCE4455077B0F5B313E7FF105A48A6D7AF356C7@10.0.2.15:6881
 	sp_set.set_str(settings_pack::listen_interfaces, listen_interfaces.str());
-	// listen interface format: 192.168.2.120:6881
+	// listen interface format: <ip>:<port>, etc. 192.168.2.120:6881
+
 	session_params sp_param(sp_set);
 	session ses(sp_param);
 ```
+
+ For more detail, please see ip-shell [main function](https://github.com/Tau-Coin/ip2-shell/blob/master/src/main.cpp).
 
 #### 2. dispatch alerts
 
@@ -66,6 +82,8 @@
 	}
 ```
 
+ For more detail, please see ip-shell [main function](https://github.com/Tau-Coin/ip2-shell/blob/master/src/main.cpp).
+
 #### 3. call IP2 API
 
 ```
@@ -75,7 +93,7 @@
 	error_code ec = ses.relay_message(receiver, message);
 ```
 
- For more detail, please see [ip2-shell](https://github.com/Tau-Coin/ip2-shell).
+ For more detail, please see ip2-shell [rpc commands](https://github.com/Tau-Coin/ip2-shell/blob/master/src/handler/tau_handler.cpp).
 
 ## Contribute
  Now libip2 is just alpha version. If any problems, please help us with the open issues.
